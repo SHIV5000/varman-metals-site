@@ -1,0 +1,36 @@
+# _config.yml
+title: "Varman Metals - Zinc & Aluminum Ingot Supplier"
+description: "Leading Zinc Ingot Supplier in Meerut & Aluminum ADC12 Manufacturer"
+baseurl: "" # Leave empty if using custom domain
+url: "https://varmanmetals.in" # Your custom domain
+repository: "SHIV5000/varman-metals-site"
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /blog/:year/:month/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Varman Metals"
+      category: "Metal Industry"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
