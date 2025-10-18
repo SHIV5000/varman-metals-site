@@ -1,4 +1,7 @@
+
 name: Auto-update sitemap
+permissions:
+  contents: write
 
 on:
   push:
