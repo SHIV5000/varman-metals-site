@@ -1,39 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Homepage -->
   <url>
-    <loc>https://www.varmanmetals.com/</loc>
-    <lastmod>2024-01-04</lastmod>
+    <loc>https://www.varmanmetals.in/</loc>
+    <lastmod>2025-10-18T06:36:02+00:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.00</priority>
+  </url>
+
+  <!-- Blog Index -->
+  <url>
+    <loc>https://www.varmanmetals.in/blog/index.html</loc>
+    <lastmod>2025-10-18T06:36:02+00:00</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <priority>0.80</priority>
   </url>
+
+  <!-- Blog Article: Diwali Zinc Price Trends -->
   <url>
-    <loc>https://www.varmanmetals.com/#products</loc>
-    <lastmod>2024-01-04</lastmod>
+    <loc>https://www.varmanmetals.in/blog/2025-10-18-diwali-zinc-price-trends.html</loc>
+    <lastmod>2025-10-18T06:36:02+00:00</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.64</priority>
   </url>
-  <url>
-    <loc>https://www.varmanmetals.com/#quality</loc>
-    <lastmod>2024-01-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.varmanmetals.com/#gallery</loc>
-    <lastmod>2024-01-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.varmanmetals.com/#global-trade</loc>
-    <lastmod>2024-01-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.varmanmetals.com/#contact</loc>
-    <lastmod>2024-01-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
+
 </urlset>
