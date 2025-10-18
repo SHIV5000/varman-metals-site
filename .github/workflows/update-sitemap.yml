@@ -1,0 +1,44 @@
+name: Auto-update sitemap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/**'
+      - 'pages/**'
+      - '_site/**'
+      - '**.html'
+
+jobs:
+  generate-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install sitemap generator
+        run: npm install -g sitemap-generator-cli
+
+      - name: Generate sitemap
+        run: |
+          mkdir -p public
+          sitemap-generator https://www.varmanmetals.in \
+            --filepath public/sitemap.xml \
+            --maxDepth 0 \
+            --lastMod \
+            --priority-map '{"index.html":1.0,"blog/index.html":0.8}' \
+            --ignore '404.html'
+
+      - name: Commit updated sitemap
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add public/sitemap.xml
+          git commit -m "Auto-update sitemap.xml"
+          git push
+        continue-on-error: true
