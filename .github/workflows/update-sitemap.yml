@@ -1,7 +1,5 @@
 
 name: Auto-update sitemap
-permissions:
-  contents: write
 
 on:
   push:
@@ -11,6 +9,10 @@ on:
       - 'blog/**'
       - 'pages/**'
       - '_site/**'
+
+permissions:
+  contents: write
+
 
 jobs:
   generate-sitemap:
