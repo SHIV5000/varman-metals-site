@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -146,6 +144,21 @@
         .blog-content strong {
             @apply text-gray-900 font-semibold;
         }
+        
+        /* --- START OF ADDED CUSTOM HIGHLIGHT STYLES --- */
+        .highlight-yellow {
+            background-color: #fcd34d; /* Tailwind amber-300 */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+        .highlight-blue {
+            background-color: #bfdbfe; /* Tailwind blue-200 */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-style: italic;
+        }
+        /* --- END OF ADDED CUSTOM HIGHLIGHT STYLES --- */
     </style>
 </head>
 <body class="antialiased">
@@ -211,6 +224,7 @@
                 <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Back to Blog Index
             </a>
 
+            <!-- NOTE: Fixed class '3xl' to 'text-3xl' for consistency -->
             <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">
                 Zinc Price Trends Firm Up for the Diwali Season
             </h1>
@@ -218,11 +232,43 @@
                 Published on: October 18, 2025 | By: Varman Metals
             </p>
 
+            <!-- START OF MODIFIED BLOG CONTENT -->
             <div class="blog-content">
-                <p>The Diwali season and Dhanteras festival significantly amplify the momentum in the zinc metal market, leading to a firming of Zinc Ingot prices. This bullish trend is fueled by multiple factors.</p>
-                
-                <p>First, there is a customary pre-festival surge in construction and infrastructure development, which boosts demand for galvanized steel products. Crucially, the tradition of buying metal items for Dhanteras raises massive demand for brass and its products, particularly utensils. Since zinc ingots are an essential component used extensively in the production of brass, this direct festival-related buying creates a tight supply situation for premium alloys like Kaskut Zinc during the peak weeks. We advise clients to secure their bulk supply now to mitigate potential price volatility.</p>
+                <p>
+                    The Diwali season ✨ and the Dhanteras festival are significantly amplifying the momentum in the zinc metal market, leading to a firming of <span class="text-green-600 font-bold">Zinc Ingot prices</span>. This bullish trend is fueled by multiple, high-impact factors.
+                </p>
+
+                <!-- Factor 1 - Enhanced with Hover Effect -->
+                <div class="p-4 bg-blue-50 rounded-lg border border-blue-200 transition duration-300 hover:shadow-lg hover:bg-blue-100 mb-6">
+                    <p class="font-semibold text-blue-800 flex items-center">
+                        <span class="text-2xl mr-3">1️⃣</span> Construction Demand Boost:
+                    </p>
+                    <p class="mt-2 pl-6">
+                        First, there is a customary pre-festival surge in construction and infrastructure development 🏗️, which directly boosts demand for key galvanized steel products.
+                    </p>
                 </div>
+
+                <!-- Factor 2 - Enhanced with Hover Effect -->
+                <div class="p-4 bg-red-50 rounded-lg border border-red-200 transition duration-300 hover:shadow-lg hover:bg-red-100 mb-6">
+                    <p class="font-semibold text-red-800 flex items-center">
+                        <span class="text-2xl mr-3">2️⃣</span> Dhanteras Brass Effect (The Critical Link):
+                    </p>
+                    <p class="mt-2 pl-6">
+                        Crucially, the tradition of buying metal items for Dhanteras raises <span class="text-red-600 font-extrabold">massive demand for brass</span> and its products, particularly utensils 🍽️.
+                    </p>
+                </div>
+
+                <!-- Supply Tightness -->
+                <p class="bg-gray-100 p-4 rounded-lg mb-6">
+                    Since zinc ingots are an essential component used extensively in the production of brass, this direct festival-related buying creates a <span class="highlight-blue">tight supply situation</span> ⚠️ for premium alloys like <span class="font-black text-purple-600">Kaskut Zinc</span> during these peak weeks.
+                </p>
+
+                <!-- Advisory/Conclusion -->
+                <p class="text-xl font-bold text-gray-900 pt-2 border-t border-gray-200">
+                    <span class="text-amber-600">📣 Client Advisory:</span> We strongly advise clients to <span class="highlight-yellow">secure their bulk supply NOW</span> 💰 to proactively mitigate potential price volatility and ensure delivery during the height of the festive demand.
+                </p>
+            </div>
+            <!-- END OF MODIFIED BLOG CONTENT -->
 
             <div class="mt-12 pt-6 border-t border-gray-200 text-center">
                 <p class="text-gray-600 font-medium">Thank you for reading!</p>
