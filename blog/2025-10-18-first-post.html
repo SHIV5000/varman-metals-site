@@ -1,1 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>BLOG POST TITLE HERE | Varman Metals Blog</title>
+    
+    <meta name="description" content="[Short, 160-character summary of your blog post content].">
+    
+    <link rel="canonical" href="https://varmanmetals.in/blog/YYYY-MM-DD-post-title.html" />
+    
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <meta property="og:title" content="BLOG POST TITLE HERE | Varman Metals">
+    <meta property="og:description" content="[Short summary for social media].">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://varmanmetals.in/blog/YYYY-MM-DD-post-title.html">
+    <meta property="og:image" content="https://varmanmetals.in/images/blog-post-image.jpg">
+    <meta property="og:site_name" content="Varman Metals">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <style>
+        /* Custom CSS Variables for Consistent Branding */
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --dark: #1f2937;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f7f7f7;
+            scroll-behavior: smooth;
+        }
+        
+        /* SEO-Friendly Hidden Text for Keywords */
+        .seo-text {
+            position: absolute;
+            left: -10000px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        
+        /* Animation for elements appearing on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom pulse animation for CTA */
+        @keyframes pulse-custom {
+          0%, 100% { 
+              transform: scale(1);
+              box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+          }
+          50% { 
+              transform: scale(1.05);
+          }
+          70% {
+              box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+          }
+        }
+        
+        .animate-pulse-custom {
+          animation: pulse-custom 2s infinite;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, #7f1d1d 100%);
+        }
+        
+        .gradient-bg-light {
+            background: linear-gradient(135deg, #fef2f2 0%, #f8fafc 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .section-padding {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .section-padding {
+                padding-top: 7rem;
+                padding-bottom: 7rem;
+            }
+        }
+        
+        /* Phone number protection styles */
+        .phone-protected {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+        
+        .phone-protected:hover {
+            background-color: #f0f9ff;
+        }
+        
+        .phone-revealed {
+            color: #059669;
+            font-weight: bold;
+        }
 
+        /* Specific styles for blog content */
+        .blog-content h2 {
+            @apply text-3xl font-bold mt-8 mb-4 border-b pb-2 text-gray-800;
+        }
+        .blog-content p {
+            @apply text-lg text-gray-700 mb-6 leading-relaxed;
+        }
+        .blog-content ul, .blog-content ol {
+            @apply list-inside list-disc text-gray-700 mb-6 ml-4;
+        }
+        .blog-content li {
+             @apply mb-2;
+        }
+        .blog-content a {
+            @apply text-red-600 hover:text-red-800 font-medium;
+        }
+        .blog-content strong {
+            @apply text-gray-900 font-semibold;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="seo-text">
+        <h1>[Blog Post Title] - Zinc Ingot Supplier Meerut - Varman Metals Blog</h1>
+        <p>Varman Metals is the leading zinc ingot supplier in Meerut and aluminum ADC12 ingot supplier in Uttar Pradesh.</p>
+    </div>
+
+    <a href="https://wa.me/916396811315" target="_blank" title="WhatsApp Varman Metals - Zinc & Aluminum Ingot Supplier Meerut" class="fixed right-4 bottom-4 z-50 bg-green-600 text-white p-4 rounded-full shadow-2xl hover:bg-green-700 transition-all duration-300 flex items-center space-x-2 font-bold uppercase animate-pulse-custom">
+        <i data-lucide="message-circle" class="w-6 h-6"></i>
+        <span class="hidden sm:inline">WhatsApp</span>
+    </a>
+
+    <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-lg border-b-4 border-red-600">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center max-w-7xl">
+            <a href="/" class="flex items-center space-x-2">
+                <div class="bg-red-600 p-2 rounded-lg mr-4">
+                    <i data-lucide="blocks" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">VARMAN METALS</span>
+                <span class="text-xs text-gray-500 hidden sm:block">| Zinc & Aluminum Ingot Supplier</span>
+            </a>
+            
+            <nav class="hidden lg:flex space-x-8 text-base font-medium">
+                <a href="/" class="text-gray-600 hover:text-red-600 transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full">Home</a>
+                <a href="/blog/index.html" class="text-red-600 font-bold transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-red-600 after:transition-all after:duration-300">Blog</a>
+                <a href="/#products" class="text-gray-600 hover:text-red-600 transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full">Products</a>
+                <a href="/#quality" class="text-gray-600 hover:text-red-600 transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full">Quality</a>
+                <a href="/#gallery" class="text-gray-600 hover:text-red-600 transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full">Gallery</a>
+                <a href="/#global-trade" class="text-gray-600 hover:text-red-600 transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full">Global Trade</a>
+                <a href="/#contact" class="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 shadow-lg font-bold">Contact Us</a>
+            </nav>
+
+            <button id="menu-button" class="lg:hidden text-gray-700 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <nav id="mobile-menu" class="hidden lg:hidden w-full bg-white border-t border-gray-200 shadow-lg">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="/" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Home</a>
+                <a href="/blog/index.html" class="py-2 px-4 bg-red-50 text-red-600 rounded-lg transition-colors font-semibold" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Blog</a>
+                <a href="/#products" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Products</a>
+                <a href="/#quality" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Quality</a>
+                <a href="/#gallery" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Gallery</a>
+                <a href="/#global-trade" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Global Trade</a>
+                <a href="/#contact" class="py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold text-center" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900 p-3 overflow-hidden shadow-md">
+        <marquee behavior="scroll" direction="left" scrollamount="6" class="text-base font-bold tracking-wide">
+            ✓ Zinc Ingot Supplier Meerut ✓ Aluminum ADC12 Ingot Price ✓ Kaskut Zinc Supplier India ✓ Bulk Metal Ingots ✓ <span class="phone-protected" onclick="revealPhone(this, 'marquee')">Click to View Contact Number</span>
+        </marquee>
+    </div>
+
+    <main class="section-padding">
+        <div class="container mx-auto px-4 max-w-4xl bg-white p-8 rounded-xl shadow-2xl">
+            
+            <a href="index.html" class="text-blue-600 hover:text-blue-800 font-medium flex items-center mb-6">
+                <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Back to Blog Index
+            </a>
+
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">
+                [YOUR BLOG POST TITLE HERE]
+            </h1>
+            <p class="text-lg text-gray-500 mb-8 border-b pb-4">
+                Published on: October 18, 2025 | By: Varman Metals
+            </p>
+
+            <div class="blog-content">
+                <p>
+                    This is where the main body of your blog post goes. You can use standard HTML tags
+                    like **&lt;p&gt;** for paragraphs, **&lt;h2&gt;** for section titles, and **&lt;ul&gt;** for lists. 
+                    The custom styles I added (blog-content) will ensure your text, headings, and lists
+                    look clean and professional, matching your site's aesthetic.
+                </p>
+
+                <h2>The Importance of Metal Quality</h2>
+
+                <p>
+                    Using certified, high-purity ingots is crucial for any casting or galvanizing process.
+                    This consistency reduces downtime and material waste, making your production more efficient.
+                </p>
+
+                <ul>
+                    <li>High purity zinc ensures superior galvanizing results.</li>
+                    <li>Consistent ADC12 alloy composition guarantees reliable die-casting.</li>
+                    <li>Saves costs by minimizing product rejection rates.</li>
+                </ul>
+
+                <p>
+                    <a href="/#contact">Contact us today</a> for a sample of our certified ingots!
+                </p>
+
+                </div>
+
+            <div class="mt-12 pt-6 border-t border-gray-200 text-center">
+                <p class="text-gray-600 font-medium">Thank you for reading!</p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Initialize Lucide Icons
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+            // Also initialize phone protection here if the DOMContentLoaded listener is separate
+            const phoneElements = document.querySelectorAll('.phone-protected');
+            phoneElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('phone-revealed')) {
+                        this.style.backgroundColor = '#f0f9ff';
+                    }
+                });
+                element.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('phone-revealed')) {
+                        this.style.backgroundColor = '';
+                    }
+                });
+            });
+        });
+
+        // Phone number reveal function (from your original file)
+        function revealPhone(element, location) {
+            const phoneNumber = '+91-6396811315';
+            const phoneLink = `tel:${phoneNumber}`;
+            const whatsappLink = `https://wa.me/916396811315`;
+            
+            element.classList.add('phone-revealed', 'bg-white', 'border-2', 'border-green-400');
+            element.classList.remove('bg-white/10', 'bg-blue-50', 'bg-red-50', 'bg-green-600', 'hover:bg-green-700', 'bg-amber-100', 'shadow-lg');
+            
+            // Update the element's content
+            element.innerHTML = `
+                <a href="${phoneLink}" class="text-green-700 hover:text-green-900">${phoneNumber}</a>
+                <span class="block text-xs mt-1">
+                    <a href="${whatsappLink}" target="_blank" class="text-green-600 hover:text-green-800">(Click for WhatsApp)</a>
+                </span>
+            `;
+            
+            // Remove click handler to prevent multiple reveals
+            element.onclick = null;
+            
+            // Track reveal in console (for analytics in real implementation)
+            console.log(`Phone number revealed from: ${location}`);
+        }
+    </script>
+</body>
+</html>
