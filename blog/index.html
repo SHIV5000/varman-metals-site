@@ -1,165 +1,306 @@
 <!DOCTYPE html>
-
 <html lang="en" class="scroll-smooth">
-
 <head>
+    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🧱 Varman Metals Blog | Zinc & Aluminum Market Insights</title>
+    <meta name="description" content="Explore festive demand forecasts, price trends, and bulk buying tips for zinc and aluminum ingots. Stay informed with Varman Metals." />
+    <link rel="canonical" href="https://varmanmetals.in/blog/index.html" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="Varman Metals Blog | Zinc & Aluminum Market Insights" />
+    <meta property="og:description" content="Explore festive demand forecasts and price trends for zinc and aluminum ingots." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://varmanmetals.in/blog/index.html" />
+    <meta property="og:site_name" content="Varman Metals" />
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <style>
+        /* Custom CSS Variables for Consistent Branding */
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --dark: #1f2937;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f7f7f7;
+            scroll-behavior: smooth;
+        }
+        
+        /* Animation for elements appearing on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom pulse animation for CTA */
+        @keyframes pulse-custom {
+          0%, 100% { 
+              transform: scale(1);
+              box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+          }
+          50% { 
+              transform: scale(1.05);
+          }
+          70% {
+              box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+          }
+        }
+        
+        .animate-pulse-custom {
+          animation: pulse-custom 2s infinite;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, #7f1d1d 100%);
+        }
+        
+        .section-padding {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
 
-  <meta charset="UTF-8" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>🧱 Varman Metals Blog | Zinc & Aluminum Market Insights</title>
-
-  <meta name="description" content="Explore festive demand forecasts, price trends, and bulk buying tips for zinc and aluminum ingots. Stay informed with Varman Metals." />
-
-  <link rel="canonical" href="https://varmanmetals.in/blog/index.html" />
-
-  <meta name="robots" content="index, follow" />
-
-  <meta property="og:title" content="Varman Metals Blog | Zinc & Aluminum Market Insights" />
-
-  <meta property="og:description" content="Explore festive demand forecasts and price trends for zinc and aluminum ingots." />
-
-  <meta property="og:type" content="website" />
-
-  <meta property="og:url" content="https://varmanmetals.in/blog/index.html" />
-
-  <meta property="og:site_name" content="Varman Metals" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-
+        .phone-protected {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+        
+        .phone-protected:hover {
+            background-color: #f0f9ff;
+        }
+        
+        .phone-revealed {
+            color: #059669;
+            font-weight: bold;
+        }
+    </style>
 </head>
+<body class="antialiased">
 
-<body class="bg-gray-100 font-sans antialiased scroll-smooth">
+    <a href="https://wa.me/916396811315" target="_blank" title="WhatsApp Varman Metals - Zinc & Aluminum Ingot Supplier Meerut" class="fixed right-4 bottom-4 z-50 bg-green-600 text-white p-4 rounded-full shadow-2xl hover:bg-green-700 transition-all duration-300 flex items-center space-x-2 font-bold uppercase animate-pulse-custom">
+        <i data-lucide="message-circle" class="w-6 h-6"></i>
+        <span class="hidden sm:inline">WhatsApp</span>
+    </a>
 
+    <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-lg border-b-4 border-red-600">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center max-w-7xl">
+            <a href="/" class="flex items-center space-x-2">
+                <div class="bg-red-600 p-2 rounded-lg mr-4">
+                    <i data-lucide="blocks" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-xl font-bold text-gray-900">VARMAN METALS</span>
+                <span class="text-xs text-gray-500 hidden sm:block">| Zinc & Aluminum Ingot Supplier</span>
+            </a>
+            
+            <nav class="hidden lg:flex space-x-8 text-base font-medium">
+                <a href="/" class="text-gray-600 hover:text-red-600 transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full">Home</a>
+                <a href="/#products" class="text-gray-600 hover:text-red-600 transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full">Products</a>
+                <a href="/#quality" class="text-gray-600 hover:text-red-600 transition duration-200 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-600 after:transition-all after:duration-300 hover:after:w-full">Quality</a>
+                <a href="/blog/index.html" class="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 shadow-lg font-bold">Blog</a>
+                <a href="/#contact" class="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 shadow-lg font-bold">Contact Us</a>
+            </nav>
 
+            <button id="menu-button" class="lg:hidden text-gray-700 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <nav id="mobile-menu" class="hidden lg:hidden w-full bg-white border-t border-gray-200 shadow-lg">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="/" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Home</a>
+                <a href="/#products" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Products</a>
+                <a href="/#quality" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Quality</a>
+                <a href="/blog/index.html" class="py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold text-center" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Blog</a>
+                <a href="/#contact" class="py-2 px-4 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contact Us</a>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900 p-3 overflow-hidden shadow-md">
+        <marquee behavior="scroll" direction="left" scrollamount="6" class="text-base font-bold tracking-wide">
+            ✓ Zinc Ingot Supplier Meerut ✓ Aluminum ADC12 Ingot Price ✓ Kaskut Zinc Supplier India ✓ Bulk Metal Ingots ✓ <span class="phone-protected" onclick="revealPhone(this, 'marquee')">Click to View Contact Number</span>
+        </marquee>
+    </div>
 
-  <!-- 🔺 Header -->
+    <section class="gradient-bg text-white section-padding text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-4">🧱 Varman Metals Blog</h1>
+        <p class="text-xl md:text-2xl text-amber-100 mb-6 font-medium max-w-2xl mx-auto">
+            📈 Market insights, 🎉 festive forecasts, and 🛒 bulk buying strategies for zinc & aluminum ingots.
+        </p>
+        <p class="text-xl md:text-2xl text-amber-100 max-w-2xl mx-auto">📈 बाज़ार की जानकारी, 🎉 त्योहारों के पूर्वानुमान, और 🛒 जिंक और एल्युमीनियम सिल्लियों के लिए थोक खरीदारी की रणनीतियाँ</p>
+    </section>
 
-  <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-sm shadow-lg border-b-4 border-darkred-600">
+    <main class="py-20 px-4">
+        <div class="max-w-4xl mx-auto space-y-6">
 
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center max-w-7xl">
+            <a href="2025-10-18-diwali-zinc-price-trends.html" class="block bg-white rounded-xl shadow-lg card-hover transition p-6 border-t-4 border-red-600">
+                <h2 class="text-xl font-bold text-gray-900 mb-2">🎆 Diwali Demand: Zinc Price Trends & Brass Utensil Surge</h2>
+                <h2 class="text-xl font-bold text-gray-900 mb-2">🎆 दिवाली की मांग: जिंक की कीमतों में तेजी और पीतल के बर्तनों में उछाल</h2>
+                <p class="text-gray-600 mb-2">Analyzing zinc ingot price trends before Diwali and Dhanteras, driven by galvanized steel and brass utensil demand.</p>
+                <p class="text-gray-600 mb-2">दिवाली और धनतेरस से पहले जस्ती इस्पात और पीतल के बर्तनों की मांग के कारण जिंक सिल्लियों की कीमतों के रुझान का विश्लेषण</p>
+                <span class="inline-block text-sm text-red-600 font-semibold">📅 Published: Oct 18, 2025</span>
+            </a>
 
-      <a href="/" class="flex items-center space-x-2">
-
-        <div class="bg-red-600 p-2 rounded-lg mr-4">
-
-          <i data-lucide="blocks" class="w-6 h-6 text-goldenyellow"></i>
+            <a href="2025-11-05-aluminum-ingot-forecast.html" class="block bg-white rounded-xl shadow-lg card-hover transition p-6 border-t-4 border-amber-500">
+                <h2 class="text-xl font-bold text-gray-900 mb-2">🧪 November Forecast: Aluminum ADC12 Price Trends</h2>
+                <p class="text-gray-600 mb-2">A look at aluminum ingot pricing post-Diwali, with insights into automotive and casting demand across North India.</p>
+                <span class="inline-block text-sm text-amber-500 font-semibold">📅 Published: Nov 5, 2025</span>
+            </a>
 
         </div>
+    </main>
 
-        <span class="text-xl font-bold text-gray-900">VARMAN METALS</span>
-
-        <span class="text-xs text-gray-500 hidden sm:block">| Zinc & Aluminum Ingot Supplier</span>
-
-      </a>
-
-      <nav class="hidden lg:flex space-x-8 text-base font-medium">
-
-        <a href="/" class="text-gray-600 hover:text-red-600 transition">Home</a>
-
-        <a href="/blog/index.html" class="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition shadow-lg font-bold">Blog</a>
-
-        <a href="/#products" class="text-gray-600 hover:text-red-600 transition">Products</a>
-
-        <a href="/#contact" class="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition shadow-lg font-bold">Contact</a>
-
-      </nav>
-
-    </div>
-
-  </header>
-
-
-
-  <!-- 🎯 Hero Section -->
-
-  <section class="bg-gradient-to-r from-red-600 to-amber-500 text-white py-16 px-4 text-center">
-
-    <h1 class="text-4xl md:text-5xl font-extrabold mb-4">🧱 Varman Metals Blog</h1>
-
-    <p class="text-lg max-w-2xl mx-auto">📈 Market insights, 🎉 festive forecasts, and 🛒 bulk buying strategies for zinc & aluminum ingots.</p>
-
-    <p class="text-lg max-w-2xl mx-auto">📈 बाज़ार की जानकारी, 🎉 त्योहारों के पूर्वानुमान, और 🛒 जिंक और एल्युमीनियम सिल्लियों के लिए थोक खरीदारी की रणनीतियाँ</p>
-
-  </section>
-
-
-
-  <!-- 🧱 Blog Cards (No Images) -->
-
-  <main class="py-20 px-4">
-
-    <div class="max-w-4xl mx-auto space-y-6">
-
-
-
-      <!-- 🎆 Diwali Zinc Price Trends -->
-
-      <a href="2025-10-18-diwali-zinc-price-trends.html" class="block bg-white rounded-xl shadow-md hover:shadow-xl transition p-6 border-l-4 border-red-600 hover:border-amber-500">
-
-        <h2 class="text-xl font-bold text-gray-900 mb-2">🎆 Diwali Demand: Zinc Price Trends & Brass Utensil Surge</h2>
-
-        <h2 class="text-xl font-bold text-gray-900 mb-2">🎆 दिवाली की मांग: जिंक की कीमतों में तेजी और पीतल के बर्तनों में उछाल</h2>
-
-        <p class="text-gray-600 mb-2">Analyzing zinc ingot price trends before Diwali and Dhanteras, driven by galvanized steel and brass utensil demand.</p>
-
-        <p class="text-gray-600 mb-2">दिवाली और धनतेरस से पहले जस्ती इस्पात और पीतल के बर्तनों की मांग के कारण जिंक सिल्लियों की कीमतों के रुझान का विश्लेषण</p>
-
-        <span class="inline-block text-sm text-red-600 font-semibold">📅 Published: Oct 18, 2025</span>
-
-      </a>
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-red-600 p-2 rounded-lg mr-3">
+                            <i data-lucide="blocks" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="text-xl font-bold">VARMAN METALS</span>
+                    </div>
+                    <p class="text-gray-400 max-w-md">
+                        Leading **Zinc Ingot Supplier in Meerut** and **Aluminum ADC12 Supplier in Meerut** in Uttar Pradesh. We provide certified quality, competitive pricing, and reliable delivery across India and globally.
+                    </p>
+                    <div class="mt-4 text-sm text-gray-400">
+                        <p>**Primary Keywords:** Zinc Ingot Supplier Meerut, Aluminum ADC12 Ingot Price, Kaskut Zinc Supplier India, Metal Ingot supplierrs UP</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="/#products" class="text-gray-400 hover:text-white transition-colors">Products</a></li>
+                        <li><a href="/#quality" class="text-gray-400 hover:text-white transition-colors">Quality</a></li>
+                        <li><a href="/#global-trade" class="text-gray-400 hover:text-white transition-colors">Global Trade</a></li>
+                        <li><a href="/#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Products</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/#products" class="text-gray-400 hover:text-white transition-colors">Zinc Ingots (Kaskut)</a></li>
+                        <li><a href="/#products" class="text-gray-400 hover:text-white transition-colors">Aluminum Ingots (ADC12)</a></li>
+                        <li><a href="/#products" class="text-gray-400 hover:text-white transition-colors">Aluminum Ingots (LM24)</a></li>
+                        <li><div class="phone-protected text-gray-400 hover:text-white transition-colors cursor-pointer" onclick="revealPhone(this, 'footer')">Request Quote</div></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>© 2024 Varman Metals. All Rights Reserved. Specializing in **Zinc & Aluminum Ingots** - **Zinc Ingot Supplier Meerut** | **Aluminum ADC12 Ingot Price** | **Kaskut Zinc Supplier India**</p>
+            </div>
+        </div>
+    </footer>
 
 
-
-      <!-- 🧪 Sample Future Post -->
-
-      <a href="2025-11-05-aluminum-ingot-forecast.html" class="block bg-white rounded-xl shadow-md hover:shadow-xl transition p-6 border-l-4 border-blue-600 hover:border-green-500">
-
-        <h2 class="text-xl font-bold text-gray-900 mb-2">🧪 November Forecast: Aluminum ADC12 Price Trends</h2>
-
-        <p class="text-gray-600 mb-2">A look at aluminum ingot pricing post-Diwali, with insights into automotive and casting demand across North India.</p>
-
-        <span class="inline-block text-sm text-blue-600 font-semibold">📅 Published: Nov 5, 2025</span>
-
-      </a>
-
-
-
-    </div>
-
-  </main>
-
-
-
-  <!-- 📦 Footer CTA -->
-
-  <footer class="bg-white border-t py-12 text-center">
-
-    <p class="text-gray-600 mb-4">📞 Need help forecasting your bulk metal needs?</p>
-
-    <a href="/#contact" class="inline-block px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-bold">Get a Quote</a>
-
-  </footer>
-
-
-
-  <script>
-
-    document.addEventListener('DOMContentLoaded', function () {
-
-      if (typeof lucide !== 'undefined') {
-
+    <script>
+        // Initialize Lucide icons
         lucide.createIcons();
-
-      }
-
-    });
-
-  </script>
-
+        
+        // Mobile Menu Toggle
+        document.getElementById('menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+        
+        // Scroll animation (fade-in)
+        function checkVisibility() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const position = element.getBoundingClientRect();
+                if (position.top < window.innerHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        // Check visibility on load and scroll
+        window.addEventListener('load', checkVisibility);
+        window.addEventListener('scroll', checkVisibility);
+        
+        // Phone number protection function (Copied from VARMANMETALS_index.html)
+        function revealPhone(element, location) {
+            const phoneNumber = '+91-6396811315';
+            const phoneLink = `tel:${phoneNumber.replace(/-/g, '')}`;
+            const whatsappLink = `https://wa.me/916396811315`;
+            
+            // If already revealed, do nothing
+            if (element.classList.contains('phone-revealed')) {
+                return;
+            }
+            
+            // Mark as revealed
+            element.classList.add('phone-revealed');
+            
+            // Update the text and make it a link
+            const phoneText = element.querySelector('.phone-text') || element;
+            phoneText.innerHTML = `
+                <a href="${phoneLink}" class="text-green-700 hover:text-green-900">${phoneNumber}</a>
+                <span class="block text-xs mt-1">
+                    <a href="${whatsappLink}" target="_blank" class="text-green-600 hover:text-green-800">(Click for WhatsApp)</a>
+                </span>
+            `;
+            
+            // Remove click handler to prevent multiple reveals
+            element.onclick = null;
+            
+            // Initialize hover effect if it was a protected link
+            element.classList.remove('phone-protected'); 
+            
+            console.log(`Phone number revealed from: ${location}`);
+        }
+        
+        // Initialize all phone protection elements' hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneElements = document.querySelectorAll('.phone-protected');
+            phoneElements.forEach(element => {
+                element.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('phone-revealed')) {
+                        this.style.backgroundColor = '#f0f9ff';
+                    }
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('phone-revealed')) {
+                        this.style.backgroundColor = '';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-
 </html>
