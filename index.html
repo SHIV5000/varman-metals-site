@@ -122,6 +122,7 @@
             }
         },
         {
+            /* MAIN PRODUCT SCHEMA FOR ZINC INGOTS */
             "@type": "Product",
             "name": "Zinc Ingots (Kaskut)",
             "description": "High-purity Zinc Ingots with 98-99.9% purity for galvanizing, die-casting, and alloy manufacturing",
@@ -138,16 +139,17 @@
                     "name": "Varman Metals"
                 },
                 "priceValidUntil": "2024-12-31",
+                /* START OF SHIPPING DETAILS FIX */
                 "shippingDetails": {
                     "@type": "OfferShippingDetails",
                     "shippingRate": {
                         "@type": "MonetaryAmount",
-                        "value": "0",
+                        "value": "0", /* Set to 0 for Free Shipping or the actual cost */
                         "currency": "INR"
                     },
                     "shippingDestination": {
                         "@type": "DefinedRegion",
-                        "addressCountry": "IN"
+                        "addressCountry": "IN" /* Scope of Shipping */
                     },
                     "deliveryTime": {
                         "@type": "ShippingDeliveryTime",
@@ -164,12 +166,15 @@
                         }
                     }
                 },
+                /* END OF SHIPPING DETAILS FIX */
+                /* START OF RETURN POLICY FIX */
                 "hasMerchantReturnPolicy": {
                     "@type": "MerchantReturnPolicy",
                     "applicableCountry": "IN",
-                    "returnPolicyCategory": "https://schema.org/NoCalibratedReturns",
-                    "url": "https://varmanmetals.in#contact" 
+                    "returnPolicyCategory": "https://schema.org/NoCalibratedReturns", /* Best fit for industrial material */
+                    "url": "https://varmanmetals.in#contact" /* Link to contact/policy page */
                 }
+                /* END OF RETURN POLICY FIX */
             },
             "additionalProperty": [
                 {
@@ -196,6 +201,7 @@
             }
         },
         {
+            /* MAIN PRODUCT SCHEMA FOR ALUMINUM INGOTS */
             "@type": "Product",
             "name": "Aluminum Ingots (ADC12/LM24)",
             "description": "Premium Aluminum Alloy Ingots for die-casting, automotive, and foundry industries",
@@ -212,6 +218,7 @@
                     "name": "Varman Metals"
                 },
                 "priceValidUntil": "2024-12-31",
+                /* START OF SHIPPING DETAILS FIX */
                 "shippingDetails": {
                     "@type": "OfferShippingDetails",
                     "shippingRate": {
@@ -238,12 +245,15 @@
                         }
                     }
                 },
+                /* END OF SHIPPING DETAILS FIX */
+                /* START OF RETURN POLICY FIX */
                 "hasMerchantReturnPolicy": {
                     "@type": "MerchantReturnPolicy",
                     "applicableCountry": "IN",
                     "returnPolicyCategory": "https://schema.org/NoCalibratedReturns",
                     "url": "https://varmanmetals.in#contact" 
                 }
+                /* END OF RETURN POLICY FIX */
             },
             "additionalProperty": [
                 {
@@ -294,8 +304,7 @@
         }
     ]
 }
-</script>
-    <!-- Load Tailwind CSS -->
+</script>    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
