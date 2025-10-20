@@ -1,15 +1,18 @@
 name: Auto-update sitemap
 
-# Trigger the workflow when specific file types are pushed to the main branch
+# Trigger the workflow only when specific files are pushed to the main branch
 on:
   push:
     branches: [main]
     paths:
-      - '**.html'
-      - '**.css'
-      - '**.js'
-      - 'images/**'
-      - 'blog/**' # Crucial for detecting blog updates
+      # Include all HTML files directly in the root (like index.html)
+      - 'index.html'
+      # Include all HTML files inside the blog directory (like blog/post.html)
+      - 'blog/**.html' 
+      # Include all files in the blog directory (covers the directory structure itself)
+      - 'blog/**'
+      # General catch-all for other HTML changes
+      - '**.html' 
 
 # Give the GitHub Actions bot permission to commit files back to the repository
 permissions:
@@ -33,7 +36,7 @@ jobs:
         run: npm install -g sitemap-generator-cli
 
       - name: Generate sitemap 🛠️ (CRITICAL PATH FIX)
-        # We are generating the sitemap.xml directly into the repository root.
+        # Generates the sitemap.xml directly into the repository root
         run: |
           sitemap-generator https://www.varmanmetals.in \
             --filepath sitemap.xml \
@@ -42,9 +45,6 @@ jobs:
             --priority-map '{"/": 1.0, "/blog/index.html": 0.8}' \
             --ignore '404.html'
             
-        # NOTE: The previous version used 'public/sitemap.xml'. This one uses 'sitemap.xml'
-        # in the root, which is where your site serves it from (https://www.varmanmetals.in/sitemap.xml).
-
       - name: Commit and Push updated sitemap ⬆️
         run: |
           git config --global user.name "github-actions[bot]"
