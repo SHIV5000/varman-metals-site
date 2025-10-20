@@ -29,16 +29,14 @@ jobs:
       - name: Install sitemap generator
         run: npm install -g sitemap-generator-cli
 
-      - name: Generate sitemap 🛠️ (FINAL FIX)
-        # 1. Added '\' for line continuation to fix 'command not found'.
-        # 2. Replaced the problematic '--priority-map' with simple flags
-        #    to resolve the "Invalid tag value" XML error.
+      - name: Generate sitemap 🛠️ (FINAL FIX for Missing Tags)
         run: |
           sitemap-generator https://www.varmanmetals.in \
             --filepath sitemap.xml \
             --lastMod \
             --changeFreq daily \
             --priority 0.8 \
+            --priority-map '/: 1.0, /blog/index.html: 0.8' \
             --ignore '404.html'
             
       - name: Commit and Push updated sitemap (and robots.txt) ⬆️
