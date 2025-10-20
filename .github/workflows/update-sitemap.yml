@@ -1,5 +1,6 @@
 name: Auto-update sitemap
 
+# Trigger the workflow only when specific files are pushed to the main branch
 on:
   push:
     branches: [main]
@@ -9,6 +10,7 @@ on:
       - 'pages/**'
       - '_site/**'
 
+# Give the GitHub Actions bot permission to commit files back to the repository
 permissions:
   contents: write
 
@@ -29,22 +31,42 @@ jobs:
       - name: Install sitemap generator
         run: npm install -g sitemap-generator-cli
 
-      - name: Generate sitemap
+      - name: Generate sitemap 🛠️
         run: |
           mkdir -p public
-          # FIX: Removed --maxDepth 0 to allow the generator to crawl linked pages (like the blog)
+          # FIX: Removed --maxDepth 0 to ensure the generator crawls the entire site, including the blog.
           sitemap-generator https://www.varmanmetals.in \
             --filepath public/sitemap.xml \
             --lastMod \
+            --changeFreq 'daily' \
             --priority-map '{"/": 1.0, "/blog/index.html": 0.8}' \
             --ignore '404.html'
 
-      - name: Commit updated sitemap
+      - name: Commit and Push updated sitemap ⬆️
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Stage the newly created sitemap file
           git add public/sitemap.xml
+          
+          # Commit the file, but don't fail if there are no changes
           git commit -m "Auto-update sitemap.xml" || echo "No changes to commit"
+          
+          # Push the changes back to the main branch
           git push origin main
         env:
+          # Required for the git push command to work
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Ping Search Engines for Sitemap Update 🔔
+        # Run only if the previous step successfully updated and pushed the sitemap
+        if: success()
+        run: |
+          echo "Pinging Google and Bing to request a crawl of the new sitemap."
+          
+          # Ping Google
+          curl "http://www.google.com/ping?sitemap=https://www.varmanmetals.in/sitemap.xml"
+          
+          # Ping Bing (optional but highly recommended)
+          curl "http://www.bing.com/ping?sitemap=https://www.varmanmetals.in/sitemap.xml"
