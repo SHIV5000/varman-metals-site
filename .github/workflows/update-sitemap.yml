@@ -1,18 +1,12 @@
 name: Auto-update sitemap
 
-# Trigger the workflow only when specific files are pushed to the main branch
+# Trigger the workflow on ANY push to the main branch
+# This ensures it runs after any change, regardless of the file type or location.
 on:
   push:
     branches: [main]
-    paths:
-      # Include all HTML files directly in the root (like index.html)
-      - 'index.html'
-      # Include all HTML files inside the blog directory (like blog/post.html)
-      - 'blog/**.html' 
-      # Include all files in the blog directory (covers the directory structure itself)
-      - 'blog/**'
-      # General catch-all for other HTML changes
-      - '**.html' 
+    # NOTE: The 'paths' block is intentionally removed to trigger on all pushes,
+    # resolving potential path matching issues when files are added/modified.
 
 # Give the GitHub Actions bot permission to commit files back to the repository
 permissions:
@@ -25,7 +19,11 @@ jobs:
 
     steps:
       - name: Checkout repo
+        # CRITICAL: Since you have a blog, you must fetch the full history 
+        # for git diff to work correctly in the commit step.
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -35,7 +33,7 @@ jobs:
       - name: Install sitemap generator
         run: npm install -g sitemap-generator-cli
 
-      - name: Generate sitemap 🛠️ (CRITICAL PATH FIX)
+      - name: Generate sitemap 🛠️
         # Generates the sitemap.xml directly into the repository root
         run: |
           sitemap-generator https://www.varmanmetals.in \
@@ -62,6 +60,7 @@ jobs:
               echo "Sitemap.xml updated and pushed."
           fi
         env:
+          # This token is automatically available
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Ping Search Engines for Sitemap Update 🔔
@@ -72,8 +71,8 @@ jobs:
           
           # Ping Google
           curl -s "http://www.google.com/ping?sitemap=https://www.varmanmetals.in/sitemap.xml"
-          echo ""
+          echo "Google Ping Sent."
           
           # Ping Bing
           curl -s "http://www.bing.com/ping?sitemap=https://www.varmanmetals.in/sitemap.xml"
-          echo ""
+          echo "Bing Ping Sent."
