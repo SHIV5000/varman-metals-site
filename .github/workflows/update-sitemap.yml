@@ -29,15 +29,23 @@ jobs:
       - name: Install sitemap generator
         run: npm install -g sitemap-generator-cli
 
-      - name: Generate sitemap 🛠️ (FINAL FIX for Missing Tags)
+      - name: Generate sitemap 🛠️ (FINAL WORKING VERSION)
+        # Use shell scripting to fix the faulty --priority-map
         run: |
+          # 1. Generate the base sitemap with lastmod, changefreq, and a default priority (0.8)
           sitemap-generator https://www.varmanmetals.in \
             --filepath sitemap.xml \
             --lastMod \
             --changeFreq daily \
             --priority 0.8 \
-            --priority-map '/: 1.0, /blog/index.html: 0.8' \
             --ignore '404.html'
+            
+          # 2. Use 'sed' to explicitly find the homepage URL and forcefully set its priority to 1.0
+          #    'n' goes to the next line, 's' performs the substitution.
+          echo "Applying 1.0 priority to homepage..."
+          sed -i.bak '/<loc>https:\/\/www.varmanmetals.in\/<\/loc>/{n;s|<priority>.*</priority>|<priority>1.0</priority>|;}' sitemap.xml
+          
+          echo "Sitemap generated successfully."
             
       - name: Commit and Push updated sitemap (and robots.txt) ⬆️
         run: |
@@ -51,7 +59,7 @@ jobs:
           if git diff --cached --exit-code; then
               echo "No changes to commit. Nothing to push."
           else
-              git commit -m "Auto-update sitemap.xml and related files"
+              git commit -m "Auto-update sitemap.xml and related files (Fixed priority tags)"
               git push origin main
               echo "Sitemap.xml and robots.txt updated and pushed."
           fi
