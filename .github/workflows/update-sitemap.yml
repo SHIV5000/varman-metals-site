@@ -1,4 +1,3 @@
-
 name: Auto-update sitemap
 
 on:
@@ -33,11 +32,11 @@ jobs:
       - name: Generate sitemap
         run: |
           mkdir -p public
+          # FIX: Removed --maxDepth 0 to allow the generator to crawl linked pages (like the blog)
           sitemap-generator https://www.varmanmetals.in \
             --filepath public/sitemap.xml \
-            --maxDepth 0 \
             --lastMod \
-            --priority-map '{"index.html":1.0,"blog/index.html":0.8}' \
+            --priority-map '{"/": 1.0, "/blog/index.html": 0.8}' \
             --ignore '404.html'
 
       - name: Commit updated sitemap
