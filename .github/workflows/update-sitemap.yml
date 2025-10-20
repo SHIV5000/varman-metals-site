@@ -1,12 +1,9 @@
 name: Auto-update sitemap
 
 # Trigger the workflow on ANY push to the main branch
-# This ensures it runs after any change, regardless of the file type or location.
 on:
   push:
     branches: [main]
-    # NOTE: The 'paths' block is intentionally removed to trigger on all pushes,
-    # resolving potential path matching issues when files are added/modified.
 
 # Give the GitHub Actions bot permission to commit files back to the repository
 permissions:
@@ -43,24 +40,24 @@ jobs:
             --priority-map '{"/": 1.0, "/blog/index.html": 0.8}' \
             --ignore '404.html'
             
-      - name: Commit and Push updated sitemap ⬆️
+      - name: Commit and Push updated sitemap (and robots.txt) ⬆️
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Stage the newly created sitemap file from the root
-          git add sitemap.xml
+          # ⭐️ NEW: Stage both the sitemap and robots.txt file ⭐️
+          git add sitemap.xml robots.txt
           
           # Check for changes before attempting to commit
+          # This command checks if there are any staged changes (sitemap or robots.txt)
           if git diff --cached --exit-code; then
-              echo "No changes to sitemap.xml. Nothing to commit."
+              echo "No changes to commit. Nothing to push."
           else
-              git commit -m "Auto-update sitemap.xml"
+              git commit -m "Auto-update sitemap.xml and related files"
               git push origin main
-              echo "Sitemap.xml updated and pushed."
+              echo "Sitemap.xml and robots.txt updated and pushed."
           fi
         env:
-          # This token is automatically available
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Ping Search Engines for Sitemap Update 🔔
