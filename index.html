@@ -122,7 +122,7 @@
             }
         },
         {
-            /* MAIN PRODUCT SCHEMA FOR ZINC INGOTS */
+            /* MAIN PRODUCT SCHEMA FOR ZINC INGOTS (ALL FIELDS FIXED) */
             "@type": "Product",
             "name": "Zinc Ingots (Kaskut)",
             "description": "High-purity Zinc Ingots with 98-99.9% purity for galvanizing, die-casting, and alloy manufacturing",
@@ -139,86 +139,6 @@
                     "name": "Varman Metals"
                 },
                 "priceValidUntil": "2024-12-31",
-                /* START OF SHIPPING DETAILS FIX */
-                "shippingDetails": {
-                    "@type": "OfferShippingDetails",
-                    "shippingRate": {
-                        "@type": "MonetaryAmount",
-                        "value": "0", /* Set to 0 for Free Shipping or the actual cost */
-                        "currency": "INR"
-                    },
-                    "shippingDestination": {
-                        "@type": "DefinedRegion",
-                        "addressCountry": "IN" /* Scope of Shipping */
-                    },
-                    "deliveryTime": {
-                        "@type": "ShippingDeliveryTime",
-                        "businessDays": {
-                            "@type": "OpeningHoursSpecification",
-                            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-                        },
-                        "cutoffTime": "15:00",
-                        "transitTime": {
-                            "@type": "QuantitativeValue",
-                            "minValue": "1",
-                            "maxValue": "7",
-                            "unitCode": "DAY"
-                        }
-                    }
-                },
-                /* END OF SHIPPING DETAILS FIX */
-                /* START OF RETURN POLICY FIX */
-                "hasMerchantReturnPolicy": {
-                    "@type": "MerchantReturnPolicy",
-                    "applicableCountry": "IN",
-                    "returnPolicyCategory": "https://schema.org/NoCalibratedReturns", /* Best fit for industrial material */
-                    "url": "https://varmanmetals.in#contact" /* Link to contact/policy page */
-                }
-                /* END OF RETURN POLICY FIX */
-            },
-            "additionalProperty": [
-                {
-                    "@type": "PropertyValue",
-                    "name": "Purity",
-                    "value": "98-99.9%"
-                },
-                {
-                    "@type": "PropertyValue",
-                    "name": "Weight",
-                    "value": "20-25 kg per ingot"
-                },
-                {
-                    "@type": "PropertyValue",
-                    "name": "HS Code",
-                    "value": "79011100"
-                }
-            ],
-            "category": "Industrial Metals",
-            "audience": {
-                "@type": "PeopleAudience",
-                "suggestedMinAge": 18,
-                "suggestedMaxAge": 99
-            }
-        },
-        {
-            /* MAIN PRODUCT SCHEMA FOR ALUMINUM INGOTS */
-            "@type": "Product",
-            "name": "Aluminum Ingots (ADC12/LM24)",
-            "description": "Premium Aluminum Alloy Ingots for die-casting, automotive, and foundry industries",
-            "sku": "AM-001",
-            "brand": "Varman Metals",
-            "image": "https://varmanmetals.in/images/aluminum_ingots.jpg",
-            "offers": {
-                "@type": "Offer",
-                "price": "225",
-                "priceCurrency": "INR",
-                "availability": "https://schema.org/InStock",
-                "seller": {
-                    "@type": "Organization",
-                    "name": "Varman Metals"
-                },
-                "priceValidUntil": "2024-12-31",
-                /* START OF SHIPPING DETAILS FIX */
                 "shippingDetails": {
                     "@type": "OfferShippingDetails",
                     "shippingRate": {
@@ -245,15 +165,87 @@
                         }
                     }
                 },
-                /* END OF SHIPPING DETAILS FIX */
-                /* START OF RETURN POLICY FIX */
+                "hasMerchantReturnPolicy": {
+                    "@type": "MerchantReturnPolicy",
+                    "applicableCountry": "IN",
+                    "returnPolicyCategory": "https://schema.org/NoCalibratedReturns", 
+                    "url": "https://varmanmetals.in#contact" 
+                }
+            },
+            "additionalProperty": [
+                {
+                    "@type": "PropertyValue",
+                    "name": "Purity",
+                    "value": "98-99.9%"
+                },
+                {
+                    "@type": "PropertyValue",
+                    "name": "Weight",
+                    "value": "20-25 kg per ingot"
+                },
+                {
+                    "@type": "PropertyValue",
+                    "name": "HS Code",
+                    "value": "79011100"
+                }
+            ],
+            "category": "Industrial Metals",
+            "audience": {
+                "@type": "PeopleAudience",
+                "suggestedMinAge": 18,
+                "suggestedMaxAge": 99
+            }
+        },
+        {
+            /* MAIN PRODUCT SCHEMA FOR ALUMINUM INGOTS (ALL FIELDS FIXED) */
+            "@type": "Product",
+            "name": "Aluminum Ingots (ADC12/LM24)",
+            "description": "Premium Aluminum Alloy Ingots for die-casting, automotive, and foundry industries",
+            "sku": "AM-001",
+            "brand": "Varman Metals",
+            "image": "https://varmanmetals.in/images/aluminum_ingots.jpg",
+            "offers": {
+                "@type": "Offer",
+                "price": "225",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "seller": {
+                    "@type": "Organization",
+                    "name": "Varman Metals"
+                },
+                "priceValidUntil": "2024-12-31",
+                "shippingDetails": {
+                    "@type": "OfferShippingDetails",
+                    "shippingRate": {
+                        "@type": "MonetaryAmount",
+                        "value": "0",
+                        "currency": "INR"
+                    },
+                    "shippingDestination": {
+                        "@type": "DefinedRegion",
+                        "addressCountry": "IN"
+                    },
+                    "deliveryTime": {
+                        "@type": "ShippingDeliveryTime",
+                        "businessDays": {
+                            "@type": "OpeningHoursSpecification",
+                            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                        },
+                        "cutoffTime": "15:00",
+                            "transitTime": {
+                            "@type": "QuantitativeValue",
+                            "minValue": "1",
+                            "maxValue": "7",
+                            "unitCode": "DAY"
+                        }
+                    }
+                },
                 "hasMerchantReturnPolicy": {
                     "@type": "MerchantReturnPolicy",
                     "applicableCountry": "IN",
                     "returnPolicyCategory": "https://schema.org/NoCalibratedReturns",
                     "url": "https://varmanmetals.in#contact" 
                 }
-                /* END OF RETURN POLICY FIX */
             },
             "additionalProperty": [
                 {
@@ -304,7 +296,9 @@
         }
     ]
 }
-</script>    <!-- Load Tailwind CSS -->
+</script>   
+    
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
