@@ -1,14 +1,12 @@
-name: Auto-update sitemap
+name: Complete Auto-update Sitemap
 
 # Trigger the workflow on ANY push to the main branch
 on:
   push:
     branches: [main]
 
-# Give the GitHub Actions bot permission to commit files back to the repository
 permissions:
   contents: write
-
 
 jobs:
   generate-sitemap:
@@ -16,7 +14,6 @@ jobs:
 
     steps:
       - name: Checkout repo
-        # Ensure full history is fetched for accurate git diff checks
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 
@@ -26,40 +23,68 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install sitemap generator
-        run: npm install -g sitemap-generator-cli
+      - name: Install Dependencies 📦
+        # Install the reliable 'sitemap' package and 'glob' for dynamic file finding
+        run: npm install sitemap glob
 
-      - name: Generate sitemap 🛠️ (FINAL WORKING VERSION)
-        # Use shell scripting to fix the faulty --priority-map
+      - name: Generate Dynamic Sitemap 🛠️
+        # This script runs Node.js code to find all files and build the sitemap
         run: |
-          # 1. Generate the base sitemap with lastmod, changefreq, and a default priority (0.8)
-          sitemap-generator https://www.varmanmetals.in \
-            --filepath sitemap.xml \
-            --lastMod \
-            --changeFreq daily \
-            --priority 0.8 \
-            --ignore '404.html'
+          node -e "
+            const { SitemapStream, streamToPromise } = require('sitemap');
+            const { createWriteStream } = require('fs');
+            const { glob } = require('glob');
+            const path = require('path');
             
-          # 2. Use 'sed' to explicitly find the homepage URL and forcefully set its priority to 1.0
-          #    'n' goes to the next line, 's' performs the substitution.
-          echo "Applying 1.0 priority to homepage..."
-          sed -i.bak '/<loc>https:\/\/www.varmanmetals.in\/<\/loc>/{n;s|<priority>.*</priority>|<priority>1.0</priority>|;}' sitemap.xml
-          
-          echo "Sitemap generated successfully."
+            const HOSTNAME = 'https://www.varmanmetals.in';
+            const SITEMAP_FILE = 'sitemap.xml';
+
+            async function generateSitemap() {
+              const files = await glob('**/*.html', { ignore: ['node_modules/**', '404.html', '_site/**'] });
+              const sitemap = new SitemapStream({ hostname: HOSTNAME });
+              const writeStream = createWriteStream(path.resolve('./', SITEMAP_FILE));
+              sitemap.pipe(writeStream);
+
+              // Map files to sitemap links
+              files.forEach(file => {
+                // Convert file path to URL path (e.g., 'index.html' -> '/', 'blog/post.html' -> '/blog/post.html')
+                let urlPath = file === 'index.html' ? '/' : \`/\${file}\`;
+                
+                // Determine priority
+                let priority = 0.8;
+                if (urlPath === '/') {
+                  priority = 1.0; // Highest priority for the homepage
+                } else if (urlPath.startsWith('/blog/')) {
+                  priority = 0.7; // Slightly lower for blog posts
+                }
+                
+                sitemap.write({ 
+                  url: urlPath, 
+                  changefreq: 'daily', 
+                  priority: priority, 
+                  lastmod: new Date() 
+                });
+              });
+              
+              sitemap.end();
+              await streamToPromise(sitemap);
+              console.log(\`\${SITEMAP_FILE} successfully generated.\`);
+            }
             
+            generateSitemap().catch(console.error);
+          "
+        
       - name: Commit and Push updated sitemap (and robots.txt) ⬆️
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Stage both the generated sitemap and the static robots.txt file
           git add sitemap.xml robots.txt
           
-          # Check for changes before attempting to commit
           if git diff --cached --exit-code; then
               echo "No changes to commit. Nothing to push."
           else
-              git commit -m "Auto-update sitemap.xml and related files (Fixed priority tags)"
+              git commit -m "Auto-update sitemap.xml (Dynamic Generation)"
               git push origin main
               echo "Sitemap.xml and robots.txt updated and pushed."
           fi
@@ -67,15 +92,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Ping Search Engines for Sitemap Update 🔔
-        # Notifies search engines to crawl the newly updated sitemap
         if: success()
         run: |
           echo "Pinging Google and Bing to request a crawl of the new sitemap."
           
-          # Ping Google
           curl -s "http://www.google.com/ping?sitemap=https://www.varmanmetals.in/sitemap.xml"
           echo "Google Ping Sent."
           
-          # Ping Bing
           curl -s "http://www.bing.com/ping?sitemap=https://www.varmanmetals.in/sitemap.xml"
           echo "Bing Ping Sent."
