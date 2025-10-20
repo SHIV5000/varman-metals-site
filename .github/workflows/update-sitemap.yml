@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        # CRITICAL: Fetch full history for git diff to work correctly
+        # Ensure full history is fetched for accurate git diff checks
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 
@@ -29,14 +29,16 @@ jobs:
       - name: Install sitemap generator
         run: npm install -g sitemap-generator-cli
 
-      - name: Generate sitemap 🛠️ (FIXED LINE CONTINUATION)
-        # 🚨 FIX: Added '\' to the end of each line to resolve the 'command not found' error.
+      - name: Generate sitemap 🛠️ (FINAL FIX)
+        # 1. Added '\' for line continuation to fix 'command not found'.
+        # 2. Replaced the problematic '--priority-map' with simple flags
+        #    to resolve the "Invalid tag value" XML error.
         run: |
           sitemap-generator https://www.varmanmetals.in \
             --filepath sitemap.xml \
             --lastMod \
-            --changeFreq 'daily' \
-            --priority-map '{"/": 1.0, "/blog/index.html": 0.8}' \
+            --changeFreq daily \
+            --priority 0.8 \
             --ignore '404.html'
             
       - name: Commit and Push updated sitemap (and robots.txt) ⬆️
@@ -44,14 +46,14 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Stage both the sitemap and robots.txt file
+          # Stage both the generated sitemap and the static robots.txt file
           git add sitemap.xml robots.txt
           
           # Check for changes before attempting to commit
           if git diff --cached --exit-code; then
               echo "No changes to commit. Nothing to push."
           else
-              git commit -m "Auto-update sitemap.xml and related files (Success)"
+              git commit -m "Auto-update sitemap.xml and related files"
               git push origin main
               echo "Sitemap.xml and robots.txt updated and pushed."
           fi
@@ -59,7 +61,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Ping Search Engines for Sitemap Update 🔔
-        # Run only if the previous step successfully updated and pushed the sitemap
+        # Notifies search engines to crawl the newly updated sitemap
         if: success()
         run: |
           echo "Pinging Google and Bing to request a crawl of the new sitemap."
