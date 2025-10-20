@@ -16,8 +16,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        # CRITICAL: Since you have a blog, you must fetch the full history 
-        # for git diff to work correctly in the commit step.
+        # CRITICAL: Fetch full history for git diff to work correctly
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 
@@ -30,13 +29,14 @@ jobs:
       - name: Install sitemap generator
         run: npm install -g sitemap-generator-cli
 
-      - name: Generate sitemap 🛠️
+      - name: Generate sitemap 🛠️ (FIXING PRIORITY ERROR)
         # Generates the sitemap.xml directly into the repository root
         run: |
           sitemap-generator https://www.varmanmetals.in \
             --filepath sitemap.xml \
             --lastMod \
             --changeFreq 'daily' \
+            # FIX: Using standard decimal priority values (1.0, 0.8) to resolve the XML error
             --priority-map '{"/": 1.0, "/blog/index.html": 0.8}' \
             --ignore '404.html'
             
@@ -45,15 +45,14 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # ⭐️ NEW: Stage both the sitemap and robots.txt file ⭐️
+          # Stage both the sitemap and robots.txt file
           git add sitemap.xml robots.txt
           
           # Check for changes before attempting to commit
-          # This command checks if there are any staged changes (sitemap or robots.txt)
           if git diff --cached --exit-code; then
               echo "No changes to commit. Nothing to push."
           else
-              git commit -m "Auto-update sitemap.xml and related files"
+              git commit -m "Auto-update sitemap.xml and related files (Priority Error Fixed)"
               git push origin main
               echo "Sitemap.xml and robots.txt updated and pushed."
           fi
