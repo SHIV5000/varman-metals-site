@@ -57,43 +57,35 @@
             "areaServed": ["Uttar Pradesh", "Delhi NCR", "Haryana", "Rajasthan", "Punjab", "India", "Global"],
             "sameAs": [],
             "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                "name": "Metal Ingots",
-                "itemListElement": [
-                    {
-                        "@type": "Offer",
-                        "itemOffered": {
-                            "@type": "Product",
-                            "name": "Zinc Ingots (Kaskut)",
-                            "description": "High-purity Zinc Ingots for galvanizing and industrial applications",
-                            "sku": "ZM-001",
-                            "brand": "Varman Metals",
-                            "offers": { 
-                                "@type": "Offer",
-                                "price": "230",
-                                "priceCurrency": "INR",
-                                "availability": "https://schema.org/InStock"
-                            }
-                        }
-                    },
-                    {
-                        "@type": "Offer",
-                        "itemOffered": {
-                            "@type": "Product",
-                            "name": "Aluminum Ingots (ADC12/LM24)",
-                            "description": "Premium-grade Aluminum Alloy Ingots for die-casting applications",
-                            "sku": "AM-001",
-                            "brand": "Varman Metals",
-                            "offers": { 
-                                "@type": "Offer",
-                                "price": "225",
-                                "priceCurrency": "INR",
-                                "availability": "https://schema.org/InStock"
-                            }
-                        }
-                    }
-                ]
+    "@type": "OfferCatalog",
+    "name": "Metal Ingots",
+    "itemListElement": [
+        {
+            "@type": "Offer",
+            "itemOffered": {
+                "@type": "Product",
+                "name": "Zinc Ingots (Kaskut)",
+                "description": "High-purity Zinc Ingots for galvanizing and industrial applications",
+                "sku": "ZM-001",
+                "brand": "Varman Metals",
+                "image": "https://varmanmetals.in/images/zinc_ingots.jpg" // <-- ADDED IMAGE
+                // Redundant 'offers' block removed
             }
+        },
+        {
+            "@type": "Offer",
+            "itemOffered": {
+                "@type": "Product",
+                "name": "Aluminum Ingots (ADC12/LM24)",
+                "description": "Premium-grade Aluminum Alloy Ingots for die-casting applications",
+                "sku": "AM-001",
+                "brand": "Varman Metals",
+                "image": "https://varmanmetals.in/images/aluminum_ingots.jpg" // <-- ADDED IMAGE
+                // Redundant 'offers' block removed
+            }
+        }
+    ]
+}}
         },
         {
             "@type": "WebSite",
