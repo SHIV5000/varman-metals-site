@@ -75,11 +75,11 @@
         
         .torn-btn:hover {
             transform: scale(1.05) rotate(-2deg);
-            background-color: #c99868; /* Darker cardboard fallback */
+            background-color: '#c99868'; /* Darker cardboard fallback */
         }
         /* Override hover for Mehroon button */
         .torn-btn.bg-mehroon:hover {
-            background-color: #a00000;
+            background-color: '#a00000';
         }
 
         /* Tape Effect */
@@ -134,9 +134,8 @@
 
             <div class="flex justify-between items-center">
                 <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <div class="bg-black text-white p-2 rounded-sm transform rotate-3">
-                        <i class="fa-solid fa-recycle text-2xl"></i>
-                    </div>
+                    
+                    <img src="images/recycle.jpeg" alt="Recycle Logo" class="w-10 h-10 object-cover transform rotate-3 rounded-sm border-2 border-black">
                     <div>
                         <span class="font-marker text-2xl tracking-widest uppercase">Varman Metals</span>
                     </div>
@@ -175,6 +174,10 @@
             <div class="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-paper-dark rounded-full filter blur-[100px] opacity-30 transform -translate-x-1/2 -translate-y-1/2"></div>
         </div>
 
+        <img src="images/torn_cardboard.jpeg" alt="Torn Cardboard" 
+             class="absolute top-1/4 left-0 md:left-10 w-40 h-auto object-contain z-10 
+                    transform rotate-6 opacity-80 shadow-lg border-4 border-paper-ink/10 
+                    md:w-64 md:h-64 rounded-xl">
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
             
             <div class="inline-block bg-yellow-300 text-black px-6 py-2 transform -rotate-3 mb-6 border-2 border-black shadow-paper">
