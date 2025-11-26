@@ -124,6 +124,24 @@
         .animate-\[slide\_20s\_linear\_infinite\] {
             animation: slide 20s linear infinite;
         }
+
+        /* New custom class for image background effect */
+        .waste-paper-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .torn-cardboard-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%; /* Cover the text area */
+            height: 100%;
+            object-fit: contain; /* Don't stretch the image */
+            opacity: 0.9;
+            transform: translate(-50%, -50%) rotate(1deg); /* Center and rotate slightly */
+            z-index: -1; /* Place it behind the text */
+        }
     </style>
 </head>
 <body class="font-typewriter text-paper-ink overflow-x-hidden selection:bg-paper-dark selection:text-white">
@@ -174,10 +192,6 @@
             <div class="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-paper-dark rounded-full filter blur-[100px] opacity-30 transform -translate-x-1/2 -translate-y-1/2"></div>
         </div>
 
-        <img src="images/torn_cardboard.jpeg" alt="Torn Cardboard" 
-             class="absolute top-1/4 left-0 md:left-10 w-40 h-auto object-contain z-10 
-                    transform rotate-6 opacity-80 shadow-lg border-4 border-paper-ink/10 
-                    md:w-64 md:h-64 rounded-xl">
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
             
             <div class="inline-block bg-yellow-300 text-black px-6 py-2 transform -rotate-3 mb-6 border-2 border-black shadow-paper">
@@ -188,8 +202,11 @@
 
             <h1 class="font-marker text-6xl md:text-8xl mb-6 leading-tight text-paper-ink drop-shadow-lg transform rotate-1">
                 WE SELL <br>
-                <span class="text-paper-dark text-shadow-lg underline decoration-4 decoration-black/80">WASTE PAPER</span>
-            </h1>
+                <span class="waste-paper-container">
+                    <img src="images/torn_cardboard.jpeg" alt="Torn Cardboard" class="torn-cardboard-bg">
+                    <span class="text-paper-dark text-shadow-lg underline decoration-4 decoration-black/80 relative z-0">WASTE PAPER</span>
+                </span>
+                </h1>
             
             <p class="text-xl md:text-2xl bg-white/60 inline-block p-4 transform -rotate-1 mb-10 border border-black shadow-sm backdrop-blur-sm max-w-2xl">
                UAE EU US ASEAN OCC 11 & OCC 12. <br> 
