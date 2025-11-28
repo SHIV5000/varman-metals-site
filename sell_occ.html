@@ -3,496 +3,567 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VARMANMETALS.IN | The Scrap Yard</title>
-    <meta name="description" content="Wholesale US Origin OCC 11 and OCC 12 Waste Paper.">
+    <title>|| Varman Metals || OCC 11 & OCC 12 Waste Paper IMPORTER</title>
+    <meta name="description" content="Leading supplier of wholesale US Origin OCC 11 and OCC 12 waste paper. Premium quality, competitive pricing, global sourcing.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        paper: {
-                            light: '#f5f0e1', /* Old paper */
-                            dark: '#d4a373',  /* Cardboard */
-                            dirty: '#e3d5ca', /* Dirty recycled */
-                            ink: '#2b2b2b',   /* Stamped Ink */
-                            tape: '#f4d35e',  /* Masking Tape */
+                        primary: {
+                            DEFAULT: '#1e3a8a', // Deep blue
+                            light: '#3b82f6',
+                            dark: '#1e40af',
                         },
-                        // Custom Colors for User Request
-                        mehroon: '#800000',      // Maroon for Call Now button
-                        'dark-green': '#006400', // Dark Green for CTA background
-                        // Custom Color for WhatsApp Button
-                        'whatsapp-green': '#25D366',
+                        secondary: {
+                            DEFAULT: '#dc2626', // Red for CTAs
+                            light: '#ef4444',
+                            dark: '#b91c1c',
+                        },
+                        accent: {
+                            DEFAULT: '#f59e0b', // Amber
+                            light: '#fbbf24',
+                            dark: '#d97706',
+                        },
+                        neutral: {
+                            light: '#f8fafc',
+                            DEFAULT: '#64748b',
+                            dark: '#334155',
+                        }
                     },
                     fontFamily: {
-                        marker: ['Permanent Marker', 'cursive'],
-                        typewriter: ['Special Elite', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
                     },
-                    rotate: {
-                        '1': '1deg',
-                        '2': '2deg',
-                        '3': '3deg',
-                        '-1': '-1deg',
-                        '-2': '-2deg',
-                        '-3': '-3deg',
-                    },
-                    boxShadow: {
-                        'paper': '5px 5px 0px rgba(0,0,0,0.2)',
-                        'floating': '10px 10px 0px rgba(0,0,0,0.15)',
-                    }
                 }
             }
         }
     </script>
     
     <style>
-        /* Grainy Noise Texture Background */
-        body {
-            background-color: #e6e1d3;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
-        }
-
-        /* Torn Paper Edge Effect (CSS Clip Path) */
-        .torn-paper-top {
-            clip-path: polygon(0% 10px, 5% 0px, 10% 12px, 15% 0px, 20% 10px, 25% 0px, 30% 12px, 35% 2px, 40% 14px, 45% 2px, 50% 12px, 55% 2px, 60% 12px, 65% 0px, 70% 12px, 75% 2px, 80% 12px, 85% 0px, 90% 12px, 95% 0px, 100% 12px, 100% 100%, 0% 100%);
+        /* Smooth transitions */
+        * {
+            transition: all 0.3s ease;
         }
         
-        .torn-paper-box {
-            clip-path: polygon(2% 2%, 98% 0%, 100% 98%, 0% 100%);
-            /* Slight irregularity for box shape */
-        }
-
-        .torn-btn {
-            clip-path: polygon(0% 5%, 5% 0%, 15% 5%, 25% 0%, 35% 4%, 45% 0%, 55% 5%, 65% 0%, 75% 4%, 85% 0%, 95% 5%, 100% 0%, 100% 95%, 95% 100%, 85% 96%, 75% 100%, 65% 95%, 55% 100%, 45% 96%, 35% 100%, 25% 95%, 15% 100%, 5% 95%, 0% 100%);
-            transition: all 0.2s ease;
+        /* Custom gradient backgrounds */
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
         }
         
-        .torn-btn:hover {
-            transform: scale(1.05) rotate(-2deg);
-            background-color: '#c99868'; /* Darker cardboard fallback */
-        }
-        /* Override hover for Mehroon button */
-        .torn-btn.bg-mehroon:hover {
-            background-color: '#a00000';
-        }
-
-        /* Tape Effect */
-        .tape {
-            background-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            backdrop-filter: blur(2px);
-            border: 1px solid rgba(255,255,255,0.2);
-            transform: rotate(-2deg);
-            position: absolute;
-            z-index: 10;
-        }
-
-        /* Hero Text Stroke */
-        .marker-stroke {
-            -webkit-text-stroke: 1px #2b2b2b;
-            color: transparent;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f5f0e1; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #d4a373; 
-            border: 2px solid #f5f0e1;
+        .section-gradient {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
         
-        /* Keyframe for Ticker */
-        @keyframes slide {
-            from {
-                transform: translateX(0%);
+        /* Card hover effects */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Button animations */
+        .btn-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7);
             }
-            to {
-                transform: translateX(-50%); /* Move half the width of the content */
+            70% {
+                box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
             }
         }
         
-        .animate-\[slide\_20s\_linear\_infinite\] {
-            animation: slide 20s linear infinite;
+        /* Mobile menu animation */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
         }
-
-        /* New custom class for image background effect */
-        .waste-paper-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .torn-cardboard-bg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%; /* Cover the text area */
-            height: 100%;
-            object-fit: contain; /* Don't stretch the image */
-            opacity: 0.9;
-            transform: translate(-50%, -50%) rotate(1deg); /* Center and rotate slightly */
-            z-index: -1; /* Place it behind the text */
+        
+        .mobile-menu.open {
+            transform: translateX(0);
         }
     </style>
 </head>
-<body class="font-typewriter text-paper-ink overflow-x-hidden selection:bg-paper-dark selection:text-white">
-
-    <nav class="fixed w-full z-50 top-4 px-4 md:px-8">
-        <div class="max-w-7xl mx-auto torn-paper-box bg-paper-dark shadow-floating p-4 transform -rotate-1 border-2 border-dashed border-paper-ink/20 relative">
-            <div class="tape w-32 h-8 -top-3 left-1/2 transform -translate-x-1/2 rotate-2"></div>
-
-            <div class="flex justify-between items-center">
-                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    
-                    <img src="images/recycle.jpeg" alt="Recycle Logo" class="w-10 h-10 object-cover transform rotate-3 rounded-sm border-2 border-black">
+<body class="font-sans text-neutral-800 bg-white overflow-x-hidden">
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                   <!-- <img src="images/recycle.jpeg" alt="Varman Metals Logo" class="w-10 h-10 object-cover rounded-lg">-->
                     <div>
-                        <span class="font-marker text-2xl tracking-widest uppercase">Varman Metals</span>
+                        <span class="font-heading text-xl font-bold text-primary">|| VARMAN METALS ||</span>
                     </div>
                 </div>
                 
-                <div class="hidden md:flex space-x-6 items-center">
-                    <a href="#products" class="text-lg font-bold hover:text-white transition hover:underline decoration-wavy decoration-2">Products</a>
-                    <a href="#specifications" class="text-lg font-bold hover:text-white transition hover:underline decoration-wavy decoration-2">Specs</a>
-                    <a href="tel:+91-6396811315" class="torn-btn bg-mehroon text-white px-6 py-2 font-marker text-lg border-2 border-black shadow-paper hover:bg-black">
-                        Call Now
-                    </a>
-                </div>
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#products" class="font-medium text-neutral-700 hover:text-primary">Products</a>
+                    <a href="#specifications" class="font-medium text-neutral-700 hover:text-primary">Specifications</a>
+                    <a href="#about" class="font-medium text-neutral-700 hover:text-primary">About</a>
+                    <a href="#contact" class="bg-secondary text-white px-5 py-2 rounded-lg font-medium hover:bg-secondary-dark">Contact Us</a>
+                </nav>
 
                 <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-2xl hover:text-white transition">
-                        <i class="fa-solid fa-bars"></i>
+                    <button id="mobile-menu-btn" class="text-neutral-700 p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
         
-        <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-4 right-4 bg-paper-light border-2 border-black p-4 shadow-floating transform rotate-1 z-40 torn-paper-box">
-            <div class="flex flex-col space-y-4 text-center">
-                <a href="#products" class="text-xl font-bold border-b border-black/10 pb-2">INVENTORY</a>
-                <a href="#specifications" class="text-xl font-bold border-b border-black/10 pb-2">SPECS</a>
-                <a href="#contact" class="font-marker text-xl text-red-700">CONTACT US</a>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-white shadow-xl p-6">
+            <div class="flex justify-between items-center mb-8">
+                <span class="font-heading text-lg font-bold text-primary">Menu</span>
+                <button id="mobile-menu-close" class="text-neutral-700 p-2">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
             </div>
-        </div>
-    </nav>
-
-    <header class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
-        
-        <div class="absolute inset-0 z-0 opacity-20 pointer-events-none">
-            <i class="fa-solid fa-box-open absolute top-1/4 left-10 text-9xl transform -rotate-12 text-paper-dark"></i>
-            <i class="fa-solid fa-scroll absolute bottom-1/4 right-10 text-9xl transform rotate-12 text-paper-dark"></i>
-            <div class="absolute top-1/2 left-1/2 w-[800px] h-[800px] bg-paper-dark rounded-full filter blur-[100px] opacity-30 transform -translate-x-1/2 -translate-y-1/2"></div>
-        </div>
-
-        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
-            
-            <div class="inline-block bg-yellow-300 text-black px-6 py-2 transform -rotate-3 mb-6 border-2 border-black shadow-paper">
-                <span class="font-marker text-xl">
-                    <i class="fa-solid fa-star mr-2"></i> DIRECT PRICES
-                </span>
-            </div>
-
-            <h1 class="font-marker text-6xl md:text-8xl mb-6 leading-tight text-paper-ink drop-shadow-lg transform rotate-1">
-                WE SELL <br>
-                <span class="waste-paper-container">
-                    <img src="images/torn_cardboard.jpeg" alt="Torn Cardboard" class="torn-cardboard-bg">
-                    <span class="text-paper-dark text-shadow-lg underline decoration-4 decoration-black/80 relative z-0">WASTE   PAPER</span>
-                </span>
-                </h1>
-            
-            <p class="text-xl md:text-2xl bg-white/60 inline-block p-4 transform -rotate-1 mb-10 border border-black shadow-sm backdrop-blur-sm max-w-2xl">
-               UAE EU US ASEAN OCC 11 & OCC 12. <br> 
-                <span class="text-red-700 font-bold">Raw. Recyclable. Ready For Mill.</span>
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="tel:+91-6396811315" class="torn-btn bg-paper-dark text-white font-marker text-2xl px-10 py-5 shadow-floating border-2 border-black relative group">
-                    <span class="relative z-10">CHECK PRICES</span>
-                </a>
-                <a href="#products" class="torn-btn bg-white text-paper-ink font-marker text-2xl px-10 py-5 shadow-floating border-2 border-black transform rotate-2 hover:rotate-0">
-                    SEE THE PILE
-                </a>
+            <div class="flex flex-col space-y-6">
+                <a href="#products" class="font-medium text-neutral-700 hover:text-primary text-lg">Products</a>
+                <a href="#specifications" class="font-medium text-neutral-700 hover:text-primary text-lg">Specifications</a>
+                <a href="#about" class="font-medium text-neutral-700 hover:text-primary text-lg">About</a>
+                <a href="#contact" class="bg-secondary text-white px-5 py-3 rounded-lg font-medium text-center hover:bg-secondary-dark">Contact Us</a>
             </div>
         </div>
     </header>
 
-    <div class="bg-yellow-400 text-black py-4 overflow-hidden whitespace-nowrap border-y-4 border-black transform -rotate-1 shadow-lg z-20 relative">
-        <div class="inline-block animate-[slide_20s_linear\_infinite] font-typewriter text-xl font-bold">
-            <span class="mx-6">🚧 Sourcing From Globe 🚧</span>
-            <span class="mx-6">///</span>
-            <span class="mx-6">OCC 11 @ ₹22000-₹24000/MT*</span>
-            <span class="mx-6">///</span>
-            <span class="mx-6">PREMIUM DOUBLE SORTED</span>
-            <span class="mx-6">///</span>
-            <span class="mx-6">40FT CONTAINERS</span>
-            <span class="mx-6">///</span>
-            <span class="mx-6">CONTACT US FOR RATES</span>
+    <!-- Hero Section -->
+    <section class="pt-24 pb-20 hero-gradient text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="inline-block bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full mb-6">
+                        <span class="font-medium">
+                            <i class="fa-solid fa-star mr-3"></i> PREMIUM QUALITY MATERIALS
+                        </span>
+                    </div>
+
+                    <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                        Importer Of <span class="text-accent">OCC 11 & 12</span> Waste Paper
+                    </h1>
+                    
+                    <p class="text-xl mb-8 max-w-2xl">
+                        we buy waste paper from <b>US, EU, UAE and ASEAN</b> regions. Sell it to <b>Paper Mills In Uttar Pradesh</b>.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="tel:+91-6396811315" class="bg-secondary text-white font-medium text-lg px-8 py-4 rounded-lg shadow-lg hover:bg-secondary-dark btn-pulse text-center">
+                            <i class="fa-solid fa-phone mr-2"></i> CALL FOR PRICING
+                        </a>
+                        <a href="#products" class="bg-white text-primary font-medium text-lg px-8 py-4 rounded-lg shadow-lg hover:bg-neutral-100 text-center">
+                            VIEW PRODUCTS
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-2 transform rotate-1">
+                        <img src="images\FRONT.JPG" alt="Waste Paper Bales" class="w-full h-auto rounded-xl shadow-2xl">
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 bg-accent text-white p-4 rounded-lg shadow-lg">
+                        <div class="text-center">
+                            <div class="font-heading text-2xl font-bold">For</div>
+                            <div class="text-sm"><b>Consistent Supply</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ticker Section -->
+    <div class="bg-neutral-800 text-white py-3 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center space-x-10 overflow-x-auto">
+                <div class="flex items-center space-x-2 whitespace-nowrap">
+                    <i class="fa-solid fa-globe text-accent"></i>
+                    <span>Global Sourcing</span>
+                </div>
+                <div class="flex items-center space-x-2 whitespace-nowrap">
+                    <i class="fa-solid fa-truck text-accent"></i>
+                    <span>40 FT Container Shipping</span>
+                </div>
+                <div class="flex items-center space-x-2 whitespace-nowrap">
+                    <i class="fa-solid fa-check-circle text-accent"></i>
+                    <span>Premium Double Sorted</span>
+                </div>
+                <div class="flex items-center space-x-2 whitespace-nowrap">
+                    <i class="fa-solid fa-indian-rupee-sign text-accent"></i>
+                    <span>Competitive Pricing</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <section id="about" class="py-24 relative">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="relative">
-                    <div class="tape w-32 h-8 -top-4 left-1/3 transform -rotate-12 z-20"></div>
-                    <div class="bg-white p-4 pb-16 shadow-floating transform rotate-3 border border-gray-300">
-                        <img src="images/bale1.avif?q=80&w=1000&auto=format&fit=crop" alt="Bales" class="w-full h-80 object-cover grayscale contrast-125 hover:grayscale-0 transition duration-500">
-                        <div class="text-center mt-4 font-marker text-2xl text-gray-500 transform -rotate-1">
-                            "Pure Gold" (Cardboard)
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-paper-light p-8 md:p-12 shadow-paper transform -rotate-1 border-2 border-paper-dark relative">
-                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-yellow-900/10 rounded-full blur-xl pointer-events-none"></div>
-                    
-                    <h2 class="font-marker text-5xl mb-6 text-paper-ink">THE MANIFESTO</h2>
-                    <p class="text-lg mb-6 leading-relaxed border-l-4 border-red-700 pl-4">
-                        We don't do fancy. We do <strong class="bg-yellow-200 px-1">FIBER.</strong><br><br>
-                        Varman Metals bridges the gap between the mess of the scrap yard and the precision of the paper mill. We source direct from the pile, bale it tight, and send to mills.
+    <!-- About Section -->
+    <section id="about" class="py-16 section-gradient">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="font-heading text-3xl md:text-4xl font-bold mb-6 text-primary">About Varman Metals</h2>
+                    <p class="text-lg mb-12 text-neutral-700">
+                        Varman Metals is a leading supplier of premium quality waste paper, bridging the gap between global sourcing and mill requirements.we provide reliable, high-quality OCC 11 and OCC 12 materials.
                     </p>
                     
-                    <div class="grid grid-cols-2 gap-4 font-bold text-lg">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-check-square text-paper-dark mr-2 text-2xl"></i> NO JUNK
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-check-square text-paper-dark mr-2 text-2xl"></i> US EU UAE ASEAN
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-check-square text-paper-dark mr-2 text-2xl"></i> BEST RATES
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-check-square text-paper-dark mr-2 text-2xl"></i> HUGE VOLUME
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="products" class="py-24 bg-paper-dark relative torn-paper-top">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16">
-                <span class="bg-black text-white px-4 py-1 font-marker text-xl transform -rotate-2 inline-block">INVENTORY LIST</span>
-                <h2 class="font-typewriter text-6xl text-white mt-4 drop-shadow-md">WHAT WE'RE SELLING</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="bg-paper-light p-6 shadow-floating transform -rotate-2 hover:rotate-0 transition duration-300 relative group">
-                    <div class="tape w-24 h-6 -top-3 left-1/2 transform -translate-x-1/2 rotate-1"></div>
-                    
-                    <div class="border-2 border-dashed border-gray-400 p-6 h-full relative overflow-hidden">
-                        <div class="absolute top-4 right-4 text-6xl opacity-10 font-marker">11</div>
-                        
-                        <h3 class="font-marker text-4xl mb-2 text-red-800 underline decoration-2 decoration-black">OCC 11</h3>
-                        <p class="font-bold mb-4 text-gray-500 text-sm tracking-widest">THE STANDARD GRADE</p>
-                        
-                        <div class="bg-white p-2 mb-6 border border-gray-300 transform rotate-1 shadow-sm">
-                            <img src="images/bale3.avif?q=80&w=800&auto=format&fit=crop" class="h-48 w-full object-cover grayscale group-hover:grayscale-0 transition">
-                        </div>
-
-                        <ul class="text-lg space-y-2 mb-8 font-bold">
-                            <li>• Corrugated: <span class="bg-yellow-100 px-1">90-95%</span></li>
-                            <li>• Outthrows: &lt; 5%</li>
-                            <li>• Prohibitive: &lt; 1%</li>
-                            <li>• Origin: Commercial</li>
-                        </ul>
-
-                        <div class="flex justify-between items-end border-t-2 border-black pt-4">
-                            <div>
-                                <span class="block text-xs uppercase">Est. Price</span>
-                                <span class="text-3xl font-marker">₹22000-₹24000*</span>
+                    <div class="grid grid-cols-2 gap-8 mb-8">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-primary/10 p-2 rounded-lg">
+                                <i class="fa-solid fa-check text-primary"></i>
                             </div>
-                            <button onclick="window.location.href='#contact';" class="torn-btn bg-paper-dark text-white px-4 py-2 font-marker shadow-paper border border-black hover:bg-black">
-                                GRAB THIS
-                            </button>
+                            <span class="font-medium">Premium Quality</span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="bg-paper-light p-6 shadow-floating transform rotate-1 hover:rotate-0 transition duration-300 relative group">
-                    <div class="tape w-24 h-6 -top-3 left-1/2 transform -translate-x-1/2 -rotate-2"></div>
-                    
-                    <div class="border-2 border-dashed border-gray-400 p-6 h-full relative overflow-hidden">
-                        <div class="absolute top-4 right-4 text-6xl opacity-10 font-marker">12</div>
-                        
-                        <h3 class="font-marker text-4xl mb-2 text-blue-900 underline decoration-2 decoration-black">OCC 12</h3>
-                        <p class="font-bold mb-4 text-gray-500 text-sm tracking-widest">DOUBLE SORTED (CLEAN)</p>
-                        
-                        <div class="bg-white p-2 mb-6 border border-gray-300 transform -rotate-1 shadow-sm">
-                            <img src="images/bale2.avif?q=80&w=800&auto=format&fit=crop" class="h-48 w-full object-cover grayscale group-hover:grayscale-0 transition">
-                        </div>
-
-                        <ul class="text-lg space-y-2 mb-8 font-bold">
-                            <li>• Corrugated: <span class="bg-yellow-100 px-1">98%+</span></li>
-                            <li>• Outthrows: &lt; 2%</li>
-                            <li>• Prohibitive: 0%</li>
-                            <li>• Origin: Industrial</li>
-                        </ul>
-
-                        <div class="flex justify-between items-end border-t-2 border-black pt-4">
-                            <div>
-                                <span class="block text-xs uppercase">Est. Price</span>
-                                <span class="text-3xl font-marker">₹22000-₹26000*</span>
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-primary/10 p-2 rounded-lg">
+                                <i class="fa-solid fa-check text-primary"></i>
                             </div>
-                            <button onclick="window.location.href='#contact';" class="torn-btn bg-paper-dark text-white px-4 py-2 font-marker shadow-paper border border-black hover:bg-black">
-                                GRAB THIS
-                            </button>
+                            <span class="font-medium">Global Sourcing</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-primary/10 p-2 rounded-lg">
+                                <i class="fa-solid fa-check text-primary"></i>
+                            </div>
+                            <span class="font-medium">Competitive Pricing</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-primary/10 p-2 rounded-lg">
+                                <i class="fa-solid fa-check text-primary"></i>
+                            </div>
+                            <span class="font-medium">Large Volume Supply</span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="specifications" class="py-24 bg-paper-dirty">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="bg-white p-8 md:p-12 shadow-floating relative torn-paper-box transform rotate-1">
-                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -mt-6 w-32 h-12 bg-gray-700 rounded-md shadow-lg border-b-4 border-gray-900"></div>
-                
-                <h3 class="text-center font-marker text-4xl mb-8 mt-4 border-b-4 border-black inline-block px-4">occ 11 VS occ 12</h3>
-                
-                <table class="w-full text-left border-2 border-black font-typewriter text-lg">
-                    <thead class="bg-black text-white font-marker">
-                        <tr>
-                            <th class="p-4 border-r border-white">METRIC</th>
-                            <th class="p-4 border-r border-white">OCC 11</th>
-                            <th class="p-4">OCC 12</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y-2 divide-black">
-                        <tr class="hover:bg-yellow-50">
-                            <td class="p-4 font-bold border-r-2 border-black">Moisture</td>
-                            <td class="p-4 border-r-2 border-black">Max 5%</td>
-                            <td class="p-4">Max 5%</td>
-                        </tr>
-                        <tr class="hover:bg-yellow-50">
-                            <td class="p-4 font-bold border-r-2 border-black">Trash</td>
-                            <td class="p-4 border-r-2 border-black text-red-700">&lt; 1%</td>
-                            <td class="p-4 text-green-700">0%</td>
-                        </tr>
-                        <tr class="hover:bg-yellow-50">
-                            <td class="p-4 font-bold border-r-2 border-black">Bale Wgt.</td>
-                            <td class="p-4 border-r-2 border-black">800kg+</td>
-                            <td class="p-4">1000kg+</td>
-                        </tr>
-                        <tr class="hover:bg-yellow-50">
-                            <td class="p-4 font-bold border-r-2 border-black">Loading</td>
-                            <td class="p-4 border-r-2 border-black">25 MT</td>
-                            <td class="p-4">26 MT</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <div class="mt-8 text-center rotate-2">
-                    <span class="border-4 border-red-700 text-red-700 font-marker text-2xl px-4 py-2 rounded uppercase opacity-80 transform rotate-12 inline-block">
-                        APPROVED
-                    </span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-24 bg-paper-dark relative overflow-hidden">
-        <div class="absolute inset-0 bg-black opacity-10" style="background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%); background-size: 20px 20px;"></div>
-        
-        <div class="max-w-3xl mx-auto px-4 relative z-10">
-            <div class="bg-paper-light p-8 md:p-12 shadow-2xl transform -rotate-1 border-4 border-dark-green/50">
-                <div class="text-center mb-10">
-                    <h2 class="font-marker text-5xl mb-2 text-dark-green">INSTANT SHIPMENT & RATES</h2>
-                    <p class="font-bold text-xl">Contact <span class="text-red-700">Varman Metals</span> directly.</p>
-                    
-                </div>
-
-                <div class="text-center pt-6">
-                    <a href="tel:+91-6396811315" class="torn-btn bg-dark-green text-white font-marker text-4xl px-12 py-6 shadow-paper border-4 border-black hover:bg-black hover:scale-105 transition transform inline-block">
-                        <i class="fa-solid fa-phone-volume mr-3"></i> CALL US NOW
+                  				
+                    <a href="#contact" class="inline-flex items-center text-primary font-medium hover:text-primary-dark">
+                        Learn more about our company
+                        <i class="fa-solid fa-arrow-right ml-2"></i>
                     </a>
                 </div>
-                
-                <p class="text-center text-sm mt-8 opacity-70">
-                    Call: +91-6396811315
-                </p>
+
+					
+				</div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4 text-primary">Our Products</h2>
+                <p class="text-xl text-neutral-600 max-w-3xl mx-auto">Premium quality OCC 11 and OCC 12 waste paper for industrial recycling and paper mill applications.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- OCC 11 Card -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-neutral-200">
+                    <div class="h-64 overflow-hidden">
+                        <img src="images\bale1.jpeg" alt="OCC 11 Waste Paper" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-heading text-2xl font-bold text-primary">OCC 11</h3>
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">Standard Grade</span>
+                        </div>
+                        <p class="text-neutral-600 mb-2">Commercial origin corrugated containers</p>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-medium text-neutral-800 mb-2">Specifications:</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-accent mr-2"></i>
+                                    <span>Corrugated Content: <span class="font-medium">90-95%</span></span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-accent mr-2"></i>
+                                    <span>Outthrows: <span class="font-medium">&lt; 5%</span></span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-accent mr-2"></i>
+                                    <span>Prohibitive Materials: <span class="font-medium">&lt; 1%</span></span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-accent mr-2"></i>
+                                    <span>Moisture: <span class="font-medium">Max 5%</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-6 border-t border-neutral-200">
+                            <div>
+                                <div class="text-sm text-neutral-500">Estimated Price</div>
+                                <div class="font-heading text-2xl font-bold text-primary">₹22,000 - ₹24,000/MT*</div>
+                            </div>
+                            <a href="#contact" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark">
+                                Request Quote
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OCC 12 Card -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover border border-neutral-200">
+                    <div class="h-64 overflow-hidden">
+                        <img src="images\bale3.jpeg" alt="OCC 12 Waste Paper" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-heading text-2xl font-bold text-primary">OCC 12</h3>
+                            <span class="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-medium">Premium Grade</span>
+                        </div>
+                        <p class="text-neutral-600 mb-2">Double sorted industrial origin corrugated</p>
+                        
+                        <div class="mb-6">
+                            <h4 class="font-medium text-neutral-800 mb-2">Specifications:</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-accent mr-2"></i>
+                                    <span>Corrugated Content: <span class="font-medium">98%+</span></span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-accent mr-2"></i>
+                                    <span>Outthrows: <span class="font-medium">&lt; 2%</span></span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-accent mr-2"></i>
+                                    <span>Prohibitive Materials: <span class="font-medium">0%</span></span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-accent mr-2"></i>
+                                    <span>Moisture: <span class="font-medium">Max 5%</span></span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="flex justify-between items-center pt-6 border-t border-neutral-200">
+                            <div>
+                                <div class="text-sm text-neutral-500">Estimated Price</div>
+                                <div class="font-heading text-2xl font-bold text-primary">₹22,000 - ₹26,000/MT*</div>
+                            </div>
+                            <a href="#contact" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark">
+                                Request Quote
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-black text-paper-light py-16 font-typewriter text-center border-t-8 border-paper-dark">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="flex justify-center items-center gap-4 mb-8">
-                <i class="fa-solid fa-recycle text-4xl text-paper-dark animate-spin-slow"></i>
-                <span class="font-marker text-4xl">Varman Metals</span>
+    <!-- Specifications Section -->
+    <section id="specifications" class="py-16 section-gradient">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-heading text-3xl md:text-4xl font-bold mb-4 text-primary">Product Specifications</h2>
+                <p class="text-xl text-neutral-600">Detailed comparison between OCC 11 and OCC 12 grades</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th class="py-4 px-6 text-left font-medium">Specification</th>
+                                <th class="py-4 px-6 text-center font-medium">OCC 11</th>
+                                <th class="py-4 px-6 text-center font-medium">OCC 12</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-neutral-200">
+                            <tr class="hover:bg-neutral-50">
+                                <td class="py-4 px-6 font-medium">Corrugated Content</td>
+                                <td class="py-4 px-6 text-center">90-95%</td>
+                                <td class="py-4 px-6 text-center">98%+</td>
+                            </tr>
+                            <tr class="hover:bg-neutral-50">
+                                <td class="py-4 px-6 font-medium">Outthrows</td>
+                                <td class="py-4 px-6 text-center text-secondary">&lt; 5%</td>
+                                <td class="py-4 px-6 text-center text-green-600">&lt; 2%</td>
+                            </tr>
+                            <tr class="hover:bg-neutral-50">
+                                <td class="py-4 px-6 font-medium">Prohibitive Materials</td>
+                                <td class="py-4 px-6 text-center text-secondary">&lt; 1%</td>
+                                <td class="py-4 px-6 text-center text-green-600">0%</td>
+                            </tr>
+                            <tr class="hover:bg-neutral-50">
+                                <td class="py-4 px-6 font-medium">Moisture Content</td>
+                                <td class="py-4 px-6 text-center">Max 5%</td>
+                                <td class="py-4 px-6 text-center">Max 5%</td>
+                            </tr>
+                            <tr class="hover:bg-neutral-50">
+                                <td class="py-4 px-6 font-medium">Bale Weight</td>
+                                <td class="py-4 px-6 text-center">800kg+</td>
+                                <td class="py-4 px-6 text-center">1000kg+</td>
+                            </tr>
+                            <tr class="hover:bg-neutral-50">
+                                <td class="py-4 px-6 font-medium">Container Loading</td>
+                                <td class="py-4 px-6 text-center">25 MT</td>
+                                <td class="py-4 px-6 text-center">26 MT</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="p-6 bg-neutral-50 border-t border-neutral-200">
+                    <div class="flex items-center justify-center">
+                        <i class="fa-solid fa-certificate text-accent text-xl mr-2"></i>
+                        <span class="font-medium text-neutral-700">All materials meet international quality standards</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="py-16 bg-primary text-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="font-heading text-3xl md:text-4xl font-bold mb-6">Ready to Order?</h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto">Contact us today for competitive pricing and availability on OCC 11 and OCC 12 waste paper.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6 mb-12">
+                <a href="tel:+91-6396811315" class="bg-secondary text-white font-medium text-xl px-10 py-5 rounded-lg shadow-lg hover:bg-secondary-dark btn-pulse">
+                    <i class="fa-solid fa-phone mr-3"></i> CALL +91-6396811315
+                </a>
+                <a href="https://wa.me/916396811315?text=Hello%20Varman%20Metals%2C%20I'm%20interested%20in%20your%20waste%20paper%20products." 
+                   class="bg-white text-primary font-medium text-xl px-10 py-5 rounded-lg shadow-lg hover:bg-neutral-100"
+                   target="_blank">
+                    <i class="fa-brands fa-whatsapp mr-3"></i> WHATSAPP US
+                </a>
             </div>
             
-            <p class="mb-4 max-w-lg mx-auto opacity-70">
-                Sourcing waste paper scrap from the streets of world to the mills of bharat. No fluff, just fiber. Bharat=world
-            </p>
-            <p class="mb-8 max-w-lg mx-auto text-sm text-paper-dark">
-                Jail Chungi, Meerut, Uttar Pradesh, IN
-            </p>
+            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-8 max-w-md mx-auto">
+                <h3 class="font-heading text-2xl font-bold mb-4">Business Information</h3>
+                <div class="space-y-3 text-left">
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-location-dot text-accent mr-3"></i>
+                        <span>Jail Chungi, Meerut, Uttar Pradesh, India</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-phone text-accent mr-3"></i>
+                        <span>+91-6396811315</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-envelope text-accent mr-3"></i>
+                        <span>info@varmanmetals.in,</span>
+						<span>varmanmetals@gmail.com</span>
 
-            <div class="flex justify-center gap-8 font-bold text-paper-dark mb-12">
-                <a href="#" class="hover:text-white hover:underline decoration-wavy">HOME</a>
-                <a href="#products" class="hover:text-white hover:underline decoration-wavy">INVENTORY</a>
-                <a href="#contact" class="hover:text-white hover:underline decoration-wavy">CONTACT</a>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <p class="text-xs opacity-50">
-                &copy; 2024 www.VARMANMETALS.in | <a href="https://www.linkedin.com/in/shivsuri/" class="hover:text-white hover:underline decoration-wavy" target="_blank">Designed By Mr. Shiv Suri.</a>
-            </p>
+    <!-- Footer -->
+    <footer class="bg-neutral-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <!--<img src="images/recycle.jpeg" alt="Varman Metals Logo" class="w-10 h-10 object-cover rounded-lg">-->
+                        <span class="font-heading text-xl font-bold">VARMAN METALS</span>
+                    </div>
+                    <p class="text-neutral-400 mb-6 max-w-md">
+                        Importer of OCC 11 and OCC 12 waste paper, sourced globally and delivered to mills across Uttar Pradesh,India.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="bg-neutral-800 hover:bg-neutral-700 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="bg-neutral-800 hover:bg-neutral-700 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-neutral-800 hover:bg-neutral-700 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-heading text-lg font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#products" class="text-neutral-400 hover:text-white">Products</a></li>
+                        <li><a href="#specifications" class="text-neutral-400 hover:text-white">Specifications</a></li>
+                        <li><a href="#about" class="text-neutral-400 hover:text-white">About Us</a></li>
+                        <li><a href="#contact" class="text-neutral-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-heading text-lg font-bold mb-6">Our Products</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-neutral-400 hover:text-white">OCC 11</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white">OCC 12</a></li>
+                        <li><a href="#" class="text-neutral-400 hover:text-white">Custom Solutions</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-neutral-800 mt-12 pt-8 text-center text-neutral-500 text-sm">
+                <p>&copy; 2024 Varman Metals. All rights reserved. | Designed by <a href="https://www.linkedin.com/in/shivsuri/" class="text-accent hover:text-accent-light" target="_blank">Shiv Suri</a></p>
+            </div>
         </div>
     </footer>
 
+    <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/916396811315?text=Hello%20Varman%20Metals%2C%20I'm%20interested%20in%20your%20waste%20paper%20products." 
-       class="fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-2xl bg-whatsapp-green text-white 
-              hover:bg-green-700 transition duration-300 transform hover:scale-110" 
+       class="fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-2xl bg-green-500 text-white hover:bg-green-600 transition duration-300 transform hover:scale-110" 
        target="_blank" 
        rel="noopener noreferrer"
        aria-label="Chat on WhatsApp">
-        <i class="fa-brands fa-whatsapp text-3xl"></i>
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
     </a>
+
     <script>
         // Mobile Menu Toggler
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const menuCloseBtn = document.getElementById('mobile-menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+        });
+
+        menuCloseBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
         });
         
-        // Custom alert/modal function (since native alert is prohibited)
-        window.alert = (message) => {
-            console.log("Custom Alert Triggered:", message);
-            const modalId = 'custom-alert-modal';
-            let modal = document.getElementById(modalId);
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = modalId;
-                modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4';
-                modal.innerHTML = `
-                    <div class="bg-paper-light p-8 rounded-lg shadow-2xl border-4 border-black transform -rotate-1 w-full max-w-md">
-                        <div class="font-marker text-3xl text-red-700 mb-4 border-b border-red-700 pb-2">SHIPMENT STATUS</div>
-                        <p class="font-typewriter text-lg mb-6">${message}</p>
-                        <button class="torn-btn bg-paper-dark text-white px-6 py-2 font-marker text-xl shadow-paper border border-black hover:bg-black w-full" onclick="document.getElementById('${modalId}').remove()">
-                            ACKNOWLEDGE
-                        </button>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            }
-        };
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     </script>
 </body>
-
 </html>
-
-
