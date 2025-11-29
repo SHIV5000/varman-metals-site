@@ -50,7 +50,7 @@
     <style>
         /* Global Reset for better mobile adaptability */
         body {
-            /* Prevents horizontal scrolling caused by elements extending beyond viewport */
+            /* Ensures no accidental horizontal scrolling */
             overflow-x: hidden; 
         }
 
@@ -179,7 +179,7 @@
                         <span class="font-heading text-xl font-bold text-primary">|| VARMAN METALS ||</span>
                     </div>
 
-                    <!-- 1. Golden Yellow Price Tag - Repositioned next to the title -->
+                    <!-- 1. Golden Yellow Price Tag - Repositioned next to the title (Desktop/Tablet) -->
                     <div class="price-tag-container hidden sm:inline-flex">
                         <div class="bg-accent text-neutral-900 px-3 py-1 font-bold text-xs shadow-md whitespace-nowrap border-l-2 border-l-primary/50 price-tag-shape">
                             Only For Paper Mills - NO TRADERS Please
@@ -202,12 +202,10 @@
             </div>
         </div>
         
-        <!-- Mobile Price Tag for smaller screens -->
+        <!-- Mobile Price Tag for smaller screens (Full Width) -->
         <div class="bg-accent text-neutral-900 px-4 py-2 font-bold text-xs text-center shadow-md sm:hidden border-t border-b border-white/50">
              Only For Paper Mills - NO TRADERS Please
         </div>
-
-        <!-- NOTE: The Flash Card / Announcement Bar was removed as requested -->
 
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-white shadow-xl p-6">
@@ -613,13 +611,13 @@
         </div>
     </footer>
 
-    <!-- Floating WhatsApp Button -->
+    <!-- Floating WhatsApp Button (Enhanced Size and Visibility) -->
     <a href="https://wa.me/916396811315?text=Hello%20Varman%20Metals%2C%20I'm%20interested%20in%20your%20waste%20paper%20products." 
-       class="fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-2xl bg-green-500 text-white hover:bg-green-600 transition duration-300 transform hover:scale-110" 
+       class="fixed bottom-8 right-8 z-50 p-5 rounded-full shadow-xl bg-green-600 text-white hover:bg-green-700 transition duration-300 transform hover:scale-110" 
        target="_blank" 
        rel="noopener noreferrer"
        aria-label="Chat on WhatsApp">
-        <i class="fa-brands fa-whatsapp text-2xl"></i>
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
     </a>
 
     <script>
