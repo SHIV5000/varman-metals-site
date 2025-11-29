@@ -107,11 +107,11 @@
         
         /* === CUSTOM PRICE TAG STYLES === */
         
-        /* Updated container for inline flex display */
+        /* Updated container for inline flex display - Removed fixed widths */
         .price-tag-container {
             position: relative;
             z-index: 10; 
-            padding-left: 10px; /* Space from the title text */
+            padding-left: 10px; 
             margin-left: 10px;
             display: inline-flex;
             align-items: center;
@@ -258,7 +258,8 @@
                     <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-2 transform rotate-1">
                         <img src="images\FRONT.JPEG" onerror="this.onerror=null; this.src='https://placehold.co/800x600/1e3a8a/ffffff?text=OCC+Bales+Placeholder'" alt="Waste Paper Bales" class="w-full h-auto rounded-xl shadow-2xl">
                     </div>
-                    <div class="absolute -bottom-6 -left-6 bg-accent text-white p-4 rounded-lg shadow-lg">
+                    <!-- Adjusted for mobile safety -->
+                    <div class="absolute -bottom-4 left-4 lg:left-0 bg-accent text-white p-4 rounded-lg shadow-lg">
                         <div class="text-center">
                             <div class="font-heading text-2xl font-bold">For</div>
                             <div class="text-sm"><b>Consistent Supply</b></div>
@@ -270,9 +271,10 @@
     </section>
 
     <!-- Ticker Section -->
-    <div class="bg-neutral-800 text-white py-3 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-center space-x-10 overflow-x-auto">
+    <div class="bg-neutral-800 text-white py-3 overflow-hidden w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <!-- Ensure inner content is manageable -->
+            <div class="flex items-center justify-center space-x-10 overflow-x-auto w-full">
                 <div class="flex items-center space-x-2 whitespace-nowrap">
                     <i class="fa-solid fa-globe text-accent"></i>
                     <span>Global Sourcing</span>
@@ -467,7 +469,7 @@
             </div>
 
             <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto max-w-full">
                     <table class="w-full min-w-max">
                         <thead class="bg-primary text-white">
                             <tr>
@@ -478,32 +480,32 @@
                         </thead>
                         <tbody class="divide-y divide-neutral-200">
                             <tr class="hover:bg-neutral-50">
-                                <td class="py-4 px-6 font-medium whitespace-nowrap">Corrugated Content</td>
+                                <td class="py-4 px-6 font-medium">Corrugated Content</td>
                                 <td class="py-4 px-6 text-center whitespace-nowrap">90-95%</td>
                                 <td class="py-4 px-6 text-center whitespace-nowrap">98%+</td>
                             </tr>
                             <tr class="hover:bg-neutral-50">
-                                <td class="py-4 px-6 font-medium whitespace-nowrap">Outthrows</td>
+                                <td class="py-4 px-6 font-medium">Outthrows</td>
                                 <td class="py-4 px-6 text-center text-secondary whitespace-nowrap">&lt; 5%</td>
                                 <td class="py-4 px-6 text-center text-green-600 whitespace-nowrap">&lt; 2%</td>
                             </tr>
                             <tr class="hover:bg-neutral-50">
-                                <td class="py-4 px-6 font-medium whitespace-nowrap">Prohibitive Materials</td>
+                                <td class="py-4 px-6 font-medium">Prohibitive Materials</td>
                                 <td class="py-4 px-6 text-center text-secondary whitespace-nowrap">&lt; 1%</td>
                                 <td class="py-4 px-6 text-center text-green-600">0%</td>
                             </tr>
                             <tr class="hover:bg-neutral-50">
-                                <td class="py-4 px-6 font-medium whitespace-nowrap">Moisture Content</td>
+                                <td class="py-4 px-6 font-medium">Moisture Content</td>
                                 <td class="py-4 px-6 text-center whitespace-nowrap">Max 5%</td>
                                 <td class="py-4 px-6 text-center whitespace-nowrap">Max 5%</td>
                             </tr>
                             <tr class="hover:bg-neutral-50">
-                                <td class="py-4 px-6 font-medium whitespace-nowrap">Bale Weight</td>
+                                <td class="py-4 px-6 font-medium">Bale Weight</td>
                                 <td class="py-4 px-6 text-center whitespace-nowrap">800kg+</td>
                                 <td class="py-4 px-6 text-center whitespace-nowrap">1000kg+</td>
                             </tr>
                             <tr class="hover:bg-neutral-50">
-                                <td class="py-4 px-6 font-medium whitespace-nowrap">Container Loading</td>
+                                <td class="py-4 px-6 font-medium">Container Loading</td>
                                 <td class="py-4 px-6 text-center whitespace-nowrap">25 MT</td>
                                 <td class="py-4 px-6 text-center whitespace-nowrap">26 MT</td>
                             </tr>
@@ -514,7 +516,7 @@
                 <div class="p-6 bg-neutral-50 border-t border-neutral-200">
                     <div class="flex items-center justify-center">
                         <i class="fa-solid fa-certificate text-accent text-xl mr-2"></i>
-                        <span class="font-medium text-neutral-700">All materials meet international quality standards</span>
+                        <span class="font-medium text-neutral-700 text-center">All materials meet international quality standards</span>
                     </div>
                 </div>
             </div>
@@ -522,7 +524,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-16 bg-primary text-white">
+    <section id="contact" class="py-16 bg-primary text-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="font-heading text-3xl md:text-4xl font-bold mb-6">Ready to Order?</h2>
             <p class="text-xl mb-10 max-w-2xl mx-auto">Contact us today for competitive pricing and availability on OCC 11 and OCC 12 waste paper.</p>
@@ -551,9 +553,7 @@
                     </div>
                     <div class="flex items-center">
                         <i class="fa-solid fa-envelope text-accent mr-3"></i>
-                        <span>info@varmanmetals.in,</span>
-						<span>varmanmetals@gmail.com</span>
-
+                        <span class="break-all">info@varmanmetals.in, varmanmetals@gmail.com</span>
                     </div>
                 </div>
             </div>
@@ -566,11 +566,10 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="md:col-span-2">
                     <div class="flex items-center space-x-3 mb-6">
-                        <!--<img src="images/recycle.jpeg" alt="Varman Metals Logo" class="w-10 h-10 object-cover rounded-lg">-->
                         <span class="font-heading text-xl font-bold">VARMAN METALS</span>
                     </div>
                     <p class="text-neutral-400 mb-6 max-w-md">
-                        Importer of OCC 11 and OCC 12 waste paper, sourced globally and delivered to mills across Uttar Pradesh,India.
+                        Importer of OCC 11 and OCC 12 waste paper, sourced globally and delivered to mills across Uttar Pradesh, India.
                     </p>
                     <div class="flex space-x-4">
                         <a href="#" class="bg-neutral-800 hover:bg-neutral-700 w-10 h-10 rounded-full flex items-center justify-center">
