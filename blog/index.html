@@ -305,14 +305,15 @@
         // Function to fetch posts from the static JSON file
         async function fetchAndRenderPosts() {
             const postsContainer = document.getElementById('posts-container');
+            const postsUrl = 'posts.json'; // Define URL here for clear messaging
             
             try {
                 // Fetch the posts.json file
-                const response = await fetch('posts.json'); 
+                const response = await fetch(postsUrl); 
                 
                 // Check if the file was found (HTTP 404)
                 if (!response.ok) {
-                    throw new Error(`File Not Found. HTTP Status: ${response.status}. Please check if 'posts.json' is in the root directory.`);
+                    throw new Error(`File Not Found. HTTP Status: ${response.status}. Attempted URL: ${postsUrl}`);
                 }
                 
                 const posts = await response.json();
@@ -330,10 +331,10 @@
                 postsContainer.innerHTML = `
                     <p class="text-red-600 font-bold text-center">Error loading posts: ${error.message}</p>
                     <p class="text-gray-500 text-center mt-2">
-                        🚨 **Debugging Tip:** Please check your browser's Console (press F12 or right-click > Inspect > Console) for details on the error.
+                        🚨 **Debugging Tip:** The file **posts.json** could not be loaded. Please check your browser's Console (press F12) for network errors (like 404) or JSON syntax errors.
                         </p>
                     <p class="text-gray-500 text-center mt-1">
-                        Ensure the <code class="bg-gray-200 p-1 rounded">posts.json</code> file exists in the root of your GitHub repository and is correctly formatted (check for missing commas, braces, or quotes).
+                        Ensure the file exists in the correct location and contains valid JSON data.
                     </p>
                 `;
             }
