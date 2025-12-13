@@ -309,9 +309,12 @@
             try {
                 // Fetch the posts.json file
                 const response = await fetch('posts.json'); 
+                
+                // Check if the file was found (HTTP 404)
                 if (!response.ok) {
-                    throw new Error('Could not find posts.json. Please create this file in your repository root.');
+                    throw new Error(`File Not Found. HTTP Status: ${response.status}. Please check if 'posts.json' is in the root directory.`);
                 }
+                
                 const posts = await response.json();
                 
                 // Sort posts by date (newest first)
@@ -323,10 +326,14 @@
                 
             } catch (error) {
                 console.error("Error fetching static posts:", error);
+                // Enhanced message for better debugging on the screen
                 postsContainer.innerHTML = `
                     <p class="text-red-600 font-bold text-center">Error loading posts: ${error.message}</p>
                     <p class="text-gray-500 text-center mt-2">
-                        Please ensure the <code class="bg-gray-200 p-1 rounded">posts.json</code> file exists and is correctly formatted.
+                        🚨 **Debugging Tip:** Please check your browser's Console (press F12 or right-click > Inspect > Console) for details on the error.
+                        </p>
+                    <p class="text-gray-500 text-center mt-1">
+                        Ensure the <code class="bg-gray-200 p-1 rounded">posts.json</code> file exists in the root of your GitHub repository and is correctly formatted (check for missing commas, braces, or quotes).
                     </p>
                 `;
             }
@@ -378,7 +385,7 @@
             element.onclick = null;
             element.classList.remove('phone-protected'); 
             
-            console.log(\`Phone number revealed from: \${location}\`);
+            console.log(`Phone number revealed from: ${location}`);
         }
         
         // Initialization on Load
