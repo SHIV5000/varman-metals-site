@@ -17,7 +17,7 @@
     @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
     /* Task Card Styles */
-    .task-card { background: white; border-radius: 20px; border: 1px solid #e2e8f0; transition: all 0.3s; }
+    .task-card { background: white; border-radius: 20px; border: 1px solid #e2e8f0; transition: all 0.3s; margin-bottom: 1.5rem; }
     .status-progress { border-left: 12px solid #f97316; }
     .status-completed { border-left: 12px solid #22c55e; }
     .status-started { border-left: 12px solid #3b82f6; }
@@ -36,22 +36,32 @@
     .field-via { color: #7c3aed; } 
 
     .input-field { width: 100%; border: 1px solid #cbd5e1; border-radius: 12px; padding: 12px; font-size: 15px; }
-    .status-large { font-size: 18px !important; font-weight: 800; color: #1e3a8a; height: 55px; }
     
-    @media print { .no-print { display: none !important; } }
+    @media print { 
+        .no-print { display: none !important; } 
+        body { background: white; padding: 0; }
+        .task-card { border: 1px solid #ddd !important; break-inside: avoid; }
+        .container-main { grid-template-columns: 1fr !important; }
+    }
   </style>
 </head>
 <body class="pb-20">
 
   <nav class="bg-white border-b px-8 py-5 flex flex-col lg:flex-row justify-between items-center sticky top-0 z-50 shadow-sm no-print">
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-2">
       <div class="flex items-center gap-4">
         <div class="bg-blue-900 text-white p-3 rounded-2xl"><i class="fas fa-tasks fa-lg"></i></div>
         <h1 class="text-2xl font-black text-blue-900 tracking-tight">TASK TRACKER <span class="text-slate-300 font-light">| SHIV SURI</span></h1>
       </div>
-      <div class="flex gap-4 ml-16 text-sm font-bold">
-        <span id="stat-completed" class="text-green-600">✅ 0 Completed</span>
-        <span id="stat-progress" class="text-orange-600">👷 0 In Progress</span>
+      
+      <div class="flex items-center gap-6 ml-16">
+        <div class="flex gap-4 text-xs font-black uppercase tracking-wider">
+          <span id="stat-completed" class="text-green-600 bg-green-50 px-2 py-1 rounded">✅ 0 Completed</span>
+          <span id="stat-progress" class="text-orange-600 bg-orange-50 px-2 py-1 rounded">👷 0 In Progress</span>
+        </div>
+        <button onclick="window.print()" class="text-[10px] font-bold bg-slate-800 text-white px-3 py-1 rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-2">
+            <i class="fas fa-print"></i> PRINT REPORT
+        </button>
       </div>
     </div>
 
@@ -79,7 +89,7 @@
     <div id="marquee" class="marquee-content"></div>
   </div>
 
-  <div class="max-w-[1500px] mx-auto px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10">
+  <div class="max-w-[1500px] mx-auto px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 container-main">
     <aside class="lg:col-span-4 no-print">
       <div class="bg-white p-8 rounded-3xl border shadow-xl sticky top-40">
         <h2 id="formTitle" class="font-black text-xl mb-6 text-slate-700 uppercase tracking-widest">Master Config</h2>
@@ -101,7 +111,7 @@
           </div>
 
           <div class="grid grid-cols-2 gap-4">
-            <select id="mStatus" class="input-field status-large">
+            <select id="mStatus" class="input-field font-bold">
               <option value="Started">STARTED</option>
               <option value="Progress">IN PROGRESS</option>
               <option value="Completed">COMPLETED</option>
@@ -117,7 +127,7 @@
     <main class="lg:col-span-8 space-y-6" id="taskBody"></main>
   </div>
 
-  <div id="subModal" class="fixed inset-0 bg-slate-900/60 hidden flex items-center justify-center z-[100] backdrop-blur-sm">
+  <div id="subModal" class="fixed inset-0 bg-slate-900/60 hidden flex items-center justify-center z-[100] backdrop-blur-sm no-print">
     <div class="bg-white p-8 rounded-3xl w-full max-w-lg shadow-2xl mx-4">
       <h3 id="subModalTitle" class="font-black text-2xl mb-6">Add Update Log</h3>
       <form id="subForm" class="space-y-4">
@@ -130,8 +140,7 @@
             <input type="date" id="subDate" required class="input-field">
         </div>
 
-        <div class="grid grid-cols-1 gap-4">
-          <select id="subMode" class="input-field">
+        <select id="subMode" class="input-field">
             <option value="WhatsApp">WhatsApp</option>
             <option value="Intercom">Intercom</option>
             <option value="Mobile">Mobile</option>
@@ -139,8 +148,7 @@
             <option value="Verbal">Verbal</option>
             <option value="Written">Written</option>
             <option value="Slack">Slack</option>
-          </select>
-        </div>
+        </select>
 
         <div class="flex gap-4 mt-4">
           <button type="button" onclick="App.closeSubModal()" class="flex-1 py-4 font-bold text-slate-400">Cancel</button>
@@ -162,10 +170,12 @@
       },
 
       async fetch() {
-        const res = await fetch(this.URL);
-        const json = await res.json();
-        this.data = Array.isArray(json) ? json : [];
-        this.render();
+        try {
+            const res = await fetch(this.URL);
+            const json = await res.json();
+            this.data = Array.isArray(json) ? json : [];
+            this.render();
+        } catch(e) { console.error("Fetch error", e); }
       },
 
       formatDate(iso) {
@@ -182,36 +192,31 @@
         const todayStr = new Date().toISOString().split('T')[0];
 
         let filtered = [...this.data];
-
-        // 1. ASCENDING DUE DATE
         filtered.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
         if (fStatus) filtered = filtered.filter(t => t.status === fStatus);
         if (fDirector) filtered = filtered.filter(t => t.source === fDirector);
         if (fDate) filtered = filtered.filter(t => t.deadline === fDate);
 
-        // 2 & 3. Summary Counts adjusted in Header
+        // Update Counts
         const completedCount = this.data.filter(t => t.status === 'Completed').length;
         const progressCount = this.data.filter(t => t.status === 'Progress').length;
         document.getElementById('stat-completed').innerText = `✅ ${completedCount} Completed`;
         document.getElementById('stat-progress').innerText = `👷 ${progressCount} In Progress`;
 
-        // 7. Marquee Logic (White Background)
+        // Marquee Logic
         const marqueeEl = document.getElementById("marquee");
         const marqueeContainer = document.getElementById("marqueeContainer");
         const todayTasks = filtered.filter(t => t.deadline === todayStr && t.status !== 'Completed');
 
         if (todayTasks.length > 0) {
           marqueeContainer.style.display = "block";
-          marqueeEl.innerHTML = todayTasks.map(t => `
-            <span class="mr-20">🚨 EVENT DUE TODAY: ${t.title} 🚨</span>
-          `).join("");
+          marqueeEl.innerHTML = todayTasks.map(t => `<span class="mr-20">🚨 EVENT DUE TODAY: ${t.title} 🚨</span>`).join("");
         } else {
           marqueeContainer.style.display = "none";
         }
 
         body.innerHTML = "";
-
         filtered.forEach(t => {
           const isDueToday = (t.deadline === todayStr && t.status !== 'Completed');
           const card = document.createElement("div");
@@ -222,7 +227,7 @@
               <div onclick="App.editMaster('${t.id}')" class="cursor-pointer flex-1">
                 <div class="flex items-center gap-3 mb-4">
                    <span class="text-[10px] font-black uppercase px-3 py-1 bg-slate-100 rounded-full border">${t.status}</span>
-                   ${isDueToday ? '<span class="fire-badge"><i class="fas fa-fire"></i> DUE TODAY</span>' : ''}
+                   ${isDueToday ? '<span class="fire-badge no-print"><i class="fas fa-fire"></i> DUE TODAY</span>' : ''}
                 </div>
                 <h3 class="text-2xl font-black text-slate-800">${t.title} <span class="text-slate-300 mx-3">|</span> <span class="text-blue-600 uppercase text-lg">${this.formatDate(t.deadline)}</span></h3>
                 <p class="text-slate-500 mt-2 font-medium">${t.name || ''}</p>
@@ -231,15 +236,15 @@
                   <span class="text-orange-600"><i class="fas fa-user-circle mr-2"></i>ASSIGNED TO: ${t.assignee}</span>
                 </div>
               </div>
-              <button onclick="App.openSubModal('${t.id}')" class="bg-blue-900 text-white h-16 w-16 flex items-center justify-center rounded-2xl shadow-2xl hover:scale-110 transition-transform">
-                <i class="fas fa-plus fa-xl"></i>
+              <button onclick="App.openSubModal('${t.id}')" class="bg-blue-900 text-white h-12 w-12 flex items-center justify-center rounded-xl shadow hover:scale-110 transition-transform no-print">
+                <i class="fas fa-plus"></i>
               </button>
             </div>
-            <div class="mt-8 space-y-4">
+            <div class="mt-6 space-y-3">
               ${t.subTasks.map(s => `
                 <div ondblclick="App.editSub('${t.id}', '${s.id}')" class="subtask-box">
                   <p class="subtask-text">${s.text}</p>
-                  <div class="mt-3 font-black uppercase text-[12px] flex items-center">
+                  <div class="mt-2 font-black uppercase text-[10px] flex items-center">
                     <span class="field-by">BY: ${s.assignee}</span>
                     <span class="field-date">${this.formatDate(s.date)}</span>
                     <span class="field-via">${s.mode}</span>
@@ -257,7 +262,6 @@
         document.getElementById("subId").value = "";
         document.getElementById("subNote").value = "";
         document.getElementById("subAssignee").value = "";
-        // Default to today for subtask date
         document.getElementById("subDate").value = new Date().toISOString().split('T')[0];
         document.getElementById("subModalTitle").innerText = "New Log Entry";
         document.getElementById("subModal").classList.remove("hidden");
@@ -287,7 +291,7 @@
           text: document.getElementById("subNote").value,
           assignee: document.getElementById("subAssignee").value,
           mode: document.getElementById("subMode").value,
-          date: document.getElementById("subDate").value // Using manual date
+          date: document.getElementById("subDate").value
         };
         await fetch(this.URL, { method: "POST", body: JSON.stringify(payload) });
         location.reload();
