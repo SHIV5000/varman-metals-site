@@ -28,6 +28,30 @@
     .modal-content { transition: opacity 0.3s ease, transform 0.3s ease; }
     .subtask-block { margin-top: 1.5rem; padding: 1rem; border-radius: 8px; }
 
+    /* --- MARQUEE CSS --- */
+    .marquee-container {
+        white-space: nowrap;
+        overflow-x: hidden;
+    }
+    
+    .marquee-content {
+        display: inline-block;
+        /* Scroll speed: 50s */
+        animation: marquee 50s linear infinite; 
+        padding-right: 100%; /* Ensures content wraps seamlessly */
+    }
+    
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+    
+    .marquee-content:hover {
+        animation-play-state: paused;
+    }
+    /* ----------------------- */
+
+
     @media print {
       .no-print { display: none !important; }
       body { background: white; font-size: 10pt; color: black; }
@@ -40,12 +64,23 @@
 <body class="pb-10">
 
   <nav class="bg-white border-b px-4 sm:px-6 py-4 flex flex-col lg:flex-row justify-between items-center no-print sticky top-0 z-50 shadow-md">
-    <h1 class="text-xl font-black text-[#1e3a8a] uppercase tracking-wider mb-2 lg:mb-0 text-center w-full lg:w-auto">
-      Task Tracker By: Mr.SHIV SURI
-    </h1>
+    
+    <!-- Title and Stats Block -->
+    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start w-full lg:w-auto mb-2 lg:mb-0">
+        <h1 class="text-xl font-black text-[#1e3a8a] uppercase tracking-wider text-center mr-0 sm:mr-6 w-full sm:w-auto">
+            Task Tracker By: Mr.SHIV SURI
+        </h1>
+        
+        <!-- STATS COUNTERS - Adjusted for responsiveness -->
+        <div class="flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-2 mt-2 sm:mt-0 text-sm font-bold">
+            <span id="totalCount" class="text-slate-700 bg-slate-100 px-3 py-1 rounded-full shadow-inner">Total: 0</span>
+            <span id="progressCount" class="text-orange-700 bg-orange-100 px-3 py-1 rounded-full shadow-inner">👷 Progress: 0</span>
+            <span id="completedCount" class="text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full shadow-inner">✅ Completed: 0</span>
+        </div>
+    </div>
 
-    <!-- Ensure full width for filter group on mobile -->
-    <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full lg:w-auto">
+    <!-- Filter Group -->
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full lg:w-auto mt-4 lg:mt-0">
       <!-- Added sm:flex-1 to filters for better distribution on small screens if they don't stack -->
       <input type="text" id="filterTitle" onkeyup="App.applyFilters()" placeholder="Title Search..."
              class="input-box py-1 text-xs w-full sm:w-40 flex-1" />
@@ -80,6 +115,13 @@
       </button>
     </div>
   </nav>
+  
+  <!-- Scrolling Marquee for Progress Tasks -->
+  <div class="marquee-container bg-amber-50 border-b border-t border-amber-300 py-1.5 shadow-inner no-print">
+      <div id="taskMarquee" class="marquee-content text-sm font-semibold text-amber-800">
+          <span class="px-4">Loading ongoing tasks...</span>
+      </div>
+  </div>
 
   <div id="notificationArea" class="max-w-7xl mx-auto px-4 mt-4 hidden no-print">
     <div id="notificationMessage" class="p-3 rounded-xl text-sm flex items-center shadow-md"></div>
@@ -249,6 +291,8 @@ const App = {
         return { ...master, subTasks: subs };
       });
 
+      this.renderStats(this.rawData); // Calculate and render stats from the full dataset
+      this.renderMarquee(this.rawData); // Render the scrolling list
       this.applyFilters();
     } catch (e) {
       console.error(e);
@@ -261,6 +305,90 @@ const App = {
       icon.classList.remove("fa-spin");
     }
   },
+  
+  // Existing function to calculate and render task statistics
+  renderStats(data) {
+    const total = data.length;
+    // Count both "Started" and "Progress" as active progress
+    const progress = data.filter(t => t.status === "Progress" || t.status === "Started").length;
+    const completed = data.filter(t => t.status === "Completed").length;
+
+    document.getElementById("totalCount").innerText = `Total: ${total}`;
+    // Use innerHTML for emojis
+    document.getElementById("progressCount").innerHTML = `👷 Progress: ${progress}`; 
+    document.getElementById("completedCount").innerHTML = `✅ Completed: ${completed}`; 
+  },
+
+  // Function to determine the badge color based on urgency
+  getBadgeColor(deadline) {
+    // Default style if deadline is missing
+    if (!deadline) return { badgeClass: "bg-slate-500 text-white", iconClass: "text-slate-300" };
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize today's date to midnight
+
+    // Ensure the date string includes T00:00:00 for correct comparison
+    const deadlineDate = new Date(deadline + "T00:00:00");
+    deadlineDate.setHours(0, 0, 0, 0);
+
+    const diffTime = deadlineDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 0) {
+        // Today or Overdue (Red)
+        return { badgeClass: "bg-red-700 text-white", iconClass: "text-red-500" };
+    } else if (diffDays <= 3) {
+        // Within 3 days (Orange - changed text to dark gray for contrast)
+        return { badgeClass: "bg-orange-500 text-gray-900", iconClass: "text-orange-500" };
+    } else {
+        // More than 3 days (Green)
+        return { badgeClass: "bg-green-700 text-white", iconClass: "text-green-500" };
+    }
+  },
+
+
+  // Function to render the scrolling marquee content
+  renderMarquee(data) {
+    const marqueeEl = document.getElementById("taskMarquee");
+    
+    // Filter tasks that are in progress or started
+    const progressTasks = data.filter(t => t.status === "Progress" || t.status === "Started");
+    
+    if (progressTasks.length === 0) {
+        marqueeEl.innerHTML = `<span class="px-4">🥳 No active tasks! Time for a break.</span>`;
+        marqueeEl.style.animation = 'none'; // Stop animation if nothing is there
+        return;
+    }
+
+    // Sort by deadline to highlight urgency (closest due date first)
+    progressTasks.sort((a, b) => {
+        const da = new Date((a.deadline || "1970-01-01") + "T00:00:00");
+        const db = new Date((b.deadline || "1970-01-01") + "T00:00:00");
+        return da - db;
+    });
+
+    const marqueeItems = progressTasks.map(t => {
+        const title = this.escapeHtml(t.title || 'Untitled Task');
+        const date = this.formatDisplayDate(t.deadline);
+        const { badgeClass, iconClass } = this.getBadgeColor(t.deadline);
+        
+        return `
+            <span class="inline-block mx-6">
+                <i class="fas fa-bolt ${iconClass} mr-2"></i>
+                <span class="font-bold">${title}</span>
+                <span class="ml-3 px-2 py-0.5 rounded-full ${badgeClass} text-xs font-extrabold">Due: ${date}</span>
+            </span>
+        `;
+    }).join('');
+    
+    // Repeat content multiple times to ensure seamless scrolling
+    const content = Array(3).fill(marqueeItems).join('');
+
+    marqueeEl.innerHTML = content;
+    // Animation duration is controlled by CSS (now 50s)
+    marqueeEl.style.animation = 'marquee 50s linear infinite'; 
+  },
+  // ... rest of the functions
 
   applyFilters() {
     const titleQ = document.getElementById("filterTitle").value.toLowerCase().trim();
