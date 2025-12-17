@@ -36,8 +36,8 @@
     
     .marquee-content {
         display: inline-block;
-        /* Scroll speed: 50s */
-        animation: marquee 70s linear infinite; 
+        /* Scroll speed: Decreased to 90s */
+        animation: marquee 90s linear infinite; 
         padding-right: 100%; /* Ensures content wraps seamlessly */
     }
     
@@ -74,8 +74,10 @@
         <!-- STATS COUNTERS - Adjusted for responsiveness -->
         <div class="flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-2 mt-2 sm:mt-0 text-sm font-bold">
             <span id="totalCount" class="text-slate-700 bg-slate-100 px-3 py-1 rounded-full shadow-inner">Total: 0</span>
-            <span id="progressCount" class="text-orange-700 bg-orange-100 px-3 py-1 rounded-full shadow-inner">👷:0</span>
-            <span id="completedCount" class="text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full shadow-inner">✅: 0</span>
+            <!-- UPDATED: Removed "Progress:" -->
+            <span id="progressCount" class="text-orange-700 bg-orange-100 px-3 py-1 rounded-full shadow-inner">👷 0</span>
+            <!-- UPDATED: Removed "Completed:" -->
+            <span id="completedCount" class="text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full shadow-inner">✅ 0</span>
         </div>
     </div>
 
@@ -116,9 +118,9 @@
     </div>
   </nav>
   
-  <!-- Scrolling Marquee for Progress Tasks -->
-  <div class="marquee-container bg-amber-50 border-b border-t border-amber-300 py-1.5 shadow-inner no-print">
-      <div id="taskMarquee" class="marquee-content text-sm font-semibold text-amber-800">
+  <!-- Scrolling Marquee for Progress Tasks (Lighter Colors & Slower Speed) -->
+  <div class="marquee-container bg-slate-50 border-b border-t border-slate-200 py-1.5 shadow-inner no-print">
+      <div id="taskMarquee" class="marquee-content text-sm font-semibold text-slate-700">
           <span class="px-4">Loading ongoing tasks...</span>
       </div>
   </div>
@@ -314,9 +316,9 @@ const App = {
     const completed = data.filter(t => t.status === "Completed").length;
 
     document.getElementById("totalCount").innerText = `Total: ${total}`;
-    // Use innerHTML for emojis
-    document.getElementById("progressCount").innerHTML = `👷:${progress}`; 
-    document.getElementById("completedCount").innerHTML = `✅:${completed}`; 
+    // UPDATED: Use innerHTML for emojis, removing the descriptive words
+    document.getElementById("progressCount").innerHTML = `👷 ${progress}`; 
+    document.getElementById("completedCount").innerHTML = `✅ ${completed}`; 
   },
 
   // Function to determine the badge color based on urgency
@@ -385,8 +387,8 @@ const App = {
     const content = Array(3).fill(marqueeItems).join('');
 
     marqueeEl.innerHTML = content;
-    // Animation duration is controlled by CSS (now 50s)
-    marqueeEl.style.animation = 'marquee 50s linear infinite'; 
+    // Animation duration is controlled by CSS (now 90s for slower scroll)
+    marqueeEl.style.animation = 'marquee 90s linear infinite'; 
   },
   // ... rest of the functions
 
@@ -735,7 +737,3 @@ App.init();
 
 </body>
 </html>
-
-
-
-
