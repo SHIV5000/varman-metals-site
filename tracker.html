@@ -315,8 +315,8 @@ const App = {
 
     document.getElementById("totalCount").innerText = `Total: ${total}`;
     // Use innerHTML for emojis
-    document.getElementById("progressCount").innerHTML = `👷 Progress: ${progress}`; 
-    document.getElementById("completedCount").innerHTML = `✅ Completed: ${completed}`; 
+    document.getElementById("progressCount").innerHTML = `👷:${progress}`; 
+    document.getElementById("completedCount").innerHTML = `✅:${completed}`; 
   },
 
   // Function to determine the badge color based on urgency
@@ -735,4 +735,5 @@ App.init();
 
 </body>
 </html>
+
 
