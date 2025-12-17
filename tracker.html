@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Tracker By:Mr.SHIV SURI</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Base styles remain for speed and appearance */
+    body { font-family: Inter, sans-serif; background: #f8fafc; color: #1f2937; font-size: 14px; }
+    .task-card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; transition: all 0.3s ease;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05); }
+    .field-label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 4px; display: block; }
+    .input-box { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; outline: none; transition: border-color 0.2s; background: white; }
+    .input-box:focus { border-color: #1e3a8a; box-shadow: 0 0 0 2px rgba(30,58,138,0.2); }
+    .btn-primary { background: #1e3a8a; color: white; transition: background 0.2s; }
+    .btn-primary:hover { background: #1e4060; }
+
+    .status-Progress, .status-Started { border-left: 8px solid #f97316; }
+    .status-Completed { border-left: 8px solid #10b981; }
+    .status-badge-Progress, .status-badge-Started { background: #fff7ed; color: #c2410c; }
+    .status-badge-Completed { background: #ecfdf5; color: #047857; }
+
+    .modal-content { transition: opacity 0.3s ease, transform 0.3s ease; }
+    .subtask-block { margin-top: 1.5rem; padding: 1rem; border-radius: 8px; }
+
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; font-size: 10pt; color: black; }
+      .task-card { border: 1px solid #9ca3af !important; margin-bottom: 15px; box-shadow: none !important; }
+      .subtask-block { background: #ffffff !important; border: 1px dashed #d1d5db !important; }
+    }
+  </style>
+</head>
+
+<body class="pb-10">
+
+  <nav class="bg-white border-b px-4 sm:px-6 py-4 flex flex-col lg:flex-row justify-between items-center no-print sticky top-0 z-50 shadow-md">
+    <h1 class="text-xl font-black text-[#1e3a8a] uppercase tracking-wider mb-2 lg:mb-0 text-center w-full lg:w-auto">
+      Task Tracker By: Mr.SHIV SURI
+    </h1>
+
+    <!-- Ensure full width for filter group on mobile -->
+    <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full lg:w-auto">
+      <!-- Added sm:flex-1 to filters for better distribution on small screens if they don't stack -->
+      <input type="text" id="filterTitle" onkeyup="App.applyFilters()" placeholder="Title Search..."
+             class="input-box py-1 text-xs w-full sm:w-40 flex-1" />
+
+      <select id="filterSource" onchange="App.applyFilters()" class="input-box py-1 text-xs w-full sm:w-36 flex-1">
+        <option value="">Source All</option>
+        <option>Director Acad SYS</option>
+        <option>Principal</option>
+        <option>Management</option>
+        <option>Head Admin</option>
+        <option>Acad Coord</option>
+        <option>Other</option>
+      </select>
+
+      <select id="filterStatus" onchange="App.applyFilters()" class="input-box py-1 text-xs w-full sm:w-36 flex-1">
+        <option value="">Status All</option>
+        <option value="Started">Started</option>
+        <option value="Progress">Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+
+      <input type="date" id="filterDate" onchange="App.applyFilters()" class="input-box py-1 text-xs w-full sm:w-36 flex-1" />
+
+      <!-- Adjusted buttons for better mobile stacking/sizing if filters wrap -->
+      <button onclick="window.print()"
+              class="bg-slate-900 text-white px-3 py-2 rounded-lg font-bold text-xs hover:bg-slate-700 w-full sm:w-auto">
+        PRINT REPORT
+      </button>
+
+      <button onclick="App.loadData()" class="p-2 bg-slate-100 rounded-lg hover:bg-slate-200 w-full sm:w-auto" title="Refresh Data">
+        <i id="refresh-icon" class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div id="notificationArea" class="max-w-7xl mx-auto px-4 mt-4 hidden no-print">
+    <div id="notificationMessage" class="p-3 rounded-xl text-sm flex items-center shadow-md"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <aside class="lg:col-span-4 no-print">
+      <!-- CRITICAL MOBILE FIX: Form is only sticky on large screens (lg:sticky), allowing it to scroll normally on mobile -->
+      <div class="bg-white border p-6 rounded-xl shadow-lg lg:sticky lg:top-24">
+        <h2 class="font-bold text-xl mb-4 text-[#1e3a8a]">Task Tool</h2>
+
+        <form id="masterForm" class="space-y-4">
+          <input type="hidden" id="editTaskId" />
+
+          <div>
+            <label class="field-label">Task Title</label>
+            <input type="text" id="mTitle" required class="input-box font-semibold" />
+          </div>
+
+          <div>
+            <label class="field-label">Description / Note</label>
+            <textarea id="mDesc" required class="input-box" rows="2"></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="field-label">Source</label>
+              <select id="mSource" required class="input-box text-sm">
+                <option value="">Select Source...</option>
+                <option>Director Acad SYS</option>
+                <option>Principal</option>
+                <option>Management</option>
+                <option>Head Admin</option>
+                <option>Acad Coord</option>
+                              
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="field-label">Assigned To / Lead</label>
+              <input type="text" id="mAssignee" class="input-box text-sm font-bold" />
+            </div>
+          </div>
+
+          <!-- Status + Due Date (highlighted) -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="field-label">Status</label>
+              <select id="mStatus" class="input-box font-bold">
+                <option value="Started">Started</option>
+                <option value="Progress">Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="field-label">Due date</label>
+              <input type="date" id="mDeadline" required
+                     class="input-box border-2 border-rose-500 bg-gradient-to-r from-rose-50 to-amber-50 font-extrabold text-rose-700 shadow-sm" />
+            </div>
+          </div>
+
+          <button type="submit" id="saveBtn" class="w-full btn-primary font-bold py-3 rounded-xl mt-3">
+            CREATE TASK
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    <main class="lg:col-span-8 space-y-6" id="taskBody">
+      <div class="text-center py-20 text-slate-400 font-bold uppercase tracking-widest">
+        <i class="fas fa-circle-notch fa-spin mr-2"></i> Loading...
+      </div>
+    </main>
+  </div>
+
+  <!-- SUB TASK MODAL -->
+  <div id="modal" class="fixed inset-0 bg-slate-900/60 hidden flex items-center justify-center p-4 z-50 no-print">
+    <div id="modal-content" class="bg-white w-full max-w-md rounded-xl p-6 shadow-2xl modal-content">
+      <h3 class="font-bold text-xl mb-4 text-[#1e3a8a]">Sub Task / Activity Log</h3>
+
+      <form id="subForm" class="space-y-4">
+        <input type="hidden" id="activeParentId" />
+        <input type="hidden" id="subTaskId" />
+
+        <div>
+          <label class="field-label">Updates</label>
+          <textarea id="subNote" class="input-box" rows="3"></textarea>
+        </div>
+
+        <div>
+          <label class="field-label">Handled By</label>
+          <input type="text" id="subAssignee" class="input-box" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="field-label">Channel</label>
+            <select id="subMode" class="input-box">
+              <option>WhatsApp</option>
+              <option>Email</option>
+              <option>Slack</option>
+              <option>Written</option>
+              <option>Verbal</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="field-label">Date</label>
+            <input type="date" id="subDate" class="input-box" required />
+          </div>
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button type="button" onclick="App.closeModal()"
+                  class="flex-1 py-3 font-bold bg-slate-100 rounded-lg hover:bg-slate-200">CANCEL</button>
+          <button type="submit" id="subSaveBtn"
+                  class="flex-1 btn-primary font-bold py-3 rounded-lg shadow-lg">SAVE LOG</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+const App = {
+  // *** SCRIPT URL UPDATED TO THE USER-PROVIDED DEPLOYMENT URL ***
+  SCRIPTURL: "https://script.google.com/macros/s/AKfycbyRMj-hFGsorDhp96i-qqzaOa2HMS0BlTQKOn7LFBqyCddL-e5lGps6MRUnzBh8VdzA/exec",
+
+  rawData: [],
+  messageTimeout: null,
+
+  TASKCOLORS: [
+    { border: "#1d4ed8", sub: "#eff6ff" },
+    { border: "#7e22ce", sub: "#f5f3ff" },
+    { border: "#db2777", sub: "#fdf2f8" }
+  ],
+
+  init() {
+    document.getElementById("masterForm").addEventListener("submit", (e) => this.sendMasterForm(e));
+    document.getElementById("subForm").addEventListener("submit", (e) => this.sendSubForm(e));
+    this.loadData();
+  },
+
+  async loadData() {
+    const icon = document.getElementById("refresh-icon");
+    const container = document.getElementById("taskBody");
+    icon.classList.add("fa-spin");
+
+    container.innerHTML = `<div class="text-center py-20 text-slate-400 font-bold uppercase tracking-widest">
+      <i class="fas fa-circle-notch fa-spin mr-2"></i> Loading Data...
+    </div>`;
+
+    try {
+      const res = await fetch(this.SCRIPTURL, { cache: "no-store" });
+      const data = await res.json();
+      if (!Array.isArray(data)) throw new Error("Expected array JSON from doGet");
+
+      // IMPORTANT: keep any rowIndex if backend sends it; also normalize id strings
+      this.rawData = data.map(master => {
+        const subs = Array.isArray(master.subTasks) ? master.subTasks.map(s => ({
+          ...s,
+          id: (s.rowIndex || s.id || ""),
+          rowIndex: (s.rowIndex || s.id || "")
+        })) : [];
+        return { ...master, subTasks: subs };
+      });
+
+      this.applyFilters();
+    } catch (e) {
+      console.error(e);
+      container.innerHTML = `<div class="p-8 bg-red-100 text-red-800 border-l-4 border-red-500 rounded-lg shadow-md">
+        <h4 class="font-bold text-lg mb-2"><i class="fas fa-plug-circle-xmark mr-2"></i> Connection Error</h4>
+        <p class="text-sm">Could not load data from Apps Script Web App.</p>
+        <p class="mt-3 text-xs font-semibold">Error: ${this.escapeHtml(e.message)}</p>
+      </div>`;
+    } finally {
+      icon.classList.remove("fa-spin");
+    }
+  },
+
+  applyFilters() {
+    const titleQ = document.getElementById("filterTitle").value.toLowerCase().trim();
+    const sourceQ = document.getElementById("filterSource").value;
+    const statusQ = document.getElementById("filterStatus").value;
+    const dateQ = document.getElementById("filterDate").value;
+
+    let filtered = this.rawData.filter(t => {
+      const titleMatch = (t.title || "").toLowerCase().includes(titleQ) || (t.name || "").toLowerCase().includes(titleQ);
+      const sourceMatch = !sourceQ || t.source === sourceQ;
+      const statusMatch = !statusQ || t.status === statusQ;
+      const dateMatch = !dateQ || t.deadline === dateQ;
+      return titleMatch && sourceMatch && statusMatch && dateMatch;
+    });
+
+    filtered.sort((a, b) => {
+      const da = new Date((a.deadline || "1970-01-01") + "T00:00:00");
+      const db = new Date((b.deadline || "1970-01-01") + "T00:00:00");
+      return db - da;
+    });
+
+    this.renderTasks(filtered);
+  },
+
+  renderTasks(tasks) {
+    const container = document.getElementById("taskBody");
+    if (!tasks.length) {
+      container.innerHTML = `<div class="p-20 text-center text-slate-400 font-bold">No tasks match your filter.</div>`;
+      return;
+    }
+
+    container.innerHTML = "";
+    tasks.forEach((t, idx) => {
+      const color = this.TASKCOLORS[idx % this.TASKCOLORS.length];
+      const statusClass = (t.status === "Completed") ? "Completed" : (t.status === "Progress") ? "Progress" : "Started";
+
+      const subHtml = (t.subTasks || []).map((s, i) => {
+        const trueId = String(s.rowIndex || s.id || "");
+        return `
+          <div class="flex items-start py-2 border-b last:border-0 border-slate-300">
+            <span class="text-white h-6 w-6 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-black mr-3"
+                  style="background-color:${color.border}">${i+1}</span>
+
+            <div class="flex-1">
+              <p class="text-base font-semibold text-slate-700">${this.escapeHtml(s.text || "")}</p>
+
+              <div class="flex flex-wrap items-center text-sm font-semibold mt-1">
+                <span class="px-2 py-0.5 rounded-md bg-slate-900 text-white font-extrabold text-xs">
+                  ${this.escapeHtml(s.mode || "")}
+                </span>
+                <span class="mx-2 text-slate-300 font-black">•</span>
+                <span class="text-blue-700 font-extrabold text-xs">
+                  ${this.formatDisplayDate(s.date)}
+                </span>
+                <span class="mx-2 text-slate-300 font-black">•</span>
+                <span class="text-slate-500 font-semibold text-xs"> Assigned To</span>
+                <span class="ml-1 text-emerald-700 font-extrabold uppercase text-xs">
+                  ${this.escapeHtml(s.assignee || "")}
+                </span>
+              </div>
+            </div>
+
+            <button onclick="App.editSubTask('${this.escapeAttr(t.id)}','${this.escapeAttr(trueId)}')"
+                    class="text-slate-400 hover:text-orange-500 p-1 ml-2 no-print" title="Edit Log Entry">
+              <i class="fas fa-pen text-xs"></i>
+            </button>
+          </div>
+        `;
+      }).join("");
+
+      const subBlock = (t.subTasks && t.subTasks.length) ? `
+        <div class="subtask-block" style="background-color:${color.sub}; border:1px solid ${color.border}40;">
+          <p class="text-[10px] font-black text-slate-600 uppercase mb-3">Activity Trail (${t.subTasks.length})</p>
+          ${subHtml}
+        </div>
+      ` : "";
+
+      const card = document.createElement("div");
+      card.className = `task-card p-4 sm:p-6 status-${statusClass}`;
+      card.style.borderLeft = `8px solid ${color.border}`;
+
+      card.innerHTML = `
+        <div class="flex justify-between items-start">
+          <div class="flex-1">
+
+            <!-- STATUS + DUE (NEXT TO EACH OTHER) -->
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs font-bold px-3 py-1 rounded-full status-badge-${statusClass} uppercase tracking-wider shadow-sm">
+                ${this.escapeHtml(t.status || "Started")}
+              </span>
+              <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-rose-50 text-rose-700 border border-rose-300 shadow-sm">
+                Due: ${this.formatDisplayDate(t.deadline)}
+              </span>
+            </div>
+
+            <h4 class="text-lg sm:text-xl font-extrabold mt-2 text-slate-900 uppercase">${this.escapeHtml(t.title || "")}</h4>
+            <p class="text-slate-500 font-medium text-xs sm:text-sm mt-1">${this.escapeHtml(t.name || "")}</p>
+
+            <div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-3 text-xs sm:text-sm font-semibold text-slate-600">
+              <span class="flex items-center"><i class="far fa-user mr-2 text-blue-700"></i> Assigned:
+                <span class="ml-1 font-bold text-slate-900">${this.escapeHtml(t.assignee || "")}</span>
+              </span>
+              <span class="flex items-center"><i class="fas fa-link mr-2 text-green-700"></i> Source:
+                <span class="ml-1 font-bold text-slate-900">${this.escapeHtml(t.source || "NA")}</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2 no-print ml-4 flex-shrink-0">
+            <button onclick="App.populateForm('${this.escapeAttr(t.id)}')"
+                    class="h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center rounded-lg bg-slate-50 text-slate-400 hover:text-orange-600 border"
+                    title="Edit Master Task">
+              <i class="fas fa-edit text-sm"></i>
+            </button>
+            <button onclick="App.openModal('${this.escapeAttr(t.id)}')"
+                    class="h-8 w-8 sm:h-10 sm:w-10 flex items-center justify-center rounded-lg btn-primary shadow-md hover:shadow-lg"
+                    title="Add Log">
+              <i class="fas fa-plus text-sm"></i>
+            </button>
+          </div>
+        </div>
+        ${subBlock}
+      `;
+
+      container.appendChild(card);
+    });
+  },
+
+  populateForm(id) {
+    const t = this.rawData.find(x => String(x.id) === String(id));
+    if (!t) return;
+
+    document.getElementById("editTaskId").value = t.id || "";
+    document.getElementById("mTitle").value = t.title || "";
+    document.getElementById("mDesc").value = t.name || "";
+    document.getElementById("mSource").value = t.source || "";
+    document.getElementById("mAssignee").value = t.assignee || "";
+    document.getElementById("mStatus").value = t.status || "Started";
+    document.getElementById("mDeadline").value = this.formatInputDate(t.deadline);
+
+    document.getElementById("saveBtn").innerText = "UPDATE TASK";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  },
+
+  editSubTask(masterId, subRowIndex) {
+    const parentTask = this.rawData.find(t => String(t.id) === String(masterId));
+    if (!parentTask) return this.showMessage("Parent task not found.", "warning");
+
+    const subTask = (parentTask.subTasks || []).find(s =>
+      String(s.rowIndex || s.id) === String(subRowIndex)
+    );
+    if (!subTask) return this.showMessage("Sub-task data not found.", "warning");
+
+    const trueId = String(subTask.rowIndex || subTask.id);
+    document.getElementById("activeParentId").value = masterId;
+    document.getElementById("subTaskId").value = trueId;
+
+    document.getElementById("subAssignee").value = subTask.assignee || "";
+    document.getElementById("subNote").value = subTask.text || "";
+    document.getElementById("subMode").value = subTask.mode || "WhatsApp";
+    document.getElementById("subDate").value = this.formatInputDate(subTask.date);
+
+    document.getElementById("subSaveBtn").innerText = "UPDATE LOG";
+    this.openModal(masterId, true);
+  },
+
+  openModal(id, isEdit=false) {
+    document.getElementById("activeParentId").value = id;
+
+    if (!isEdit) {
+      document.getElementById("subForm").reset();
+      document.getElementById("subTaskId").value = "";       // IMPORTANT for create
+      document.getElementById("subDate").value = this.formatInputDate(new Date());
+      document.getElementById("subSaveBtn").innerText = "SAVE LOG";
+    }
+
+    const modal = document.getElementById("modal");
+    modal.classList.remove("hidden");
+
+    const modalContent = document.getElementById("modal-content");
+    modalContent.style.opacity = 0;
+    modalContent.style.transform = "scale(0.95)";
+    setTimeout(() => {
+      modalContent.style.opacity = 1;
+      modalContent.style.transform = "scale(1)";
+    }, 10);
+  },
+
+  closeModal() {
+    const modalContent = document.getElementById("modal-content");
+    modalContent.style.opacity = 0;
+    modalContent.style.transform = "scale(0.95)";
+    setTimeout(() => {
+      document.getElementById("modal").classList.add("hidden");
+      document.getElementById("subForm").reset();
+      document.getElementById("subTaskId").value = "";
+      document.getElementById("subSaveBtn").innerText = "SAVE LOG";
+    }, 250);
+  },
+
+  async sendMasterForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById("saveBtn");
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Saving...`;
+
+    const isEdit = document.getElementById("editTaskId").value;
+    const payload = {
+      action: isEdit ? "editMaster" : "addMaster",
+      id: isEdit || "",
+      title: document.getElementById("mTitle").value,
+      name: document.getElementById("mDesc").value,
+      source: document.getElementById("mSource").value,
+      assignee: document.getElementById("mAssignee").value,
+      deadline: document.getElementById("mDeadline").value,
+      status: document.getElementById("mStatus").value
+    };
+
+    try {
+      const res = await fetch(this.SCRIPTURL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      const out = await res.json();
+      if (out.ok === false) throw new Error(out.error || "Master save failed");
+
+      this.showMessage(`Task successfully ${isEdit ? "updated" : "created"}!`, "info");
+
+      document.getElementById("masterForm").reset();
+      document.getElementById("editTaskId").value = "";
+      document.getElementById("saveBtn").innerText = "CREATE TASK";
+
+      await this.loadData();
+    } catch (err) {
+      console.error(err);
+      this.showMessage("Error submitting task: " + err.message, "warning");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
+  },
+
+  async sendSubForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById("subSaveBtn");
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Saving...`;
+
+    const subId = document.getElementById("subTaskId").value; // row index when editing
+    const action = subId ? "editSub" : "addSub";
+
+    const payload = {
+      action,
+      id: subId ? Number(subId) : "",
+      parentId: document.getElementById("activeParentId").value,
+      assignee: document.getElementById("subAssignee").value,
+      text: document.getElementById("subNote").value,
+      mode: document.getElementById("subMode").value,
+      date: document.getElementById("subDate").value
+    };
+
+    try {
+      const res = await fetch(this.SCRIPTURL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      const out = await res.json();
+      if (out.ok === false) throw new Error(out.error || "Sub save failed");
+
+      this.showMessage(`Log successfully ${subId ? "updated" : "added"}!`, "info");
+      this.closeModal();
+      await this.loadData();
+    } catch (err) {
+      console.error(err);
+      this.showMessage("Error saving log: " + err.message, "warning");
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
+  },
+
+  showMessage(message, type="info") {
+    const area = document.getElementById("notificationArea");
+    const msgDiv = document.getElementById("notificationMessage");
+
+    msgDiv.className = "p-3 rounded-xl text-sm flex items-center shadow-md border";
+    let icon = "";
+
+    if (type === "warning") {
+      msgDiv.classList.add("bg-yellow-100","text-yellow-800","border-yellow-200");
+      icon = `<i class="fas fa-exclamation-triangle mr-3"></i>`;
+    } else {
+      msgDiv.classList.add("bg-blue-100","text-blue-800","border-blue-200");
+      icon = `<i class="fas fa-info-circle mr-3"></i>`;
+    }
+
+    msgDiv.innerHTML = icon + this.escapeHtml(message);
+    area.classList.remove("hidden");
+
+    if (this.messageTimeout) clearTimeout(this.messageTimeout);
+    this.messageTimeout = setTimeout(() => {
+      area.classList.add("hidden");
+      msgDiv.innerHTML = "";
+    }, 5000);
+  },
+
+  formatDisplayDate(d) {
+    if (!d) return "NA";
+    const date = new Date(String(d).match(/^\d{4}-\d{2}-\d{2}$/) ? (d + "T00:00:00") : d);
+    if (isNaN(date.getTime())) return "NA";
+    return date.toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" });
+  },
+
+  formatInputDate(d) {
+    if (!d) return "";
+    if (typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d)) return d;
+    const date = (d instanceof Date) ? d : new Date(d);
+    if (isNaN(date.getTime())) return "";
+    const y = date.getFullYear();
+    const m = String(date.getMonth()+1).padStart(2,"0");
+    const day = String(date.getDate()).padStart(2,"0");
+    return `${y}-${m}-${day}`;
+  },
+
+  escapeHtml(str) {
+    return String(str ?? "").replace(/[&<>"']/g, s => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"
+    }[s]));
+  },
+
+  escapeAttr(str) {
+    return String(str ?? "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+  }
+};
+
+App.init();
+</script>
+
+</body>
+</html>
