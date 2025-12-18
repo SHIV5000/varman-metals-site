@@ -9,94 +9,115 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: #0f172a; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: #0f172a; overflow-x: hidden; font-size: 16px; }
         
-        .marquee-container { background: #ffffff; color: #ef4444; padding: 12px 0; overflow: hidden; border-bottom: 3px solid #fee2e2; display: none; }
-        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; font-weight: 900; font-size: 18px; text-transform: uppercase; white-space: nowrap; }
+        /* Marquee Responsiveness with Glowing Fire */
+        .marquee-container { background: #ffffff; color: #ef4444; padding: 10px 0; overflow: hidden; border-bottom: 2px solid #fee2e2; display: none; }
+        .marquee-content { display: inline-block; animation: marquee 15s linear infinite; font-weight: 800; font-size: 16px; text-transform: uppercase; white-space: nowrap; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        .task-card { background: white; border-radius: 24px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        .task-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
         
-        .status-progress { border-left: 16px solid #f97316; }
-        .status-completed { border-left: 16px solid #22c55e; }
-        .status-started { border-left: 16px solid #3b82f6; }
-        
-        .urgency-urgent { border: 3px solid #ef4444 !important; background: #fffcfc !important; animation: pulse-border 2s infinite; }
-        @keyframes pulse-border { 0%, 100% { border-color: #ef4444; } 50% { border-color: #fca5a5; } }
+        .fire-glow {
+            text-shadow: 0 0 10px #f97316, 0 0 20px #ef4444;
+            display: inline-block;
+            animation: flicker 1.5s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
 
-        .fire-badge { background: #ef4444; color: white; padding: 6px 16px; border-radius: 99px; font-size: 13px; font-weight: 900; animation: bounce 1s infinite; letter-spacing: 0.05em; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-
-        .subtask-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-top: 12px; transition: all 0.2s; position: relative; overflow: hidden; }
-        .subtask-box:hover { background: #ffffff; border-color: #3b82f6; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
-        .subtask-text { font-size: 18px; font-weight: 700; color: #1e293b; line-height: 1.6; letter-spacing: -0.01em; }
+        /* Task Card Responsive Styling */
+        .task-card { background: white; border-radius: 20px; border: 1px solid #e2e8f0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); }
+        .task-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
         
-        .log-meta { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #cbd5e1; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
-        .field-label { font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 4px; }
-        .field-value { font-size: 13px; font-weight: 800; }
+        .status-progress { border-left: 10px solid #f97316; }
+        .status-completed { border-left: 10px solid #22c55e; }
+        .status-started { border-left: 10px solid #3b82f6; }
         
-        .field-assigned { color: #2563eb; background: #eff6ff; padding: 4px 10px; border-radius: 8px; } 
-        .field-date { color: #475569; background: #f1f5f9; padding: 4px 10px; border-radius: 8px; } 
-        .field-via { color: #7c3aed; background: #f5f3ff; padding: 4px 10px; border-radius: 8px; } 
+        .urgency-urgent { border: 2px solid #ef4444 !important; background: #fffcfc !important; }
 
-        .input-field { width: 100%; border: 2px solid #e2e8f0; border-radius: 16px; padding: 14px; font-size: 16px; font-weight: 500; transition: all 0.2s; }
-        .input-field:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        .subtask-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-top: 10px; transition: all 0.2s; }
+        .subtask-text { font-size: 16px; font-weight: 700; color: #1e293b; line-height: 1.5; }
         
-        .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.9); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; }
-        .spinner { width: 50px; height: 50px; border: 5px solid #e2e8f0; border-top-color: #1e3a8a; border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Animated Add Button */
+        .btn-add-sub {
+            background: #1e3a8a;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: pulse-border 2s infinite;
+        }
+        .btn-add-sub:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: #1e40af;
+        }
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(30, 58, 138, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(30, 58, 138, 0); }
+        }
 
-        #masterPanel { position: fixed; top: -100%; left: 0; width: 100%; height: auto; max-height: 90vh; background: white; z-index: 100; transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border-bottom: 5px solid #1e3a8a; overflow-y: auto; }
+        .log-meta { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .field-label { font-size: 11px; font-weight: 900; color: #64748b; text-transform: uppercase; margin-right: 2px; }
+        .field-value { font-size: 12px; font-weight: 800; }
+        
+        .field-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
+        .field-assigned { color: #2563eb; background: #eff6ff; } 
+        .field-date { color: #475569; background: #f1f5f9; } 
+        .field-via { color: #7c3aed; background: #f5f3ff; } 
+
+        .input-field { width: 100%; border: 2px solid #e2e8f0; border-radius: 12px; padding: 14px; font-size: 16px; font-weight: 500; transition: all 0.2s; }
+        
+        #masterPanel { position: fixed; top: -100%; left: 0; width: 100%; height: 100%; max-height: 100vh; background: white; z-index: 100; transition: top 0.4s ease; overflow-y: auto; }
         #masterPanel.open { top: 0; }
-        #panelOverlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(4px); z-index: 90; display: none; }
-        #panelOverlay.open { display: block; }
+        @media (min-width: 768px) {
+            #masterPanel { height: auto; max-height: 90vh; border-bottom: 5px solid #1e3a8a; }
+        }
 
+        .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.95); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; }
+        
         @media print { 
             .no-print { display: none !important; } 
-            body { background: white; padding: 0; }
-            .task-card { border: 1px solid #ddd !important; break-inside: avoid; margin-bottom: 2rem; box-shadow: none !important; transform: none !important; }
-            .subtask-box { background: white !important; border: 1px solid #eee !important; }
+            .task-card { break-inside: avoid; border: 1px solid #eee !important; box-shadow: none !important; margin-bottom: 1rem; }
         }
     </style>
 </head>
-<body class="pb-20">
+<body class="pb-10">
 
     <div id="loading" class="loading-overlay">
-        <div class="spinner"></div>
-        <div class="font-black text-blue-900 tracking-widest text-xl">SYNCING DATABASE</div>
+        <div class="w-12 h-12 border-4 border-slate-200 border-top-blue-900 rounded-full animate-spin"></div>
+        <div class="font-black text-blue-900 tracking-widest text-sm uppercase">Syncing Database...</div>
     </div>
 
-    <div id="panelOverlay" onclick="App.toggleMasterPanel(false)"></div>
+    <div id="panelOverlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-90 hidden" onclick="App.toggleMasterPanel(false)"></div>
 
-    <!-- SLIDE TOP MASTER FORM -->
+    <!-- MASTER FORM -->
     <div id="masterPanel" class="no-print">
-        <div class="max-w-4xl mx-auto p-8 lg:p-12">
-            <div class="flex justify-between items-center mb-8">
-                <div class="flex items-center gap-4">
-                    <div class="bg-blue-900 text-white p-3 rounded-xl"><i class="fas fa-calendar-plus"></i></div>
-                    <h2 id="formTitle" class="font-black text-2xl text-slate-800 uppercase tracking-widest">Master Task</h2>
+        <div class="max-w-4xl mx-auto p-6 md:p-12">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-900 text-white p-2 rounded-lg"><i class="fas fa-calendar-plus"></i></div>
+                    <h2 id="formTitle" class="font-black text-2xl text-slate-800 uppercase tracking-tight">Master Task</h2>
                 </div>
-                <button onclick="App.toggleMasterPanel(false)" class="text-slate-400 hover:text-red-500 transition-colors">
-                    <i class="fas fa-times fa-2xl"></i>
+                <button onclick="App.toggleMasterPanel(false)" class="p-2 text-slate-400 hover:text-red-500">
+                    <i class="fas fa-times fa-xl"></i>
                 </button>
             </div>
             
-            <form id="masterForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form id="masterForm" class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <input type="hidden" id="mId">
                 
                 <div class="md:col-span-2">
-                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Task Title</label>
-                    <input type="text" id="mTitle" placeholder="What needs to be done?" required class="input-field mt-1">
+                    <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Task Title</label>
+                    <input type="text" id="mTitle" placeholder="Task summary..." required class="input-field mt-1">
                 </div>
                 
                 <div class="md:col-span-2">
-                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Context / Details</label>
-                    <textarea id="mDesc" placeholder="Detailed instructions or scope..." class="input-field mt-1" rows="3"></textarea>
+                    <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Context / Details</label>
+                    <textarea id="mDesc" placeholder="Scope of work..." class="input-field mt-1" rows="3"></textarea>
                 </div>
                 
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Source Agent</label>
+                    <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Source Agent</label>
                     <select id="mSource" class="input-field mt-1">
                         <option value="">Select</option>
                         <option>Director Acad & Sys</option>
@@ -109,12 +130,12 @@
                 </div>
                 
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Primary Lead</label>
+                    <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Primary Lead</label>
                     <input type="text" id="mAssignee" placeholder="Owner Name" required class="input-field mt-1">
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Current Status</label>
+                    <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Current Status</label>
                     <select id="mStatus" class="input-field mt-1 font-black text-blue-900">
                         <option value="Started">STARTED</option>
                         <option value="Progress">IN PROGRESS</option>
@@ -123,49 +144,51 @@
                 </div>
                 
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Final Deadline</label>
+                    <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Final Deadline</label>
                     <input type="date" id="mDeadline" required class="input-field mt-1">
                 </div>
                 
-                <div class="md:col-span-2 flex gap-4 pt-6">
-                    <button type="submit" id="mSubmit" class="flex-1 bg-blue-900 text-white font-black py-4 rounded-2xl shadow-xl hover:bg-blue-800 transition-all">SAVE MASTER TASK</button>
-                    <button type="button" onclick="App.resetMasterForm()" class="px-8 bg-slate-100 text-slate-400 rounded-2xl hover:bg-slate-200 transition-colors uppercase font-black text-xs">Reset</button>
+                <div class="md:col-span-2 flex flex-col md:flex-row gap-3 pt-4 pb-10">
+                    <button type="submit" id="mSubmit" class="flex-1 bg-blue-900 text-white font-black py-4 rounded-xl shadow-lg hover:bg-blue-800 uppercase tracking-widest text-base">SAVE MASTER TASK</button>
+                    <button type="button" onclick="App.resetMasterForm()" class="py-3 px-6 bg-slate-100 text-slate-400 rounded-xl hover:bg-slate-200 uppercase font-black text-[11px]">Reset</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <nav class="bg-white border-b px-8 py-6 flex flex-col lg:flex-row justify-between items-center sticky top-0 z-50 shadow-sm no-print">
-        <div class="flex flex-col gap-2">
-            <div class="flex items-center gap-4">
-                <div class="bg-blue-900 text-white p-4 rounded-2xl shadow-lg shadow-blue-200"><i class="fas fa-tasks fa-xl"></i></div>
-                <div>
-                    <h1 class="text-3xl font-black text-blue-950 tracking-tight">TASK TRACKER <span class="text-blue-400 font-light">| PRO</span></h1>
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Operational Dashboard : Mr. Shiv Suri</p>
+    <!-- RESPONSIVE NAV -->
+    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm no-print">
+        <div class="max-w-[1400px] mx-auto px-4 md:px-8 py-5 flex flex-col gap-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-900 text-white p-3 rounded-xl shadow-md"><i class="fas fa-tasks fa-lg"></i></div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-black text-blue-950 tracking-tight leading-none">TRACKER <span class="text-blue-500 font-light">PRO</span></h1>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">MR. SHIV SURI</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="flex items-center gap-6 ml-20 mt-2">
-                <div class="flex gap-4 text-xs font-black uppercase tracking-wider">
-                    <span id="stat-completed" class="text-green-700 bg-green-100 px-3 py-1.5 rounded-full border border-green-200">✅ 0 Done</span>
-                    <span id="stat-progress" class="text-orange-700 bg-orange-100 px-3 py-1.5 rounded-full border border-orange-200">👷 0 Active</span>
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="App.toggleMasterPanel(true)" class="text-[11px] font-black bg-blue-900 text-white px-5 py-1.5 rounded-full hover:bg-blue-800 transition-all flex items-center gap-2 shadow-lg">
-                        <i class="fas fa-calendar-alt"></i> EVENT
+                
+                <div class="flex gap-2 w-full md:w-auto">
+                    <button onclick="App.toggleMasterPanel(true)" class="flex-1 md:flex-none text-[12px] font-black bg-blue-900 text-white px-5 py-3 rounded-lg hover:bg-blue-800 transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-plus"></i> NEW TASK
                     </button>
-                    <button onclick="window.print()" class="text-[11px] font-black bg-slate-900 text-white px-5 py-1.5 rounded-full hover:bg-slate-700 transition-all flex items-center gap-2 shadow-lg">
-                        <i class="fas fa-print"></i> EXPORT REPORT
+                    <button onclick="window.print()" class="flex-1 md:flex-none text-[12px] font-black bg-slate-100 text-slate-600 px-5 py-3 rounded-lg hover:bg-slate-200 flex items-center justify-center gap-2">
+                        <i class="fas fa-print"></i> EXPORT
                     </button>
                 </div>
             </div>
-        </div>
 
-        <!-- UPDATED UNIVERSAL SEARCH ONLY -->
-        <div class="flex flex-wrap gap-3 mt-6 lg:mt-0 bg-slate-50 p-3 rounded-3xl border w-full lg:w-96">
-            <div class="relative w-full">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="universalSearch" oninput="App.render()" placeholder="SEARCH TASKS OR LOGS..." class="w-full bg-white border-2 border-slate-200 pl-11 pr-4 py-2.5 rounded-2xl text-xs font-black uppercase focus:border-blue-500 outline-none transition-all">
+            <!-- MOBILE OPTIMIZED SEARCH & STATS -->
+            <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between border-t pt-4">
+                <div class="flex gap-2 text-[11px] font-black uppercase">
+                    <span id="stat-completed" class="bg-green-50 text-green-700 px-4 py-2 rounded-full border border-green-100">✅ 0 Done</span>
+                    <span id="stat-progress" class="bg-orange-50 text-orange-700 px-4 py-2 rounded-full border border-orange-100">👷 0 Active</span>
+                </div>
+                
+                <div class="relative flex-1 max-w-md">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 text-base"></i>
+                    <input type="text" id="universalSearch" oninput="App.render()" placeholder="SEARCH TASKS OR LOGS..." class="w-full bg-slate-50 border-2 border-slate-100 pl-11 pr-4 py-3 rounded-xl text-[12px] font-black uppercase focus:border-blue-400 outline-none transition-all">
+                </div>
             </div>
         </div>
     </nav>
@@ -174,54 +197,52 @@
         <div id="marquee" class="marquee-content"></div>
     </div>
 
-    <div class="max-w-[1400px] mx-auto px-6 mt-10">
-        <main class="space-y-8" id="taskBody"></main>
+    <div class="max-w-[1400px] mx-auto px-4 md:px-8 mt-6">
+        <main class="space-y-4" id="taskBody"></main>
     </div>
 
-    <!-- SUBTASK UPDATE MODAL -->
-    <div id="subModal" class="fixed inset-0 bg-slate-950/80 hidden flex items-center justify-center z-[100] backdrop-blur-md no-print p-6">
-        <div class="bg-white p-10 rounded-[3rem] w-full max-w-xl shadow-2xl">
-            <div class="flex items-center gap-4 mb-8">
-                <div class="bg-blue-100 text-blue-900 p-4 rounded-2xl"><i class="fas fa-pen-nib fa-lg"></i></div>
-                <h3 id="subModalTitle" class="font-black text-3xl text-slate-900">Update Log</h3>
+    <!-- LOG MODAL (MOBILE ADAPTIVE) -->
+    <div id="subModal" class="fixed inset-0 bg-slate-950/70 hidden flex items-end md:items-center justify-center z-[100] backdrop-blur-sm no-print">
+        <div class="bg-white p-6 md:p-10 rounded-t-[2rem] md:rounded-[2rem] w-full max-w-lg shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-50 text-blue-900 p-3 rounded-xl"><i class="fas fa-pen-nib"></i></div>
+                <h3 id="subModalTitle" class="font-black text-2xl text-slate-900">Update Log</h3>
             </div>
             
-            <form id="subForm" class="space-y-5">
+            <form id="subForm" class="space-y-4">
                 <input type="hidden" id="subParentId">
                 <input type="hidden" id="subId">
                 
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Progress Update</label>
-                    <textarea id="subNote" placeholder="Explain what has been done..." required class="input-field h-40 mt-1"></textarea>
+                    <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Progress Description</label>
+                    <textarea id="subNote" placeholder="Explain update..." required class="input-field h-36 mt-1"></textarea>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Assigned To</label>
+                        <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Member Name</label>
                         <input type="text" id="subAssignee" placeholder="Name" required class="input-field mt-1">
                     </div>
                     <div>
-                        <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Entry Date</label>
+                        <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Entry Date</label>
                         <input type="date" id="subDate" required class="input-field mt-1">
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-black text-slate-400 uppercase ml-2">Communication Mode</label>
+                    <label class="text-[11px] font-black text-slate-400 uppercase ml-1">Communication Channel</label>
                     <select id="subMode" class="input-field mt-1">
                         <option value="WhatsApp">WhatsApp</option>
-                        <option value="Mobile">Mobile</option>
+                        <option value="Mobile">Mobile Call</option>
                         <option value="Intercom">Intercom</option>
                         <option value="Email">Email</option>
-                        <option value="Verbal">Verbal</option>
-                        <option value="Written">Written</option>
-                        <option value="Slack">Slack</option>
+                        <option value="Verbal">Verbal Meeting</option>
                     </select>
                 </div>
 
-                <div class="flex gap-4 mt-8">
-                    <button type="button" onclick="App.closeSubModal()" class="flex-1 py-4 font-black text-slate-400 hover:text-slate-600">DISCARD</button>
-                    <button type="submit" class="flex-[2] bg-blue-900 text-white font-black px-10 py-4 rounded-2xl shadow-2xl shadow-blue-200 hover:bg-blue-800 transition-all">POST LOG ENTRY</button>
+                <div class="flex gap-2 mt-6">
+                    <button type="button" onclick="App.closeSubModal()" class="flex-1 py-4 font-black text-slate-400 text-sm">CANCEL</button>
+                    <button type="submit" class="flex-[2] bg-blue-900 text-white font-black py-4 rounded-xl shadow-lg text-base uppercase">POST UPDATE</button>
                 </div>
             </form>
         </div>
@@ -247,11 +268,11 @@
                 const overlay = document.getElementById("panelOverlay");
                 if (show) {
                     panel.classList.add("open");
-                    overlay.classList.add("open");
+                    overlay.classList.remove("hidden");
                     document.body.style.overflow = "hidden";
                 } else {
                     panel.classList.remove("open");
-                    overlay.classList.remove("open");
+                    overlay.classList.add("hidden");
                     document.body.style.overflow = "auto";
                     this.resetMasterForm();
                 }
@@ -264,18 +285,14 @@
                     const json = await res.json();
                     this.data = Array.isArray(json) ? json : [];
                     this.render();
-                } catch(e) { 
-                    console.error("Fetch error", e); 
-                } finally {
-                    this.showLoading(false);
-                }
+                } catch(e) { console.error(e); } finally { this.showLoading(false); }
             },
 
             formatDate(iso) {
-                if (!iso) return "N/A";
+                if (!iso) return "-";
                 const d = new Date(iso);
                 if (isNaN(d.getTime())) return iso;
-                return d.toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' });
+                return d.toLocaleDateString("en-GB", { day: '2-digit', month: 'short' });
             },
 
             render() {
@@ -286,108 +303,77 @@
                 let filtered = [...this.data];
                 filtered.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
-                // Universal search filtering across Master and Sub Tasks
                 if (query) {
                     filtered = filtered.filter(t => {
                         const inMaster = (t.title || "").toLowerCase().includes(query) || 
                                          (t.name || "").toLowerCase().includes(query) || 
-                                         (t.assignee || "").toLowerCase().includes(query) || 
-                                         (t.source || "").toLowerCase().includes(query);
-                        
-                        const inSubs = t.subTasks && t.subTasks.some(s => 
-                            (s.text || "").toLowerCase().includes(query) || 
-                            (s.assignee || "").toLowerCase().includes(query)
-                        );
-
+                                         (t.assignee || "").toLowerCase().includes(query);
+                        const inSubs = t.subTasks && t.subTasks.some(s => (s.text || "").toLowerCase().includes(query));
                         return inMaster || inSubs;
                     });
                 }
 
-                const completedCount = this.data.filter(t => t.status === 'Completed').length;
-                const ongoingCount = this.data.filter(t => t.status === 'Progress' || t.status === 'Started').length;
-                document.getElementById('stat-completed').innerText = `✅ ${completedCount} Done`;
-                document.getElementById('stat-progress').innerText = `👷 ${ongoingCount} Active`;
+                document.getElementById('stat-completed').innerText = `✅ ${this.data.filter(t => t.status === 'Completed').length} Done`;
+                document.getElementById('stat-progress').innerText = `👷 ${this.data.filter(t => t.status !== 'Completed').length} Active`;
 
-                const marqueeEl = document.getElementById("marquee");
-                const marqueeContainer = document.getElementById("marqueeContainer");
                 const todayTasks = this.data.filter(t => t.deadline === todayStr && t.status !== 'Completed');
-
+                const marqueeContainer = document.getElementById("marqueeContainer");
                 if (todayTasks.length > 0) {
                     marqueeContainer.style.display = "block";
-                    marqueeEl.innerHTML = todayTasks.map(t => `<span class="mr-24">🔥 DUE TODAY: ${t.title} 🔥</span>`).join("");
+                    document.getElementById("marquee").innerHTML = todayTasks.map(t => `<span class="mr-12"><span class="fire-glow">🔥</span> DUE TODAY: ${t.title} <span class="fire-glow">🔥</span></span>`).join("");
                 } else {
                     marqueeContainer.style.display = "none";
                 }
 
                 body.innerHTML = "";
                 if (filtered.length === 0) {
-                    body.innerHTML = `<div class="p-20 text-center text-slate-400 font-black border-4 border-dashed rounded-[3rem] text-xl opacity-50 uppercase tracking-widest">No matching results found</div>`;
+                    body.innerHTML = `<div class="p-12 text-center text-slate-300 font-black border-2 border-dashed rounded-3xl uppercase text-sm">No matching results</div>`;
                     return;
                 }
 
                 filtered.forEach(t => {
                     const isDueToday = (t.deadline === todayStr && t.status !== 'Completed');
                     const card = document.createElement("div");
-                    card.className = `task-card p-10 status-${t.status.toLowerCase()} ${isDueToday ? 'urgency-urgent' : ''}`;
+                    card.className = `task-card p-6 md:p-8 status-${t.status.toLowerCase()} ${isDueToday ? 'urgency-urgent' : ''}`;
                     
                     card.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <div onclick="App.editMaster('${t.id}')" class="cursor-pointer flex-1 pr-8">
-                                <div class="flex items-center gap-4 mb-6">
-                                    <span class="text-[11px] font-black uppercase px-4 py-1.5 bg-slate-100 rounded-full border border-slate-200 tracking-widest">${t.status}</span>
-                                    ${isDueToday ? '<span class="fire-badge no-print"><i class="fas fa-fire-alt mr-2"></i>PRIORITY</span>' : ''}
+                        <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                            <div onclick="App.editMaster('${t.id}')" class="cursor-pointer flex-1">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span class="text-[10px] font-black uppercase px-2 py-0.5 bg-slate-100 rounded border border-slate-200">${t.status}</span>
+                                    ${isDueToday ? '<span class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded font-black no-print">URGENT</span>' : ''}
                                 </div>
-                                <h3 class="text-3xl font-black text-slate-900 leading-tight mb-3">${t.title}</h3>
-                                <div class="h-1 w-20 bg-blue-100 rounded-full mb-4"></div>
-                                <p class="text-slate-600 font-medium text-lg leading-relaxed whitespace-pre-wrap">${t.name || 'No further description provided.'}</p>
+                                <h3 class="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-2">${t.title}</h3>
+                                <p class="text-slate-500 font-medium text-base line-clamp-2 md:line-clamp-none">${t.name || ''}</p>
                                 
-                                <div class="mt-8 flex flex-wrap gap-8">
+                                <div class="mt-4 flex flex-wrap gap-x-8 gap-y-2">
                                     <div class="flex flex-col">
-                                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Source Agent</span>
-                                        <span class="text-blue-900 font-black text-sm uppercase">${t.source || 'ADMIN'}</span>
+                                        <span class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Lead</span>
+                                        <span class="text-slate-800 font-bold text-sm">${t.assignee || '-'}</span>
                                     </div>
                                     <div class="flex flex-col">
-                                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Primary Lead</span>
-                                        <span class="text-slate-800 font-black text-sm uppercase">${t.assignee || 'UNASSIGNED'}</span>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Target Deadline</span>
-                                        <span class="text-orange-600 font-black text-sm uppercase">${this.formatDate(t.deadline)}</span>
+                                        <span class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Deadline</span>
+                                        <span class="text-orange-600 font-bold text-sm">${this.formatDate(t.deadline)}</span>
                                     </div>
                                 </div>
                             </div>
-                            <button onclick="App.openSubModal('${t.id}')" class="bg-blue-900 text-white h-16 w-16 flex items-center justify-center rounded-3xl shadow-2xl hover:bg-blue-800 hover:rotate-90 transition-all no-print flex-shrink-0">
-                                <i class="fas fa-plus fa-xl"></i>
+                            <button onclick="App.openSubModal('${t.id}')" class="btn-add-sub h-11 w-11 md:h-14 md:w-14 flex items-center justify-center rounded-2xl shadow-lg no-print self-end md:self-start">
+                                <i class="fas fa-plus fa-lg"></i>
                             </button>
                         </div>
 
                         ${t.subTasks.length > 0 ? `
-                        <div class="mt-10 border-t-2 border-slate-50 pt-8">
-                            <h4 class="text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] mb-4 ml-2">Progress History</h4>
-                            <div class="space-y-4">
-                                ${t.subTasks.map(s => {
-                                    // Highlight if matches search query
-                                    const isMatch = query && (s.text.toLowerCase().includes(query) || s.assignee.toLowerCase().includes(query));
-                                    return `
-                                    <div ondblclick="App.editSub('${t.id}', '${s.id}')" class="subtask-box group cursor-pointer ${isMatch ? 'ring-2 ring-blue-500 bg-blue-50/50' : ''}">
-                                        <p class="subtask-text">${s.text}</p>
-                                        <div class="log-meta">
-                                            <span class="field-assigned">
-                                                <span class="field-label">Assigned To :</span>
-                                                <span class="field-value">${s.assignee}</span>
-                                            </span>
-                                            <span class="field-date">
-                                                <span class="field-label">Logged:</span>
-                                                <span class="field-value">${this.formatDate(s.date)}</span>
-                                            </span>
-                                            <span class="field-via">
-                                                <span class="field-label">Channel:</span>
-                                                <span class="field-value">${s.mode}</span>
-                                            </span>
-                                        </div>
+                        <div class="mt-6 border-t border-slate-100 pt-5 space-y-4">
+                            ${t.subTasks.map(s => `
+                                <div ondblclick="App.editSub('${t.id}', '${s.id}')" class="subtask-box">
+                                    <p class="subtask-text">${s.text}</p>
+                                    <div class="log-meta">
+                                        <span class="field-badge field-assigned"><span class="field-label">By:</span><span class="field-value">${s.assignee}</span></span>
+                                        <span class="field-badge field-date"><span class="field-label">On:</span><span class="field-value">${this.formatDate(s.date)}</span></span>
+                                        <span class="field-badge field-via"><span class="field-label">Via:</span><span class="field-value text-[10px]">${s.mode}</span></span>
                                     </div>
-                                `}).join("")}
-                            </div>
+                                </div>
+                            `).join("")}
                         </div>
                         ` : ''}
                     `;
@@ -401,7 +387,7 @@
                 document.getElementById("subNote").value = "";
                 document.getElementById("subAssignee").value = "";
                 document.getElementById("subDate").value = new Date().toISOString().split('T')[0];
-                document.getElementById("subModalTitle").innerText = "Add Progress Log";
+                document.getElementById("subModalTitle").innerText = "Log Update";
                 document.getElementById("subModal").classList.remove("hidden");
             },
 
@@ -414,7 +400,7 @@
                 document.getElementById("subAssignee").value = s.assignee;
                 document.getElementById("subMode").value = s.mode;
                 document.getElementById("subDate").value = s.date;
-                document.getElementById("subModalTitle").innerText = "Edit Progress Log";
+                document.getElementById("subModalTitle").innerText = "Edit Log";
                 document.getElementById("subModal").classList.remove("hidden");
             },
 
@@ -436,9 +422,7 @@
                     await fetch(this.URL, { method: "POST", body: JSON.stringify(payload) });
                     this.closeSubModal();
                     await this.fetch();
-                } finally {
-                    this.showLoading(false);
-                }
+                } finally { this.showLoading(false); }
             },
 
             editMaster(id) {
@@ -450,7 +434,7 @@
                 document.getElementById("mAssignee").value = t.assignee;
                 document.getElementById("mStatus").value = t.status;
                 document.getElementById("mDeadline").value = t.deadline;
-                document.getElementById("formTitle").innerText = "EDITING MASTER";
+                document.getElementById("formTitle").innerText = "Edit Task";
                 this.toggleMasterPanel(true);
             },
 
@@ -477,9 +461,7 @@
                     await fetch(this.URL, { method: "POST", body: JSON.stringify(payload) });
                     this.toggleMasterPanel(false);
                     await this.fetch();
-                } finally {
-                    this.showLoading(false);
-                }
+                } finally { this.showLoading(false); }
             }
         };
         App.init();
