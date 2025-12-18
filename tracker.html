@@ -69,19 +69,17 @@
             .status-started, .status-progress, .status-completed { border-left-width: 12px; }
         }
 
-        /* Revolving Dot Animation */
-        .revolving-dot {
-            width: 8px;
-            height: 8px;
-            background: #f97316;
-            border-radius: 50%;
+        /* Spinning Sandglass Animation */
+        .spinning-hourglass {
             display: inline-block;
-            animation: revolve 1.5s linear infinite;
+            animation: hour-spin 2s linear infinite;
+            color: #f97316;
         }
-        @keyframes revolve {
-            0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.7); }
-            70% { transform: scale(1.2); opacity: 0.5; box-shadow: 0 0 0 6px rgba(249, 115, 22, 0); }
-            100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
+        @keyframes hour-spin {
+            0% { transform: rotate(0deg); }
+            45% { transform: rotate(0deg); }
+            55% { transform: rotate(180deg); }
+            100% { transform: rotate(180deg); }
         }
 
         .fire-glow {
@@ -268,7 +266,7 @@
                                     <i class="fas fa-check-circle"></i> <span id="title-completed">0</span>
                                 </span>
                                 <span class="flex items-center gap-1.5 bg-orange-100 text-orange-700 px-2.5 py-1 rounded-full border border-orange-200">
-                                    <span class="revolving-dot"></span> <span id="title-progress">0</span>
+                                    <span class="spinning-hourglass"><i class="fas fa-hourglass-half"></i></span> <span id="title-progress">0</span>
                                 </span>
                             </div>
                         </h1>
@@ -286,7 +284,7 @@
             </div>
             <div class="relative w-full">
                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="universalSearch" oninput="App.render()" placeholder="SEARCH TASKS OR AGENTS..." class="w-full bg-slate-50 border-2 border-slate-100 pl-11 pr-4 py-3 md:py-4 rounded-xl md:rounded-2xl text-[11px] md:text-sm font-bold uppercase outline-none focus:border-blue-400 focus:bg-white transition-all">
+                <input type="text" id="universalSearch" oninput="App.render()" placeholder="SEARCH TASKS, AGENTS, OR LOG DETAILS..." class="w-full bg-slate-50 border-2 border-slate-100 pl-11 pr-4 py-3 md:py-4 rounded-xl md:rounded-2xl text-[11px] md:text-sm font-bold uppercase outline-none focus:border-blue-400 focus:bg-white transition-all">
             </div>
         </div>
     </nav>
@@ -373,16 +371,28 @@
 
             render() {
                 const body = document.getElementById("taskBody");
-                const query = document.getElementById("universalSearch").value.toLowerCase();
+                const query = document.getElementById("universalSearch").value.toLowerCase().trim();
                 const todayStr = new Date().toISOString().split('T')[0];
 
                 let filtered = [...this.data].sort((a,b) => new Date(a.deadline) - new Date(b.deadline));
+                
                 if (query) {
-                    filtered = filtered.filter(t => 
-                        (t.title||"").toLowerCase().includes(query) || 
-                        (t.assignee||"").toLowerCase().includes(query) ||
-                        (t.source||"").toLowerCase().includes(query)
-                    );
+                    filtered = filtered.filter(t => {
+                        // 1. Check Master Task Fields
+                        const inTitle = (t.title || "").toLowerCase().includes(query);
+                        const inAssignee = (t.assignee || "").toLowerCase().includes(query);
+                        const inSource = (t.source || "").toLowerCase().includes(query);
+                        const inDesc = (t.name || "").toLowerCase().includes(query);
+                        
+                        // 2. Check All Subtasks (Logs)
+                        const inSubTasks = t.subTasks && t.subTasks.some(s => 
+                            (s.text || "").toLowerCase().includes(query) || 
+                            (s.assignee || "").toLowerCase().includes(query) ||
+                            (s.mode || "").toLowerCase().includes(query)
+                        );
+
+                        return inTitle || inAssignee || inSource || inDesc || inSubTasks;
+                    });
                 }
 
                 // Update Title Counters
