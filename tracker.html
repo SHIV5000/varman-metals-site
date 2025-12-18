@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --base-font: 15px; 
+            --base-font: 16px; 
             --primary-blue: #1e3a8a;
             --slate-text: #0f172a;
             --status-orange: #f97316;
@@ -18,7 +18,7 @@
         html { scroll-behavior: smooth; }
         body { 
             font-family: 'Arimo', sans-serif; 
-            background: #f1f5f9; 
+            background: #f8fafc; 
             color: var(--slate-text); 
             font-size: var(--base-font);
             line-height: 1.6;
@@ -27,7 +27,7 @@
         /* TASK TITLE */
         .locked-task-title {
             font-weight: 700 !important;
-            font-size: 1.5rem;
+            font-size: 1.65rem;
             color: #000000;
             letter-spacing: -0.01em;
             line-height: 1.2;
@@ -37,70 +37,71 @@
         .formatted-content { 
             white-space: pre-wrap !important; 
             word-wrap: break-word; 
-            font-weight: 600 !important; 
-            color: #1e293b;
-            font-size: 15px;
+            font-weight: 500 !important; 
+            color: #334155;
+            font-size: 16px;
         }
 
         /* CARD ARCHITECTURE */
         .task-card { 
             background: white; 
-            border-radius: 12px; 
-            border: 1px solid #cbd5e1; 
-            margin-bottom: 1.5rem; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            border-radius: 16px; 
+            border: 1px solid #e2e8f0; 
+            margin-bottom: 2.5rem; 
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
             overflow: hidden;
             position: relative;
+            transition: transform 0.2s ease;
         }
+        .task-card:hover { transform: translateY(-2px); }
         
         /* STATUS BORDERS */
-        .status-started { border-left: 10px solid #3b82f6; }
-        .status-progress { border-left: 10px solid var(--status-orange); }
-        .status-completed { border-left: 10px solid #22c55e; }
+        .status-started { border-left: 12px solid #3b82f6; }
+        .status-progress { border-left: 12px solid var(--status-orange); }
+        .status-completed { border-left: 12px solid #22c55e; }
 
         /* GLOWING FIRE ANIMATION */
         .fire-glow {
             color: #ff4500;
-            text-shadow: 0 0 8px #ff4500, 0 0 15px #ff8c00;
+            text-shadow: 0 0 8px #ff4500;
             animation: fire-flicker 0.8s ease-in-out infinite alternate;
         }
 
         @keyframes fire-flicker {
-            0% { transform: scale(1); filter: brightness(1); text-shadow: 0 0 8px #ff4500; }
-            100% { transform: scale(1.1); filter: brightness(1.3); text-shadow: 0 0 15px #ff8c00, 0 0 25px #ff4500; }
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; }
         }
 
         /* DUE TODAY BADGE */
         .due-today-badge {
-            background: #000;
+            background: #ef4444;
             color: #fff;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 900;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            border: 1px solid #444;
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.4);
         }
 
-        /* MARQUEE - WHITE BG, RED TEXT */
+        /* MARQUEE */
         .marquee-container { 
-            background: #ffffff; 
-            color: #dc2626; 
-            padding: 12px 0; 
-            border-bottom: 3px solid #dc2626; 
+            background: #fee2e2; 
+            color: #991b1b; 
+            padding: 14px 0; 
+            border-bottom: 4px solid #ef4444; 
             display: none; 
             overflow: hidden;
             white-space: nowrap;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .marquee-content { 
             display: inline-block; 
             padding-left: 100%;
-            animation: marquee-scroll 30s linear infinite; 
+            animation: marquee-scroll 25s linear infinite; 
             font-weight: 800; 
-            font-size: 16px; 
+            font-size: 18px; 
             text-transform: uppercase;
         }
         @keyframes marquee-scroll {
@@ -108,19 +109,48 @@
             100% { transform: translate(-100%, 0); }
         }
 
+        /* HIERARCHICAL SUBTASKS */
+        .subtask-container {
+            margin-left: 2.5rem;
+            padding-left: 1.5rem;
+            border-left: 3px solid #f1f5f9;
+            position: relative;
+        }
+
+        .subtask-item {
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .subtask-item::before {
+            content: "";
+            position: absolute;
+            left: -1.5rem;
+            top: 2rem;
+            width: 1.5rem;
+            height: 3px;
+            background: #f1f5f9;
+        }
+
         /* INPUTS */
         .input-field { 
             width: 100%; 
-            border: 2px solid #e2e8f0; 
-            border-radius: 8px; 
-            padding: 12px; 
-            font-size: 15px; 
-            font-weight: 600; 
+            border: 2px solid #f1f5f9; 
+            border-radius: 10px; 
+            padding: 14px; 
+            font-size: 16px; 
+            font-weight: 500; 
             outline: none; 
-            font-family: 'Arimo', sans-serif;
+            transition: border-color 0.2s;
         }
+        .input-field:focus { border-color: var(--primary-blue); }
 
-        #masterPanel { position: fixed; top: -100%; left: 0; width: 100%; height: 100%; background: white; z-index: 100; transition: top 0.4s ease; overflow-y: auto; }
+        #masterPanel { position: fixed; top: -100%; left: 0; width: 100%; height: 100%; background: white; z-index: 100; transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; }
         #masterPanel.open { top: 0; }
 
         @media print { .no-print { display: none !important; } }
@@ -144,24 +174,24 @@
             <div class="flex justify-between items-center mb-10">
                 <div class="flex items-center gap-4">
                     <div class="bg-blue-900 text-white p-3 rounded-xl"><i class="fas fa-edit"></i></div>
-                    <h2 id="formTitle" class="font-bold text-2xl text-slate-900 uppercase">Master Console</h2>
+                    <h2 id="formTitle" class="font-bold text-3xl text-slate-900 uppercase">Master Console</h2>
                 </div>
                 <button onclick="App.toggleMasterPanel(false)" class="text-slate-400 hover:text-red-600 transition-colors">
-                    <i class="fas fa-times fa-2xl"></i>
+                    <i class="fas fa-times fa-3xl"></i>
                 </button>
             </div>
             <form id="masterForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input type="hidden" id="mId">
                 <div class="md:col-span-2">
-                    <label class="text-[11px] font-bold text-slate-500 uppercase block mb-1">Task Title</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Task Title</label>
                     <input type="text" id="mTitle" required class="input-field">
                 </div>
                 <div class="md:col-span-2">
-                    <label class="text-[11px] font-bold text-slate-500 uppercase block mb-1">Scope Details</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Scope Details</label>
                     <textarea id="mDesc" class="input-field" rows="4"></textarea>
                 </div>
                 <div>
-                    <label class="text-[11px] font-bold text-slate-500 uppercase block mb-1">Source</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Source</label>
                     <select id="mSource" class="input-field">
                         <option value="">Select Source</option>
                         <option>Director Acad & Sys</option>
@@ -173,11 +203,11 @@
                     </select>
                 </div>
                 <div>
-                    <label class="text-[11px] font-bold text-slate-500 uppercase block mb-1">Agent</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Agent</label>
                     <input type="text" id="mAssignee" required class="input-field">
                 </div>
                 <div>
-                    <label class="text-[11px] font-bold text-slate-500 uppercase block mb-1">Status</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Status</label>
                     <select id="mStatus" class="input-field">
                         <option value="Started">STARTED</option>
                         <option value="Progress">IN PROGRESS</option>
@@ -185,66 +215,83 @@
                     </select>
                 </div>
                 <div>
-                    <label class="text-[11px] font-bold text-slate-500 uppercase block mb-1">Deadline</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase block mb-2">Deadline</label>
                     <input type="date" id="mDeadline" required class="input-field">
                 </div>
-                <div class="md:col-span-2 pt-4">
-                    <button type="submit" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl uppercase tracking-widest shadow-lg">Save Task</button>
+                <div class="md:col-span-2 pt-6">
+                    <button type="submit" class="w-full bg-blue-900 text-white font-bold py-5 rounded-2xl uppercase tracking-widest shadow-2xl hover:bg-blue-800 transition-all">Save Task Configuration</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- NAV -->
-    <nav class="bg-white border-b-2 border-slate-100 sticky top-0 z-50 no-print">
-        <div class="max-w-[1400px] mx-auto px-6 py-4">
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex items-center gap-4">
-                    <div class="bg-blue-900 text-white p-3 rounded-xl"><i class="fas fa-tasks"></i></div>
+    <nav class="bg-white border-b-4 border-blue-900 sticky top-0 z-50 no-print shadow-sm">
+        <div class="max-w-[1440px] mx-auto px-8 py-6">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-6">
+                    <div class="bg-blue-900 text-white w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"><i class="fas fa-layer-group fa-2xl"></i></div>
                     <div>
-                        <h1 class="text-2xl font-bold text-blue-950">TRACKER <span class="text-blue-500 font-normal">PRO</span></h1>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Shiv Suri Oversight</p>
+                        <h1 class="text-4xl font-black text-blue-950 tracking-tighter">TRACKER <span class="text-blue-600">PRO</span></h1>
+                        <p class="text-sm font-bold text-slate-500 uppercase tracking-[0.3em] mt-1">Shiv Suri Oversight</p>
                     </div>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="App.toggleMasterPanel(true)" class="text-[11px] font-bold bg-blue-900 text-white px-5 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i>NEW</button>
-                    <button onclick="window.print()" class="text-[11px] font-bold bg-slate-100 text-slate-600 px-5 py-3 rounded-xl"><i class="fas fa-print"></i></button>
+                <div class="flex gap-4">
+                    <button onclick="App.toggleMasterPanel(true)" class="text-sm font-black bg-blue-900 text-white px-8 py-4 rounded-2xl shadow-xl hover:scale-105 transition-transform flex items-center gap-3">
+                        <i class="fas fa-plus-circle fa-lg"></i> NEW TASK
+                    </button>
+                    <button onclick="window.print()" class="text-sm font-black bg-slate-100 text-slate-700 px-6 py-4 rounded-2xl border border-slate-200 hover:bg-white transition-colors">
+                        <i class="fas fa-print fa-lg"></i>
+                    </button>
                 </div>
             </div>
             <div class="flex flex-col md:flex-row gap-4 items-center">
                 <div class="relative flex-1 w-full">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="universalSearch" oninput="App.render()" placeholder="SEARCH..." class="w-full bg-slate-50 border-2 border-slate-100 pl-12 pr-4 py-3 rounded-xl text-[12px] font-bold uppercase outline-none">
+                    <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 fa-lg"></i>
+                    <input type="text" id="universalSearch" oninput="App.render()" placeholder="SEARCH TASKS, AGENTS, OR DEPARTMENTS..." class="w-full bg-slate-50 border-2 border-slate-100 pl-14 pr-6 py-4 rounded-2xl text-sm font-bold uppercase outline-none focus:border-blue-400 focus:bg-white transition-all">
                 </div>
-                <div class="flex gap-2">
-                    <div id="stat-completed" class="bg-green-100 text-green-800 px-4 py-3 rounded-xl font-bold text-[11px] uppercase border border-green-200">0 DONE</div>
-                    <div id="stat-progress" class="bg-orange-100 text-orange-800 px-4 py-3 rounded-xl font-bold text-[11px] uppercase border border-orange-200">0 IN PROGRESS</div>
+                <div class="flex gap-3">
+                    <div id="stat-completed" class="bg-green-50 text-green-700 px-6 py-4 rounded-2xl font-black text-sm uppercase border-2 border-green-100 flex items-center gap-2">
+                        <i class="fas fa-check-circle"></i> <span>0 DONE</span>
+                    </div>
+                    <div id="stat-progress" class="bg-orange-50 text-orange-700 px-6 py-4 rounded-2xl font-black text-sm uppercase border-2 border-orange-100 flex items-center gap-2">
+                        <i class="fas fa-spinner fa-spin"></i> <span>0 PENDING</span>
+                    </div>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-[1400px] mx-auto px-6 mt-8">
-        <main class="space-y-6" id="taskBody"></main>
+    <div class="max-w-[1440px] mx-auto px-8 mt-10">
+        <main class="space-y-8" id="taskBody"></main>
     </div>
 
     <!-- LOG MODAL -->
     <div id="subModal" class="fixed inset-0 bg-slate-900/60 hidden flex items-center justify-center z-[110] no-print">
-        <div class="bg-white p-8 rounded-2xl w-full max-w-lg shadow-2xl mx-4">
-            <h3 class="font-bold text-xl text-slate-900 mb-6 uppercase">Activity Log</h3>
-            <form id="subForm" class="space-y-4">
+        <div class="bg-white p-10 rounded-3xl w-full max-w-xl shadow-2xl mx-4">
+            <h3 class="font-bold text-2xl text-slate-900 mb-8 uppercase tracking-tight">Post Activity Log</h3>
+            <form id="subForm" class="space-y-5">
                 <input type="hidden" id="subParentId"><input type="hidden" id="subId">
-                <textarea id="subNote" placeholder="Notes..." required class="input-field h-32"></textarea>
+                <textarea id="subNote" placeholder="Enter progress details..." required class="input-field h-40"></textarea>
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="subAssignee" placeholder="By" required class="input-field">
-                    <input type="date" id="subDate" required class="input-field">
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Handled By</label>
+                        <input type="text" id="subAssignee" placeholder="Name" required class="input-field">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Entry Date</label>
+                        <input type="date" id="subDate" required class="input-field">
+                    </div>
                 </div>
-                <select id="subMode" class="input-field">
-                    <option>WhatsApp</option><option>Mobile Call</option><option>Intercom</option><option>Email</option><option>Verbal Meeting</option>
-                </select>
-                <div class="flex gap-4 pt-2">
-                    <button type="button" onclick="App.closeSubModal()" class="flex-1 font-bold text-slate-400 uppercase text-xs">Cancel</button>
-                    <button type="submit" class="flex-[3] bg-blue-900 text-white font-bold py-4 rounded-xl uppercase">Commit Log</button>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Communication Channel</label>
+                    <select id="subMode" class="input-field">
+                        <option>WhatsApp</option><option>Mobile Call</option><option>Intercom</option><option>Email</option><option>Verbal Meeting</option>
+                    </select>
+                </div>
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="App.closeSubModal()" class="flex-1 font-bold text-slate-400 uppercase text-sm tracking-widest hover:text-slate-600 transition-colors">Discard</button>
+                    <button type="submit" class="flex-[3] bg-blue-900 text-white font-bold py-5 rounded-2xl uppercase tracking-widest shadow-lg hover:bg-blue-800 transition-all">Submit Entry</button>
                 </div>
             </form>
         </div>
@@ -254,6 +301,7 @@
         const App = {
             URL: "https://script.google.com/macros/s/AKfycbxmXjkC_wJ58wxvsLPB2ijsGZViykVuPexxNavdbXyc7HF9bCmqFgWrfFQv3f6EVbVN/exec", 
             data: [],
+            expandedTasks: new Set(),
 
             init() {
                 document.getElementById("masterForm").onsubmit = (e) => this.saveMaster(e);
@@ -267,6 +315,15 @@
                 const p = document.getElementById("masterPanel");
                 if (s) { p.classList.add("open"); document.body.style.overflow = "hidden"; }
                 else { p.classList.remove("open"); document.body.style.overflow = "auto"; this.resetMasterForm(); }
+            },
+
+            toggleSubTasks(taskId) {
+                if (this.expandedTasks.has(taskId)) {
+                    this.expandedTasks.delete(taskId);
+                } else {
+                    this.expandedTasks.add(taskId);
+                }
+                this.render();
             },
 
             async fetch() {
@@ -294,21 +351,21 @@
                 if (query) {
                     filtered = filtered.filter(t => 
                         (t.title||"").toLowerCase().includes(query) || 
-                        (t.assignee||"").toLowerCase().includes(query)
+                        (t.assignee||"").toLowerCase().includes(query) ||
+                        (t.source||"").toLowerCase().includes(query)
                     );
                 }
 
                 // Update Stats
-                document.getElementById('stat-completed').innerText = `${this.data.filter(t => t.status === 'Completed').length} DONE`;
-                document.getElementById('stat-progress').innerText = `${this.data.filter(t => t.status === 'Progress').length} IN PROGRESS`;
+                document.getElementById('stat-completed').querySelector('span').innerText = `${this.data.filter(t => t.status === 'Completed').length} DONE`;
+                document.getElementById('stat-progress').querySelector('span').innerText = `${this.data.filter(t => t.status === 'Progress').length} IN PROGRESS`;
 
                 // Handle Marquee
                 const urgentTasks = this.data.filter(t => t.deadline === todayStr && t.status !== 'Completed');
                 const marqueeBox = document.getElementById("marqueeContainer");
                 if (urgentTasks.length > 0) {
                     marqueeBox.style.display = "block";
-                    const fire = `<span class="fire-glow"><i class="fas fa-fire"></i></span>`;
-                    const content = urgentTasks.map(t => `${fire} ${t.title}`).join(' &nbsp;&nbsp;&nbsp;&nbsp; ');
+                    const content = urgentTasks.map(t => `<i class="fas fa-fire fire-glow"></i> DEADLINE TODAY: ${t.title}`).join(' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ');
                     document.getElementById("marquee").innerHTML = content;
                 } else {
                     marqueeBox.style.display = "none";
@@ -318,50 +375,89 @@
                 filtered.forEach(t => {
                     const card = document.createElement("div");
                     const isDueToday = t.deadline === todayStr && t.status !== 'Completed';
-                    card.className = `task-card p-6 md:p-8 status-${t.status.toLowerCase()}`;
+                    const hasSubs = t.subTasks && t.subTasks.length > 0;
+                    const isExpanded = this.expandedTasks.has(t.id);
+
+                    card.className = `task-card status-${t.status.toLowerCase()}`;
                     
-                    const statusClass = t.status === 'Progress' ? 'bg-orange-100 text-orange-800 border-orange-200' : 'bg-slate-100 text-slate-600 border-slate-200';
+                    let statusIcon = '<i class="far fa-circle"></i>';
+                    let statusLabel = t.status.toUpperCase();
+                    let statusStyle = 'bg-slate-100 text-slate-600 border-slate-200';
+
+                    if (t.status === 'Completed') {
+                        statusIcon = '✅'; // Green tick
+                        statusStyle = 'bg-green-50 text-green-700 border-green-200';
+                    } else if (t.status === 'Progress') {
+                        statusIcon = '👨‍💻'; // Man at work
+                        statusStyle = 'bg-orange-50 text-orange-700 border-orange-200';
+                    }
 
                     card.innerHTML = `
-                        <div class="flex justify-between items-start gap-4">
-                            <div onclick="App.editMaster('${t.id}')" class="cursor-pointer flex-1">
-                                <div class="flex items-center gap-3 mb-4 flex-wrap">
-                                    <span class="text-[10px] font-bold uppercase px-3 py-1 rounded-md border ${statusClass}">${t.status === 'Progress' ? 'IN PROGRESS' : t.status.toUpperCase()}</span>
-                                    ${t.source ? `<span class="text-[10px] font-bold uppercase px-3 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-100">${t.source}</span>` : ''}
-                                    ${isDueToday ? `<span class="due-today-badge"><i class="fas fa-fire fire-glow"></i> DUE TODAY</span>` : ''}
+                        <div class="p-8">
+                            <div class="flex justify-between items-start gap-6">
+                                <div onclick="App.editMaster('${t.id}')" class="cursor-pointer flex-1">
+                                    <div class="flex items-center gap-4 mb-5 flex-wrap">
+                                        <span class="text-xs font-black uppercase px-4 py-1.5 rounded-full border-2 ${statusStyle} flex items-center gap-2">
+                                            ${statusIcon} ${statusLabel}
+                                        </span>
+                                        ${t.source ? `<span class="text-xs font-black uppercase px-4 py-1.5 bg-blue-50 text-blue-700 rounded-full border-2 border-blue-100">${t.source}</span>` : ''}
+                                        ${isDueToday ? `<span class="due-today-badge"><i class="fas fa-bolt"></i> PRIORITY ACTION</span>` : ''}
+                                    </div>
+                                    <h3 class="locked-task-title mb-6">${t.title}</h3>
+                                    <div class="formatted-content p-6 bg-slate-50 rounded-2xl border-2 border-slate-100 shadow-inner">${t.name || '---'}</div>
+                                    
+                                    <div class="mt-8 flex flex-wrap gap-x-16 gap-y-6">
+                                        <div class="flex items-center gap-4">
+                                            <div class="bg-blue-100 text-blue-800 p-3 rounded-xl"><i class="fas fa-user-tie fa-lg"></i></div>
+                                            <div>
+                                                <div class="text-[10px] font-black text-slate-400 uppercase mb-0.5 tracking-wider">Responsible Agent</div>
+                                                <div class="text-slate-900 font-black text-lg uppercase">${t.assignee}</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-4">
+                                            <div class="bg-red-100 text-red-800 p-3 rounded-xl"><i class="fas fa-calendar-day fa-lg"></i></div>
+                                            <div>
+                                                <div class="text-[10px] font-black text-slate-400 uppercase mb-0.5 tracking-wider">Commitment Date</div>
+                                                <div class="text-red-700 font-black text-lg uppercase">${this.formatDate(t.deadline)}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <h3 class="locked-task-title mb-4">${t.title}</h3>
-                                <div class="formatted-content p-5 bg-slate-50 rounded-xl border border-slate-200">${t.name || '---'}</div>
-                                
-                                <div class="mt-6 flex flex-wrap gap-x-12 gap-y-4">
-                                    <div>
-                                        <div class="text-[10px] font-bold text-slate-400 uppercase mb-1">Lead Responsible</div>
-                                        <div class="text-slate-900 font-bold text-[15px]"><i class="far fa-user text-blue-600 mr-2"></i>${t.assignee}</div>
-                                    </div>
-                                    <div>
-                                        <div class="text-[10px] font-bold text-slate-400 uppercase mb-1">Target Date</div>
-                                        <div class="text-orange-700 font-bold text-[15px]"><i class="far fa-calendar mr-2"></i>${this.formatDate(t.deadline)}</div>
-                                    </div>
+                                <div class="flex flex-col gap-3 no-print">
+                                    <button onclick="App.openSubModal('${t.id}')" class="h-16 w-16 bg-blue-900 text-white rounded-2xl shadow-xl flex items-center justify-center hover:scale-110 transition-transform">
+                                        <i class="fas fa-plus fa-xl"></i>
+                                    </button>
+                                    ${hasSubs ? `
+                                        <button onclick="App.toggleSubTasks('${t.id}')" class="h-16 w-16 bg-white text-slate-700 rounded-2xl border-2 border-slate-100 shadow-md flex items-center justify-center hover:bg-slate-50 transition-colors">
+                                            <i class="fas ${isExpanded ? 'fa-chevron-up' : 'fa-chevron-down'} fa-xl"></i>
+                                        </button>
+                                    ` : ''}
                                 </div>
                             </div>
-                            <button onclick="App.openSubModal('${t.id}')" class="h-12 w-12 bg-blue-900 text-white rounded-xl shadow-lg no-print flex-shrink-0">
-                                <i class="fas fa-plus"></i>
-                            </button>
                         </div>
 
-                        ${t.subTasks.length > 0 ? `
-                        <div class="mt-8 border-t-2 border-slate-50 pt-6 space-y-4">
+                        ${hasSubs && isExpanded ? `
+                        <div class="subtask-container pb-10 pr-10">
+                            <div class="text-xs font-black text-slate-400 uppercase mb-6 pl-4 tracking-widest flex items-center gap-2">
+                                <i class="fas fa-history"></i> AUDIT LOG (${t.subTasks.length} ENTRIES)
+                            </div>
                             ${t.subTasks.map(s => `
-                                <div ondblclick="App.editSub('${t.id}', '${s.id}')" class="subtask-box">
-                                    <div class="formatted-content text-slate-900 mb-3">${s.text}</div>
-                                    <div class="flex flex-wrap gap-4 text-[11px] font-bold uppercase">
-                                        <span class="text-blue-700 bg-blue-50 px-2 py-1 rounded">BY: ${s.assignee}</span>
-                                        <span class="text-slate-500 bg-slate-100 px-2 py-1 rounded">${this.formatDate(s.date)}</span>
-                                        <span class="text-purple-700 bg-purple-50 px-2 py-1 rounded">VIA: ${s.mode}</span>
+                                <div ondblclick="App.editSub('${t.id}', '${s.id}')" class="subtask-item">
+                                    <div class="formatted-content text-slate-800 mb-4 text-[15px]">${s.text}</div>
+                                    <div class="flex flex-wrap gap-4 text-[11px] font-black uppercase">
+                                        <span class="text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 flex items-center gap-2"><i class="fas fa-user-edit"></i> ${s.assignee}</span>
+                                        <span class="text-slate-600 bg-white px-3 py-1.5 rounded-lg border border-slate-200 flex items-center gap-2"><i class="fas fa-clock"></i> ${this.formatDate(s.date)}</span>
+                                        <span class="text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100 flex items-center gap-2"><i class="fas fa-paper-plane"></i> ${s.mode}</span>
                                     </div>
                                 </div>
                             `).join("")}
                         </div>
+                        ` : ''}
+                        
+                        ${hasSubs && !isExpanded ? `
+                            <div class="px-8 pb-6 text-xs font-black text-blue-600 uppercase cursor-pointer hover:underline flex items-center gap-2" onclick="App.toggleSubTasks('${t.id}')">
+                                <i class="fas fa-stream"></i> Expand Activity History (${t.subTasks.length} updates)
+                            </div>
                         ` : ''}
                     `;
                     body.appendChild(card);
@@ -383,6 +479,7 @@
                 document.getElementById("subId").value = s.id;
                 document.getElementById("subNote").value = s.text;
                 document.getElementById("subAssignee").value = s.assignee;
+                document.getElementById("mStatus").value = s.status; // status not defined in sub modal but kept for logic
                 document.getElementById("subMode").value = s.mode;
                 document.getElementById("subDate").value = s.date;
                 document.getElementById("subModal").classList.remove("hidden");
@@ -435,7 +532,7 @@
                     title: document.getElementById("mTitle").value,
                     name: document.getElementById("mDesc").value,
                     source: document.getElementById("mSource").value,
-                    assigneace: document.getElementById("mAssignee").value,
+                    assignee: document.getElementById("mAssignee").value,
                     status: document.getElementById("mStatus").value,
                     deadline: document.getElementById("mDeadline").value
                 };
