@@ -323,6 +323,8 @@
     }
     </script>
 
+
+    
 <!-- START OF DYNAMIC METAL PRICES TICKER -->
 <style>
     .ticker-full-width-wrapper {
@@ -331,19 +333,21 @@
     }
     @keyframes intenseFire {
         0% { text-shadow: 0 0 8px #ff4500; box-shadow: 0 0 10px #ff4500; transform: scale(1); }
-        100% { text-shadow: 0 0 15px #ff0000; box-shadow: 0 0 25px #ff0000; transform: scale(1.03); }
+        100% { text-shadow: 0 0 15px #ff0000; box-shadow: 0 0 25px #ff0000; transform: scale(1.02); }
     }
     .extreme-glow {
         animation: intenseFire 0.8s ease-in-out infinite alternate;
         display: inline-block; background: #000; color: #ff4500;
-        padding: 3px 12px; border-radius: 5px; font-weight: 900;
+        padding: 4px 12px; border-radius: 5px; font-weight: 900;
         border: 2px solid #ff4500; margin-left: 10px; font-size: 0.95rem;
+        line-height: 1.2;
     }
-    .product-title { font-weight: 800; letter-spacing: 0.03em; font-size: 1rem; }
+    .product-title { font-weight: 800; letter-spacing: 0.03em; font-size: 1rem; color: #fff; }
 </style>
 
 <div class="ticker-full-width-wrapper">
-    <div style="height: 48px; display: flex; align-items: center; border-bottom: 1px solid #374151;">
+    <!-- Height increased to 56px to prevent clipping and ensure vertical alignment -->
+    <div style="height: 56px; display: flex; align-items: center; border-bottom: 1px solid #374151;">
         <marquee id="price-marquee" behavior="scroll" direction="left" scrollamount="10" style="width: 100%; white-space: nowrap;">
             Loading latest market rates from MPGS database...
         </marquee>
@@ -352,7 +356,7 @@
 
 <script>
     // Link to your specific Google Sheet CSV Export
-    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pubhtml?gid=0&single=true"; 
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1bSeDANMELX0lcl-lWXnQclHsAfv9gxBzdmv_W5ANLRI/export?format=csv"; 
 
     async function updatePrices() {
         const fetchWithRetry = async (url, retries = 5, delay = 1000) => {
@@ -405,19 +409,6 @@
     setInterval(updatePrices, 300000);
 </script>
 <!-- END OF DYNAMIC METAL PRICES TICKER -->
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     <!-- ========== EXTERNAL LIBRARIES ========== -->
     <!-- Tailwind CSS for styling -->
@@ -1408,6 +1399,7 @@
     </span>
 </body>
 </html>
+
 
 
 
