@@ -539,39 +539,53 @@
             letter-spacing: 0.01em;
         }
 
- /* START OF MARQUEE STYLE */
-/* Intense Fire Glow Core Animation */
-@keyframes intenseFire {
-    0% {
-        text-shadow: 0 0 10px #ff4500, 0 0 20px #ff8c00;
-        box-shadow: 0 0 15px #ff4500, inset 0 0 5px #ff4500;
-        transform: scale(1);
+ <!-- START OF METAL PRICES TICKER CODE -->
+<style>
+    /* 1. Reset for absolute full-width integration */
+    .ticker-full-width-wrapper {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow: hidden;
+        background-color: #111827; /* Dark gray-900 */
+        font-family: sans-serif;
     }
-    100% {
-        text-shadow: 0 0 20px #ff0000, 0 0 40px #ff4500, 0 0 60px #ff8c00;
-        box-shadow: 0 0 35px #ff0000, inset 0 0 15px #ff8c00;
-        transform: scale(1.05);
+
+    /* 2. Intense Fire Glow Animation */
+    @keyframes intenseFire {
+        0% {
+            text-shadow: 0 0 8px #ff4500, 0 0 15px #ff8c00;
+            box-shadow: 0 0 10px #ff4500, inset 0 0 3px #ff4500;
+            transform: scale(1);
+        }
+        100% {
+            text-shadow: 0 0 15px #ff0000, 0 0 30px #ff4500, 0 0 45px #ff8c00;
+            box-shadow: 0 0 25px #ff0000, inset 0 0 10px #ff8c00;
+            transform: scale(1.03);
+        }
     }
-}
 
-.extreme-glow {
-    animation: intenseFire 0.8s ease-in-out infinite alternate;
-    display: inline-block;
-    background: #000;
-    color: #ff4500;
-    padding: 4px 14px;
-    border-radius: 6px;
-    font-weight: 900;
-    border: 2px solid #ff4500;
-    margin-left: 12px;
-}
+    /* 3. Glowing Price Box Styling */
+    .extreme-glow {
+        animation: intenseFire 0.8s ease-in-out infinite alternate;
+        display: inline-block;
+        background: #000;
+        color: #ff4500;
+        padding: 3px 12px; 
+        border-radius: 5px;
+        font-weight: 900;
+        border: 2px solid #ff4500;
+        margin-left: 10px;
+        font-size: 0.95rem; 
+    }
 
-.product-title {
-    font-weight: 800;
-    letter-spacing: 0.05em;
-}
-
- /* END OF MARQUEE STYLE */
+    /* 4. Product Title Styling */
+    .product-title {
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        font-size: 1rem; 
+    }
+</style>
         
         
         /* LinkedIn brand style */
@@ -694,27 +708,33 @@
     
     <!-- ========== SCROLLING MARQUEE BANNER ========== -->
     <!-- Animated banner with keywords and contact CTA -->
-<div class="max-w-6xl mx-auto">
-    <div class="bg-gray-900 p-6 overflow-hidden shadow-2xl rounded-xl border-t-2 border-b-2 border-gray-700">
-        <marquee behavior="scroll" direction="left" scrollamount="10" class="text-xl tracking-wide" style="color: white; font-family: sans-serif;">
+<div class="ticker-full-width-wrapper">
+    <div style="height: 48px; display: flex; align-items: center; border-bottom: 1px solid #374151;">
+        <marquee behavior="scroll" direction="left" scrollamount="10" style="width: 100%; white-space: nowrap;">
             
-            <!-- 1. Zinc Ingot -->
+            <!-- Item 1: Zinc Ingot -->
             <span class="product-title" style="color: #60A5FA;">1. Zinc Ingot (88%)</span>
             <span class="extreme-glow">₹265-₹290* + GST/Kg</span>
 
-            <span style="margin: 0 48px; color: #4b5563;">|</span>
+            <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
 
-            <!-- 2. Aluminum Ingot -->
+            <!-- Item 2: Aluminum Ingot -->
             <span class="product-title" style="color: #F87171;">2. Aluminum Ingot (ADC12)</span>
             <span class="extreme-glow">₹245-₹290* + GST/Kg</span>
 
-            <span style="margin: 0 48px; color: #4b5563;">|</span>
+            <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
 
-            <!-- 3. OCC Waste Paper -->
+            <!-- Item 3: OCC Waste Paper -->
             <span class="product-title" style="color: #34D399;">3. OCC Waste Paper (95/5)</span>
             <span class="extreme-glow">₹17-₹18* + GST/Kg</span>
 
-            <span style="margin: 0 48px; color: #4b5563;">|</span>
+            <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
+
+            <!-- Repeat Item 1 for continuous flow on ultra-wide screens -->
+            <span class="product-title" style="color: #60A5FA;">1. Zinc Ingot (88%)</span>
+            <span class="extreme-glow">₹265-₹290* + GST/Kg</span>
+
+            <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
 
         </marquee>
     </div>
@@ -1387,6 +1407,7 @@
     </span>
 </body>
 </html>
+
 
 
 
