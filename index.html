@@ -1402,7 +1402,7 @@
     </span>
 <!-- =========================================================
      MPGS LATEST STOCK - MOBILE OPTIMIZED GALLERY
-     - Strategy: Auto-Convert Google Drive Share Links
+     - Strategy: Multi-Proxy Google Drive Loading
      - Column B: Image URL (Supports Drive View/Share links)
      - Column A: Item Name
      ========================================================= -->
@@ -1474,7 +1474,6 @@
 </style>
 
 <div id="mpgs-gallery-root">
-    <!-- Branding Header -->
     <div style="text-align: center; margin-bottom: 15px;">
         <div class="desktop-only" style="width: 35px; height: 4px; background: #cbd5e1; margin: 0 auto 10px; border-radius: 10px;"></div>
         <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5px;">
@@ -1488,12 +1487,10 @@
         </div>
     </div>
 
-    <!-- Images Container -->
     <div id="list-container" class="custom-scrollbar" style="display: flex; flex-direction: column; overflow-y: auto; flex-grow: 1; padding: 2px;">
         <div class="loader"></div>
     </div>
 
-    <!-- Security Badge -->
     <div class="desktop-only" style="margin-top: 15px; font-size: 9px; text-align: center; color: #64748b; font-weight: 700;">
         <span style="color: #10b981;">●</span> LIVE SYNC
     </div>
@@ -1501,30 +1498,17 @@
 
 <script>
     (function() {
-        /**
-         * UPDATED URL: Using the exact GID (2143012843) provided in your latest link.
-         */
         const SHEET_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pub?gid=2143012843&single=true&output=csv`;
 
-        /**
-         * Optimized Google Drive link conversion
-         */
-        function getDirectLink(url) {
-            if (!url) return "";
-            url = url.trim();
-            if (url.includes('drive.google.com')) {
-                let id = "";
-                if (url.includes('/d/')) {
-                    id = url.split('/d/')[1].split('/')[0].split('?')[0];
-                } else if (url.includes('id=')) {
-                    id = url.split('id=')[1].split('&')[0];
-                }
-                if (id) {
-                    // Use the 'uc' endpoint which is more reliable for direct embedding
-                    return `https://docs.google.com/uc?export=view&id=${id}`;
-                }
+        function getDriveId(url) {
+            if (!url) return null;
+            let id = "";
+            if (url.includes('/d/')) {
+                id = url.split('/d/')[1].split('/')[0].split('?')[0];
+            } else if (url.includes('id=')) {
+                id = url.split('id=')[1].split('&')[0];
             }
-            return url;
+            return id || null;
         }
 
         async function loadStock() {
@@ -1532,43 +1516,36 @@
             list.innerHTML = '<div class="loader"></div>';
 
             try {
-                // Add timestamp to prevent browser caching of the CSV
                 const response = await fetch(`${SHEET_URL}&cb=${Date.now()}`);
                 const data = await response.text();
-                
-                // Debugging: Log the CSV structure to console
-                console.log("Fetched Sheet Data:", data);
-
                 const lines = data.split(/\r?\n/).filter(l => l.trim() !== ""); 
 
                 if (lines.length <= 1) {
-                    list.innerHTML = `
-                        <div style="font-size:10px;color:#64748b;text-align:center;padding:20px;line-height:1.4;">
-                            <b>No Stock Items Found</b><br>
-                            <span style="font-size:8px">Ensure data exists on the tab with ID 2143012843.</span>
-                        </div>`;
+                    list.innerHTML = `<div style="font-size:10px;color:#64748b;text-align:center;padding:20px;">No Stock Items Found</div>`;
                     return;
                 }
 
                 list.innerHTML = '';
                 lines.slice(1).forEach((line) => {
-                    // Split CSV row while respecting quoted content
                     const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if (parts.length >= 2) {
                         const title = (parts[0] || "Stock Item").replace(/"/g, '').trim();
-                        const rawImgUrl = (parts[1] || "").replace(/"/g, '').trim();
-                        const imgUrl = getDirectLink(rawImgUrl);
+                        const rawUrl = (parts[1] || "").replace(/"/g, '').trim();
+                        const driveId = getDriveId(rawUrl);
 
-                        if (imgUrl.startsWith('http')) {
+                        if (driveId) {
+                            // Primary method: Thumbnail proxy (fastest)
+                            const imgUrl = `https://lh3.googleusercontent.com/d/${driveId}=w1000`;
+                            
                             const card = document.createElement('div');
                             card.className = 'stock-card';
                             card.innerHTML = `
-                                <div style="width:100%; aspect-ratio:1; background:#f1f5f9; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                                <div style="width:100%; aspect-ratio:1; background:#f1f5f9; overflow:hidden; display:flex; align-items:center; justify-content:center; position:relative;">
                                     <img src="${imgUrl}" 
                                          referrerpolicy="no-referrer"
                                          style="width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition: opacity 0.3s;" 
                                          onload="this.style.opacity='1'"
-                                         onerror="this.onerror=null; this.parentElement.innerHTML='<div style=font-size:9px;color:#ef4444;text-align:center;padding:5px;>Access Denied<br>Check Share Settings</div>';">
+                                         onerror="this.onerror=null; this.src='https://docs.google.com/uc?export=view&id=${driveId}'; this.parentElement.setAttribute('data-retry', '1');">
                                 </div>
                                 <div class="info-panel" style="padding: 10px;">
                                     <div style="font-size: 11px; font-weight: 800; color: #0f172a; line-height:1.2;">${title}</div>
@@ -1579,7 +1556,6 @@
                     }
                 });
             } catch (err) {
-                console.error("Gallery Sync Error:", err);
                 list.innerHTML = '<div style="font-size:10px;color:red;text-align:center;">Network Error</div>';
             }
         }
@@ -1591,6 +1567,7 @@
    
 </body>
 </html>
+
 
 
 
