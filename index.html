@@ -1520,7 +1520,7 @@
 
         /**
          * Enhanced Link Converter
-         * Supports: Google Drive, Direct URLs, and basic handling for Google Photos
+         * Specifically improved for the link format: drive.google.com/file/d/.../view
          */
         function convertToDirectLink(url) {
             if (!url) return "";
@@ -1529,19 +1529,24 @@
             // Handle Google Drive
             if (url.includes('drive.google.com')) {
                 let id = "";
+                // Try to extract ID from standard /file/d/ format
                 if (url.includes('/d/')) {
-                    id = url.split('/d/')[1].split('/')[0].split('?')[0];
-                } else if (url.includes('id=')) {
+                    id = url.split('/d/')[1].split('/')[0].split('?')[0].split('&')[0];
+                } 
+                // Try to extract ID from open?id= format
+                else if (url.includes('id=')) {
                     id = url.split('id=')[1].split('&')[0];
                 }
-                if (id) return `https://lh3.googleusercontent.com/d/${id}`;
+                
+                if (id) {
+                    // This is the most consistent direct image source for Google Drive
+                    return `https://lh3.googleusercontent.com/d/${id}`;
+                }
             }
 
-            // Handle Google Photos (photos.app.goo.gl or photos.google.com)
-            // Note: Photos links are technically web pages, not image files.
-            // We append a wrapper that works for some Google Photos configurations.
+            // Handle Google Photos links (Experimental)
             if (url.includes('photos.app.goo.gl') || url.includes('photos.google.com')) {
-                return url; // Passing as is; ideally use Google Drive for reliability
+                return url; 
             }
 
             return url;
@@ -1602,15 +1607,16 @@
             }
         }
 
-        // Global error handler for images (e.g., if Google Photos link fails)
         window.handleImageError = function(img) {
-            img.src = "https://placehold.co/400x300/fee2e2/991b1b?text=Link+Restricted";
+            img.src = "https://placehold.co/400x300/fee2e2/991b1b?text=Access+Denied";
             const info = img.closest('.fg-item').querySelector('.gallery-info');
-            if (info) {
+            if (info && !info.querySelector('.error-tip')) {
                 const p = document.createElement('p');
+                p.className = 'error-tip';
                 p.style.fontSize = '7px';
                 p.style.color = '#ef4444';
-                p.innerText = "Use Google Drive instead";
+                p.style.marginTop = '4px';
+                p.innerText = "Check Drive Share Settings";
                 info.appendChild(p);
             }
         }
@@ -1628,4 +1634,5 @@
    
 </body>
 </html>
+
 
