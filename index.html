@@ -322,6 +322,102 @@
         ]
     }
     </script>
+
+<!-- START OF DYNAMIC METAL PRICES TICKER -->
+<style>
+    .ticker-full-width-wrapper {
+        margin: 0; padding: 0; width: 100%; overflow: hidden;
+        background-color: #111827; font-family: sans-serif;
+    }
+    @keyframes intenseFire {
+        0% { text-shadow: 0 0 8px #ff4500; box-shadow: 0 0 10px #ff4500; transform: scale(1); }
+        100% { text-shadow: 0 0 15px #ff0000; box-shadow: 0 0 25px #ff0000; transform: scale(1.03); }
+    }
+    .extreme-glow {
+        animation: intenseFire 0.8s ease-in-out infinite alternate;
+        display: inline-block; background: #000; color: #ff4500;
+        padding: 3px 12px; border-radius: 5px; font-weight: 900;
+        border: 2px solid #ff4500; margin-left: 10px; font-size: 0.95rem;
+    }
+    .product-title { font-weight: 800; letter-spacing: 0.03em; font-size: 1rem; }
+</style>
+
+<div class="ticker-full-width-wrapper">
+    <div style="height: 48px; display: flex; align-items: center; border-bottom: 1px solid #374151;">
+        <marquee id="price-marquee" behavior="scroll" direction="left" scrollamount="10" style="width: 100%; white-space: nowrap;">
+            Loading latest market rates from MPGS database...
+        </marquee>
+    </div>
+</div>
+
+<script>
+    // Link to your specific Google Sheet CSV Export
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1bSeDANMELX0lcl-lWXnQclHsAfv9gxBzdmv_W5ANLRI/export?format=csv"; 
+
+    async function updatePrices() {
+        const fetchWithRetry = async (url, retries = 5, delay = 1000) => {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return await response.text();
+                } catch (err) {
+                    if (i === retries - 1) throw err;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        };
+
+        try {
+            const data = await fetchWithRetry(SHEET_CSV_URL);
+            const rows = data.split('\n')[0].split(','); 
+
+            const clean = (val) => val ? val.replace(/['"₹*]+/g, '').trim() : "";
+
+            // Fetching raw numbers from Sheet (A1, B1, C1)
+            const zinc = clean(rows[0]) || "265-290";
+            const aluminum = clean(rows[1]) || "245-290";
+            const paper = clean(rows[2]) || "17-18";
+
+            const marqueeContent = `
+                <span class="product-title" style="color: #60A5FA;">1. Zinc Ingot (88%)</span>
+                <span class="extreme-glow">₹${zinc}* + GST/Kg</span>
+                <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
+                
+                <span class="product-title" style="color: #F87171;">2. Aluminum Ingot (ADC12)</span>
+                <span class="extreme-glow">₹${aluminum}* + GST/Kg</span>
+                <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
+                
+                <span class="product-title" style="color: #34D399;">3. OCC Waste Paper (95/5)</span>
+                <span class="extreme-glow">₹${paper}* + GST/Kg</span>
+                <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
+            `;
+            
+            document.getElementById('price-marquee').innerHTML = marqueeContent + marqueeContent; 
+        } catch (error) {
+            document.getElementById('price-marquee').innerHTML = "Live Rates Temporary Unavailable. Refreshing...";
+        }
+    }
+
+    updatePrices();
+    // Auto-refresh every 5 minutes
+    setInterval(updatePrices, 300000);
+</script>
+<!-- END OF DYNAMIC METAL PRICES TICKER -->
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     <!-- ========== EXTERNAL LIBRARIES ========== -->
     <!-- Tailwind CSS for styling -->
@@ -539,55 +635,6 @@
             letter-spacing: 0.01em;
         }
 
- <!-- START OF METAL PRICES TICKER CODE  MARQUEE -->
-
-    /* 1. Reset for absolute full-width integration */
-    .ticker-full-width-wrapper {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        overflow: hidden;
-        background-color: #111827; /* Dark gray-900 */
-        font-family: sans-serif;
-    }
-
-    /* 2. Intense Fire Glow Animation */
-    @keyframes intenseFire {
-        0% {
-            text-shadow: 0 0 8px #ff4500, 0 0 15px #ff8c00;
-            box-shadow: 0 0 10px #ff4500, inset 0 0 3px #ff4500;
-            transform: scale(1);
-        }
-        100% {
-            text-shadow: 0 0 15px #ff0000, 0 0 30px #ff4500, 0 0 45px #ff8c00;
-            box-shadow: 0 0 25px #ff0000, inset 0 0 10px #ff8c00;
-            transform: scale(1.03);
-        }
-    }
-
-    /* 3. Glowing Price Box Styling */
-    .extreme-glow {
-        animation: intenseFire 0.8s ease-in-out infinite alternate;
-        display: inline-block;
-        background: #000;
-        color: #ff4500;
-        padding: 3px 12px; 
-        border-radius: 5px;
-        font-weight: 900;
-        border: 2px solid #ff4500;
-        margin-left: 10px;
-        font-size: 0.95rem; 
-    }
-
-    /* 4. Product Title Styling */
-    .product-title {
-        font-weight: 800;
-        letter-spacing: 0.03em;
-        font-size: 1rem; 
-    }
-
-<!-- END OF METAL PRICES TICKER CODE  MARQUEE -->
-
         
         
         /* LinkedIn brand style */
@@ -708,55 +755,7 @@
         </nav>
     </header>
     
-    <!-- ========== SCROLLING MARQUEE BANNER ========== -->
-    <!-- Animated banner with keywords and contact CTA -->
-<div class="ticker-full-width-wrapper">
-    <div style="height: 48px; display: flex; align-items: center; border-bottom: 1px solid #374151;">
-        <marquee behavior="scroll" direction="left" scrollamount="10" style="width: 100%; white-space: nowrap;">
-            
-            <!-- Item 1: Zinc Ingot -->
-            <span class="product-title" style="color: #60A5FA;">1. Zinc Ingot (88%)</span>
-            <span class="extreme-glow">₹265-₹290* + GST/Kg</span>
-
-            <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
-
-            <!-- Item 2: Aluminum Ingot -->
-            <span class="product-title" style="color: #F87171;">2. Aluminum Ingot (ADC12)</span>
-            <span class="extreme-glow">₹245-₹290* + GST/Kg</span>
-
-            <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
-
-            <!-- Item 3: OCC Waste Paper -->
-            <span class="product-title" style="color: #34D399;">3. OCC Waste Paper (95/5)</span>
-            <span class="extreme-glow">₹17-₹18* + GST/Kg</span>
-
-            <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
-
-            <!-- Repeat Item 1 for continuous flow on ultra-wide screens -->
-            <span class="product-title" style="color: #60A5FA;">1. Zinc Ingot (88%)</span>
-            <span class="extreme-glow">₹265-₹290* + GST/Kg</span>
-
-            <span style="margin: 0 64px; color: #4b5563; font-weight: 900;">|</span>
-
-        </marquee>
-    </div>
-</div>
-<!----
-<style>
-/* Animation for the Fire Glow Effect */
-@keyframes fireGlow {
-    from {
-        text-shadow: 0 0 10px #ff4500, 0 0 20px #ff8c00;
-        transform: scale(1);
-    }
-    to {
-        text-shadow: 0 0 20px #ff0000, 0 0 40px #ff4500, 0 0 60px #ff8c00;
-        transform: scale(1.05);
-    }
-}
-</style>
--->
-
+    
 
     <!-- ========== MAIN CONTENT AREA ========== -->
     <main>
@@ -1409,6 +1408,7 @@
     </span>
 </body>
 </html>
+
 
 
 
