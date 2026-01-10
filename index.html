@@ -1404,6 +1404,7 @@
      OUR LATEST STOCK - FLOATING GALLERY COMPONENT
      - Updates automatically via Google Sheets (Sheet2)
      - Column A: Image URL, Column B: Name, Column C: Date (Optional)
+     - FIX: Added Google Drive Link Converter
      ========================================================= -->
 <style>
     #floating-gallery-root .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -1504,6 +1505,21 @@
     (function() {
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pub?gid=1502396328&single=true&output=csv';
 
+        /**
+         * Converts Google Drive shared links into direct image links
+         */
+        function convertToDirectLink(url) {
+            if (!url) return "";
+            if (url.includes('drive.google.com')) {
+                const parts = url.split('/d/');
+                if (parts.length > 1) {
+                    const id = parts[1].split('/')[0];
+                    return `https://lh3.googleusercontent.com/d/${id}`;
+                }
+            }
+            return url;
+        }
+
         function getAutoDate() {
             return new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
         }
@@ -1522,7 +1538,12 @@
                 lines.forEach(line => {
                     const cols = line.split(',');
                     if (cols.length >= 1) {
-                        const img = cols[0] ? cols[0].trim() : "https://placehold.co/400x300/f1f5f9/64748b?text=Stock+Item";
+                        let img = cols[0] ? cols[0].trim() : "";
+                        img = convertToDirectLink(img); // FIX: Convert the link here
+                        
+                        const fallbackImg = "https://placehold.co/400x300/f1f5f9/64748b?text=Pending+Photo";
+                        const finalImg = img || fallbackImg;
+                        
                         const name = (cols[1] && cols[1].trim()) ? cols[1].trim() : "New Inventory";
                         const date = (cols[2] && cols[2].trim()) ? cols[2].trim() : "Added: " + getAutoDate();
 
@@ -1530,7 +1551,7 @@
                         itemDiv.className = 'fg-item';
                         itemDiv.innerHTML = `
                             <div style="position: relative; overflow: hidden;">
-                                <img src="${img}" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;" onerror="this.src='https://placehold.co/400x300?text=Error'">
+                                <img src="${finalImg}" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;" onerror="this.src='https://placehold.co/400x300?text=Error'">
                                 <div style="position: absolute; top: 6px; left: 6px; background: rgba(37, 99, 235, 0.9); color: white; font-size: 7px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">VERIFIED</div>
                             </div>
                             <div class="gallery-info" style="padding: 8px; background: white;">
@@ -1550,16 +1571,10 @@
         setInterval(updateStockGallery, 300000); // Auto-refresh every 5 mins
     })();
 </script>
-<!-- =========================================================
-    END OF --- 
-    OUR LATEST STOCK - FLOATING GALLERY COMPONENT
-     - Updates automatically via Google Sheets (Sheet2)
-     - Column A: Image URL, Column B: Name, Column C: Date (Optional)
-     ========================================================= -->
-
    
 </body>
 </html>
+
 
 
 
