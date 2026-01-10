@@ -659,11 +659,38 @@
     
     <!-- ========== SCROLLING MARQUEE BANNER ========== -->
     <!-- Animated banner with keywords and contact CTA -->
-    <div class="bg-gradient-to-r from-yellow-400 to-amber-500 text-gray-900 p-3 overflow-hidden shadow-md">
-        <marquee behavior="scroll" direction="left" scrollamount="6" class="text-base font-bold tracking-wide">
-            ✓ Zinc Ingot Supplier Meerut ✓ Aluminum ADC12 Ingot Price ✓ Kaskut Zinc Supplier India ✓ Bulk Metal Ingots ✓ <span class="phone-protected" onclick="revealPhone(this, 'marquee')">Click to View Contact Number</span>
-        </marquee>
-    </div>
+<div class="bg-gray-900 p-3 overflow-hidden shadow-md">
+    <marquee behavior="scroll" direction="left" scrollamount="6" class="text-base font-bold tracking-wide">
+        <span style="color: #60A5FA;">✓ Zinc Ingot Supplier Meerut</span> 
+        <span style="color: #F87171; margin-left: 20px;">✓ Aluminum ADC12 Ingot Price</span> 
+        
+        <span style="margin-left: 20px; padding: 2px 8px; background: #000; color: #ff4500; border-radius: 4px; font-weight: 900; text-shadow: 0 0 10px #ff4500, 0 0 20px #ff8c00, 0 0 30px #ff0000; animation: fireGlow 1.5s ease-in-out infinite alternate;">
+            RS. 265 + GST/KG
+        </span>
+
+        <span style="color: #34D399; margin-left: 20px;">✓ Kaskut Zinc Supplier India</span> 
+        <span style="color: #FBBF24; margin-left: 20px;">✓ Bulk Metal Ingots</span> 
+        <span class="phone-protected" style="color: #A78BFA; margin-left: 20px; cursor: pointer;" onclick="revealPhone(this, 'marquee')">
+            Click to View Contact Number
+        </span>
+    </marquee>
+</div>
+
+<style>
+/* Animation for the Fire Glow Effect */
+@keyframes fireGlow {
+    from {
+        text-shadow: 0 0 10px #ff4500, 0 0 20px #ff8c00;
+        transform: scale(1);
+    }
+    to {
+        text-shadow: 0 0 20px #ff0000, 0 0 40px #ff4500, 0 0 60px #ff8c00;
+        transform: scale(1.05);
+    }
+}
+</style>
+
+
 
     <!-- ========== MAIN CONTENT AREA ========== -->
     <main>
@@ -1316,5 +1343,6 @@
     </span>
 </body>
 </html>
+
 
 
