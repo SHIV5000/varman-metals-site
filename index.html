@@ -1404,7 +1404,7 @@
      OUR LATEST STOCK - FLOATING GALLERY COMPONENT
      - Updates automatically via Google Sheets (Sheet2)
      - Column A: Image URL, Column B: Name, Column C: Date (Optional)
-     - FIX: Added Google Drive Link Converter
+     - FIX: Enhanced Google Drive Link Force-Converter
      ========================================================= -->
 <style>
     #floating-gallery-root .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -1467,7 +1467,7 @@
         #floating-gallery-root .gallery-info { display: block !important; opacity: 1; }
     }
 
-    .fg-item { transition: all 0.3s ease; border-radius: 1rem; overflow: hidden; background: #fff; border: 1px solid #f1f5f9; flex-shrink: 0; }
+    .fg-item { transition: all 0.3s ease; border-radius: 1rem; overflow: hidden; background: #fff; border: 1px solid #f1f5f9; flex-shrink: 0; position: relative; }
     .fg-item:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
     
     .fg-shimmer {
@@ -1476,12 +1476,24 @@
         animation: fg-shimmer-anim 1.5s infinite;
     }
     @keyframes fg-shimmer-anim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .refresh-btn {
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    .refresh-btn:active { transform: rotate(180deg); }
 </style>
 
 <div id="floating-gallery-root">
     <!-- Header Area -->
-    <div style="text-align: center; padding: 4px 0 12px 0;">
+    <div style="text-align: center; padding: 4px 0 12px 0; position: relative;">
         <div class="fg-mobile-hide" style="width: 30px; height: 4px; background: #e2e8f0; margin: 0 auto 10px auto; border-radius: 10px;"></div>
+        
+        <!-- Refresh Icon -->
+        <div id="fg-refresh" class="refresh-btn" style="position: absolute; right: 0; top: 0; padding: 5px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path></svg>
+        </div>
+
         <h2 style="font-size: 10px; font-weight: 900; color: #2563eb; text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.2; margin: 0;">
             Our Latest<br><span style="color: #0f172a;">Stock</span>
         </h2>
@@ -1503,17 +1515,30 @@
 
 <script>
     (function() {
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pub?gid=1502396328&single=true&output=csv';
+        // Updated URL with cache-busting logic
+        const SHEET_ID = '1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_';
+        const GID = '1502396328';
+        const SHEET_BASE = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pub?gid=${GID}&single=true&output=csv`;
 
         /**
-         * Converts Google Drive shared links into direct image links
+         * Enhanced Google Drive Link Converter
+         * Handles standard links, sharing links, and direct IDs
          */
         function convertToDirectLink(url) {
             if (!url) return "";
+            url = url.trim();
+            
+            // Handle Google Drive links
             if (url.includes('drive.google.com')) {
-                const parts = url.split('/d/');
-                if (parts.length > 1) {
-                    const id = parts[1].split('/')[0];
+                let id = "";
+                if (url.includes('/d/')) {
+                    id = url.split('/d/')[1].split('/')[0].split('?')[0];
+                } else if (url.includes('id=')) {
+                    id = url.split('id=')[1].split('&')[0];
+                }
+                
+                if (id) {
+                    // Use the most reliable direct image endpoint
                     return `https://lh3.googleusercontent.com/d/${id}`;
                 }
             }
@@ -1527,31 +1552,42 @@
         async function updateStockGallery() {
             const container = document.getElementById('fg-image-container');
             try {
-                const res = await fetch(SHEET_URL);
+                // Add a timestamp to prevent browser from caching the spreadsheet data
+                const res = await fetch(`${SHEET_BASE}&t=${new Date().getTime()}`);
                 const csv = await res.text();
-                const lines = csv.split('\n').slice(1);
                 
-                if (lines.length === 0 || !lines[0].trim()) return;
+                // Simple CSV parsing (handling potential commas in names)
+                const rows = csv.split(/\r?\n/).filter(row => row.trim() !== "");
+                const lines = rows.slice(1); // Remove header
+                
+                if (lines.length === 0) {
+                    container.innerHTML = '<p style="font-size: 9px; color: #94a3b8; text-align: center;">No stock listed yet.</p>';
+                    return;
+                }
 
                 container.innerHTML = '';
 
                 lines.forEach(line => {
-                    const cols = line.split(',');
+                    // Split by comma but handle basic quotes if used
+                    const cols = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    
                     if (cols.length >= 1) {
-                        let img = cols[0] ? cols[0].trim() : "";
-                        img = convertToDirectLink(img); // FIX: Convert the link here
+                        let img = cols[0] ? cols[0].replace(/"/g, '').trim() : "";
+                        img = convertToDirectLink(img);
                         
-                        const fallbackImg = "https://placehold.co/400x300/f1f5f9/64748b?text=Pending+Photo";
+                        const fallbackImg = "https://placehold.co/400x300/f1f5f9/64748b?text=Stock+Item";
                         const finalImg = img || fallbackImg;
                         
-                        const name = (cols[1] && cols[1].trim()) ? cols[1].trim() : "New Inventory";
-                        const date = (cols[2] && cols[2].trim()) ? cols[2].trim() : "Added: " + getAutoDate();
+                        const name = (cols[1] && cols[1].trim()) ? cols[1].replace(/"/g, '').trim() : "New Inventory";
+                        const date = (cols[2] && cols[2].trim()) ? cols[2].replace(/"/g, '').trim() : "Added: " + getAutoDate();
 
                         const itemDiv = document.createElement('div');
                         itemDiv.className = 'fg-item';
                         itemDiv.innerHTML = `
-                            <div style="position: relative; overflow: hidden;">
-                                <img src="${finalImg}" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;" onerror="this.src='https://placehold.co/400x300?text=Error'">
+                            <div style="position: relative; overflow: hidden; background: #f8fafc;">
+                                <img src="${finalImg}" style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;" 
+                                     onload="this.style.opacity='1'" 
+                                     onerror="this.src='https://placehold.co/400x300/fee2e2/991b1b?text=Link+Restricted'">
                                 <div style="position: absolute; top: 6px; left: 6px; background: rgba(37, 99, 235, 0.9); color: white; font-size: 7px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">VERIFIED</div>
                             </div>
                             <div class="gallery-info" style="padding: 8px; background: white;">
@@ -1564,16 +1600,25 @@
                 });
             } catch (e) {
                 console.error("Gallery sync failed", e);
+                container.innerHTML = '<p style="font-size: 8px; color: #ef4444; text-align: center;">Sync Error</p>';
             }
         }
 
+        // Attach refresh listener
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('#fg-refresh')) {
+                updateStockGallery();
+            }
+        });
+
         window.addEventListener('DOMContentLoaded', updateStockGallery);
-        setInterval(updateStockGallery, 300000); // Auto-refresh every 5 mins
+        setInterval(updateStockGallery, 300000); // 5 min auto-sync
     })();
 </script>
    
 </body>
 </html>
+
 
 
 
