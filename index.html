@@ -1505,7 +1505,7 @@
         const SHEET_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pub?gid=${GID}&single=true&output=csv`;
 
         /**
-         * Enhanced Google Drive ID Extraction
+         * Enhanced Google Drive ID Extraction & Universal Proxy
          */
         function getDirectLink(url) {
             if (!url) return "";
@@ -1513,18 +1513,19 @@
             
             if (url.includes('drive.google.com')) {
                 let id = "";
-                // Handle /file/d/ID/view format
+                // Handle /file/d/[ID]/view
                 if (url.includes('/d/')) {
-                    id = url.split('/d/')[1].split('/')[0].split('?')[0];
+                    const parts = url.split('/d/');
+                    if (parts[1]) id = parts[1].split('/')[0].split('?')[0];
                 } 
-                // Handle open?id=ID format
+                // Handle open?id=[ID]
                 else if (url.includes('id=')) {
                     id = url.split('id=')[1].split('&')[0];
                 }
                 
                 if (id) {
-                    // Use the lh3 proxy which is the most reliable for public Drive images
-                    return `https://lh3.googleusercontent.com/d/${id}`;
+                    // This is the most compatible "Direct View" URL for browsers
+                    return `https://docs.google.com/uc?export=view&id=${id}`;
                 }
             }
             return url;
@@ -1535,7 +1536,6 @@
             list.innerHTML = '<div class="loader"></div>';
 
             try {
-                // Fetch with cache busting
                 const response = await fetch(`${SHEET_URL}&cb=${Date.now()}`);
                 const data = await response.text();
                 
@@ -1550,7 +1550,6 @@
                 }
 
                 lines.forEach(line => {
-                    // Split CSV correctly handling quoted commas
                     const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if (parts.length >= 2) {
                         // IMAGE URL IS IN COLUMN B (Index 1)
@@ -1567,12 +1566,13 @@
                             const card = document.createElement('div');
                             card.className = 'stock-card';
                             card.innerHTML = `
-                                <div style="width:100%; aspect-ratio:1; background:#f8fafc; overflow:hidden;">
+                                <div style="width:100%; aspect-ratio:1; background:#f1f5f9; overflow:hidden; display:flex; align-items:center; justify-content:center;">
                                     <img src="${imgUrl}" 
                                          referrerpolicy="no-referrer"
-                                         style="width:100%; height:100%; object-fit:cover; display:block;" 
+                                         loading="lazy"
+                                         style="width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition: opacity 0.3s;" 
                                          onload="this.style.opacity='1'"
-                                         onerror="this.onerror=null; this.src='https://placehold.co/400x400/fee2e2/991b1b?text=Check+Permissions';">
+                                         onerror="this.onerror=null; this.parentElement.innerHTML='<div style=font-size:9px;color:#ef4444;text-align:center;padding:10px;line-height:1.2>Check Link<br>Permissions</div>';">
                                 </div>
                                 <div class="info-panel" style="padding: 12px;">
                                     <div style="font-size: 13px; font-weight: 800; color: #0f172a;">${title}</div>
@@ -1595,6 +1595,7 @@
    
 </body>
 </html>
+
 
 
 
