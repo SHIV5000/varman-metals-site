@@ -323,8 +323,6 @@
     }
     </script>
 
-
-    
 <!-- START OF DYNAMIC METAL PRICES TICKER -->
 <style>
     .ticker-full-width-wrapper {
@@ -338,25 +336,26 @@
     .extreme-glow {
         animation: intenseFire 0.8s ease-in-out infinite alternate;
         display: inline-block; background: #000; color: #ff4500;
-        padding: 4px 12px; border-radius: 5px; font-weight: 900;
-        border: 2px solid #ff4500; margin-left: 10px; font-size: 0.95rem;
+        padding: 6px 14px; border-radius: 6px; font-weight: 900;
+        border: 2px solid #ff4500; margin-left: 10px; font-size: 1rem;
         line-height: 1.2;
+        vertical-align: middle;
     }
-    .product-title { font-weight: 800; letter-spacing: 0.03em; font-size: 1rem; color: #fff; }
+    .product-title { font-weight: 800; letter-spacing: 0.03em; font-size: 1.1rem; color: #fff; vertical-align: middle; }
 </style>
 
 <div class="ticker-full-width-wrapper">
-    <!-- Height increased to 56px to prevent clipping and ensure vertical alignment -->
-    <div style="height: 56px; display: flex; align-items: center; border-bottom: 1px solid #374151;">
+    <!-- Height increased to 64px to provide ample vertical space for the glow effect -->
+    <div style="height: 64px; display: flex; align-items: center; border-bottom: 1px solid #374151;">
         <marquee id="price-marquee" behavior="scroll" direction="left" scrollamount="10" style="width: 100%; white-space: nowrap;">
-            Loading latest market rates from MPGS database...
+            Fetching latest MPGS market rates...
         </marquee>
     </div>
 </div>
 
 <script>
-    // Link to your specific Google Sheet CSV Export
-    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pubhtml?gid=0&single=true"; 
+    // Updated Google Sheet Link (using CSV export format for the new ID)
+    const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pub?output=csv"; 
 
     async function updatePrices() {
         const fetchWithRetry = async (url, retries = 5, delay = 1000) => {
@@ -375,14 +374,14 @@
 
         try {
             const data = await fetchWithRetry(SHEET_CSV_URL);
-            const rows = data.split('\n')[0].split(','); 
+            // Parse CSV (supports comma or newline separation depending on sheet export)
+            const rows = data.split('\n')[1] ? data.split('\n')[1].split(',') : data.split('\n')[0].split(','); 
 
             const clean = (val) => val ? val.replace(/['"₹*]+/g, '').trim() : "";
 
-            // Fetching raw numbers from Sheet (A1, B1, C1)
-            const zinc = clean(rows[0]) || "265-290";
-            const aluminum = clean(rows[1]) || "245-290";
-            const paper = clean(rows[2]) || "17-18";
+            const zinc = clean(rows[0]) || "---";
+            const aluminum = clean(rows[1]) || "---";
+            const paper = clean(rows[2]) || "---";
 
             const marqueeContent = `
                 <span class="product-title" style="color: #60A5FA;">1. Zinc Ingot (88%)</span>
@@ -405,10 +404,14 @@
     }
 
     updatePrices();
-    // Auto-refresh every 5 minutes
-    setInterval(updatePrices, 300000);
+    setInterval(updatePrices, 300000); // 5-minute refresh
 </script>
 <!-- END OF DYNAMIC METAL PRICES TICKER -->
+    
+
+
+
+
     
     <!-- ========== EXTERNAL LIBRARIES ========== -->
     <!-- Tailwind CSS for styling -->
@@ -1399,6 +1402,7 @@
     </span>
 </body>
 </html>
+
 
 
 
