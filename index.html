@@ -1501,17 +1501,17 @@
 
 <script>
     (function() {
-        // GID for Sheet2 (Extracted from previous info)
-        const GID = '1502396328';
-        // Base URL from the user
-        const BASE_PUBLISH_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pub';
-        // Final URL with GID and CSV format
-        const SHEET_URL = `${BASE_PUBLISH_URL}?gid=${GID}&single=true&output=csv`;
+        /**
+         * UPDATED URL: Using the exact GID (2143012843) provided in your latest link.
+         */
+        const SHEET_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQYn02dDaakVCLTpy1brNQmuIgZ326nD_wENMtmxEDyY89Ab78uM-WIkINQIxMtyuuQ8AxcgU-b0ms_/pub?gid=2143012843&single=true&output=csv`;
 
+        /**
+         * Optimized Google Drive link conversion
+         */
         function getDirectLink(url) {
             if (!url) return "";
             url = url.trim();
-            
             if (url.includes('drive.google.com')) {
                 let id = "";
                 if (url.includes('/d/')) {
@@ -1519,9 +1519,8 @@
                 } else if (url.includes('id=')) {
                     id = url.split('id=')[1].split('&')[0];
                 }
-                
                 if (id) {
-                    // Using the most reliable Drive image proxy
+                    // Use the 'uc' endpoint which is more reliable for direct embedding
                     return `https://docs.google.com/uc?export=view&id=${id}`;
                 }
             }
@@ -1533,31 +1532,32 @@
             list.innerHTML = '<div class="loader"></div>';
 
             try {
-                // Fetch with cache busting to get the latest photo immediately
+                // Add timestamp to prevent browser caching of the CSV
                 const response = await fetch(`${SHEET_URL}&cb=${Date.now()}`);
                 const data = await response.text();
                 
-                // Process lines and remove any empty ones
+                // Debugging: Log the CSV structure to console
+                console.log("Fetched Sheet Data:", data);
+
                 const lines = data.split(/\r?\n/).filter(l => l.trim() !== ""); 
 
                 if (lines.length <= 1) {
-                    list.innerHTML = '<div style="font-size:10px;color:#94a3b8;text-align:center;padding:10px;">Waiting for Stock...<br><span style="font-size:8px">Please check if Sheet2 (GID 1502396328) is published.</span></div>';
+                    list.innerHTML = `
+                        <div style="font-size:10px;color:#64748b;text-align:center;padding:20px;line-height:1.4;">
+                            <b>No Stock Items Found</b><br>
+                            <span style="font-size:8px">Ensure data exists on the tab with ID 2143012843.</span>
+                        </div>`;
                     return;
                 }
 
                 list.innerHTML = '';
-                
-                // Start from line 1 (skipping header)
                 lines.slice(1).forEach((line) => {
+                    // Split CSV row while respecting quoted content
                     const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    
-                    if (parts.length >= 1) {
-                        // Title: Column A (0), Image: Column B (1)
+                    if (parts.length >= 2) {
                         const title = (parts[0] || "Stock Item").replace(/"/g, '').trim();
                         const rawImgUrl = (parts[1] || "").replace(/"/g, '').trim();
-                        
                         const imgUrl = getDirectLink(rawImgUrl);
-                        const date = parts[2] ? parts[2].replace(/"/g, '').trim() : "MPGS Stock";
 
                         if (imgUrl.startsWith('http')) {
                             const card = document.createElement('div');
@@ -1568,19 +1568,18 @@
                                          referrerpolicy="no-referrer"
                                          style="width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition: opacity 0.3s;" 
                                          onload="this.style.opacity='1'"
-                                         onerror="this.onerror=null; this.parentElement.innerHTML='<div style=font-size:9px;color:#ef4444;text-align:center;padding:10px;>Access Denied<br>Check Share Settings</div>';">
+                                         onerror="this.onerror=null; this.parentElement.innerHTML='<div style=font-size:9px;color:#ef4444;text-align:center;padding:5px;>Access Denied<br>Check Share Settings</div>';">
                                 </div>
-                                <div class="info-panel" style="padding: 12px;">
-                                    <div style="font-size: 12px; font-weight: 800; color: #0f172a;">${title}</div>
-                                    <div style="font-size: 9px; color: #64748b; margin-top: 4px; font-weight: 600;">${date}</div>
+                                <div class="info-panel" style="padding: 10px;">
+                                    <div style="font-size: 11px; font-weight: 800; color: #0f172a; line-height:1.2;">${title}</div>
                                 </div>
                             `;
                             list.appendChild(card);
                         }
                     }
                 });
-
             } catch (err) {
+                console.error("Gallery Sync Error:", err);
                 list.innerHTML = '<div style="font-size:10px;color:red;text-align:center;">Network Error</div>';
             }
         }
@@ -1592,6 +1591,7 @@
    
 </body>
 </html>
+
 
 
 
