@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Varman Metals - Executive Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #D4AF37; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    
+    /* 3D Master Buttons */
+    .btn-3d { 
+      border-radius: 18px; 
+      box-shadow: 0 10px 0 rgba(0,0,0,0.3); 
+      transition: 0.1s; 
+      position: relative; 
+      border: 1px solid rgba(255,255,255,0.1); 
+      cursor: pointer;
+    }
+    .btn-3d:active { 
+      transform: translateY(6px); 
+      box-shadow: 0 4px 0 rgba(0,0,0,0.3); 
+    }
+    
+    .bg-sale { background-color: #059669; color: white; }
+    .bg-purchase { background-color: #991b1b; color: white; }
+    .bg-payment { background-color: #1e3a8a; color: white; }
+    .bg-consolidated { background-color: #ffffff; color: black; }
+    .bg-stock { background-color: #000000; color: white; }
+    .bg-ledger { background-color: #fef08a; color: black; }
+
+    /* Card Logic for All Tables */
+    .report-card { 
+      background: white; 
+      border-radius: 15px; 
+      padding: 16px; 
+      margin-bottom: 12px; 
+      border-left: 10px solid; 
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15); 
+    }
+    .side-sale { border-left-color: #059669; }
+    .side-pur { border-left-color: #991b1b; }
+    .side-stock { border-left-color: #000; }
+    
+    .input-field { 
+      width: 100%; 
+      padding: 14px; 
+      border: 3px solid #000; 
+      border-radius: 12px; 
+      margin-bottom: 10px; 
+      font-weight: 900; 
+    }
+
+    #toast { 
+      display:none; 
+      position:fixed; 
+      top:20px; 
+      left:50%; 
+      transform:translateX(-50%); 
+      z-index:1000; 
+      background:#000; 
+      color:#fff; 
+      padding:12px 30px; 
+      border-radius:50px; 
+      font-weight:900; 
+      border:2px solid #D4AF37; 
+    }
+  </style>
+</head>
+<body class="p-4">
+
+<div id="loginGate" class="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center p-6">
+  <h1 class="text-white text-5xl font-black mb-10 tracking-tighter uppercase">VARMAN METALS</h1>
+  <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-sm text-center border-4 border-yellow-500">
+    <p class="font-black text-xl mb-6">RESTRICTED ACCESS</p>
+    <input type="password" id="pinInput" class="w-full p-4 border-4 border-black rounded-2xl text-center text-3xl tracking-[0.5em] mb-6" placeholder="****" maxlength="4">
+    <button onclick="checkAuth()" class="btn-3d w-full bg-black text-white p-5 rounded-2xl font-black text-xl uppercase">Unlock System</button>
+    <p id="errorMsg" class="text-red-600 font-black mt-6 hidden uppercase animate-pulse">Invalid Access Key</p>
+  </div>
+</div>
+
+<div id="toast">ACTION SUCCESSFUL</div>
+<div id="loader" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden flex flex-col items-center justify-center text-white">
+  <div class="animate-bounce h-12 w-12 border-4 border-yellow-500 rounded-full border-t-transparent mb-4"></div>
+  <b class="tracking-widest uppercase">Syncing with Drive...</b>
+</div>
+
+<div id="dashboard" class="max-w-md mx-auto space-y-6">
+  <div class="text-center py-6">
+    <h1 class="text-5xl font-black text-black tracking-tighter uppercase">VARMAN METALS</h1>
+  </div>
+
+  <div class="grid grid-cols-2 gap-6">
+    <div onclick="openForm('SALE')" class="btn-3d bg-sale p-8 text-center font-black text-2xl">SALE</div>
+    <div onclick="openForm('PURCHASE')" class="btn-3d bg-purchase p-8 text-center font-black text-2xl">PURCHASE</div>
+  </div>
+
+  <div onclick="openForm('PAYMENT')" class="btn-3d bg-payment p-6 text-center font-black text-xl">💳 SETTLE PAYMENT</div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div onclick="loadConsolidated()" class="btn-3d bg-consolidated p-6 text-center font-black">CONSOLIDATED</div>
+    <div onclick="loadInventory()" class="btn-3d bg-stock p-6 text-center font-black text-sm">STOCK QTY</div>
+  </div>
+
+  <div onclick="openForm('REPORT')" class="btn-3d bg-ledger p-5 text-center font-black text-lg border-2 border-black">👤 PARTY LEDGER</div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <button onclick="openForm('ADD_CUSTOMER')" class="btn-3d bg-sale p-4 font-black text-sm uppercase">+ Customer</button>
+    <button onclick="openForm('ADD_SUPPLIER')" class="btn-3d bg-purchase p-4 font-black text-sm uppercase">+ Supplier</button>
+  </div>
+</div>
+
+<div id="modal" class="hidden fixed inset-0 bg-white p-5 overflow-y-auto z-40">
+  <div class="max-w-md mx-auto">
+    <button onclick="closeModal()" class="text-red-700 font-black mb-6 text-lg uppercase tracking-widest">✖ Back to Menu</button>
+    <h2 id="mTitle" class="text-3xl font-black border-b-8 border-yellow-500 mb-6 uppercase"></h2>
+    
+    <div id="formContainer">
+      <form id="appForm" onsubmit="handleSub(event)">
+        <input type="hidden" name="formType" id="fType">
+        <div id="dynamicFields"></div>
+        <div id="calcBox" class="hidden p-4 bg-yellow-100 rounded-2xl mb-4 flex justify-between font-black text-sm border-4 border-black">
+          <span>OLD: ₹<span id="oB">0</span></span><span class="text-red-700 underline">NEW: ₹<span id="nB">0</span></span>
+        </div>
+        <button type="submit" id="saveBtn" class="w-full bg-black text-white p-6 rounded-2xl font-black text-xl shadow-xl uppercase">Confirm & Save</button>
+      </form>
+    </div>
+
+    <div id="reportArea" class="hidden mt-6">
+       <div id="repHeader" class="mb-6"></div>
+       <div id="repList" class="space-y-4"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==========================================
+  // CONFIGURATION: WEB APP URL INTEGRATED
+  // ==========================================
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwFe7UkwtfvluM_5BHZR4Ebph6gOHD9oVeojkuXYbtBE8XTE-xQsgKrru-Uu9SLPv_N/exec"; 
+  let db = { suppliers: [], customers: [] };
+
+  // GLOBAL FETCH HANDLER
+  async function api(action, payload = {}) {
+    toggle(true);
+    try {
+      const url = `${WEB_APP_URL}?action=${action}&data=${encodeURIComponent(JSON.stringify(payload))}`;
+      const res = await fetch(url);
+      const json = await res.json();
+      toggle(false);
+      return json;
+    } catch (e) {
+      toggle(false);
+      console.error("API Error:", e);
+      return null;
+    }
+  }
+
+  async function checkAuth() {
+    const input = document.getElementById('pinInput').value;
+    if (input === "1122") { 
+      document.getElementById('loginGate').style.display = 'none';
+      const data = await api('getDropdownData');
+      if(data) db = data;
+      showToast("Access Granted");
+    } else {
+      document.getElementById('errorMsg').classList.remove('hidden');
+      document.getElementById('pinInput').value = '';
+    }
+  }
+
+  function openForm(t) {
+    document.getElementById('fType').value = t;
+    document.getElementById('mTitle').innerText = t.replace('_',' ');
+    const fields = document.getElementById('dynamicFields'), box = document.getElementById('calcBox'), 
+          reps = document.getElementById('reportArea'), btn = document.getElementById('saveBtn');
+
+    fields.innerHTML = ''; box.classList.add('hidden'); reps.classList.add('hidden'); btn.classList.remove('hidden');
+
+    if(t.includes('ADD')) {
+      fields.innerHTML = `<input type="text" name="name" placeholder="Name" class="input-field" required><input type="text" name="place" placeholder="City" class="input-field"><input type="tel" name="mobile" placeholder="Mobile" class="input-field">`;
+      reps.classList.remove('hidden'); document.getElementById('repHeader').innerHTML = '<p class="font-black text-gray-500 uppercase">Existing Directory:</p>';
+      const list = t === 'ADD_CUSTOMER' ? db.customers : db.suppliers;
+      document.getElementById('repList').innerHTML = list.map(r => `<div class="report-card side-stock font-bold flex justify-between"><span>${r[0]}</span><span class="text-gray-400">${r[1]}</span></div>`).join('');
+    } else if(t === 'SALE' || t === 'PURCHASE') {
+      const list = t === 'SALE' ? db.customers : db.suppliers;
+      fields.innerHTML = `<select name="entity" onchange="getBal(this.value)" class="input-field" required><option value="">Select Party</option>${list.map(n => `<option>${n[0]}</option>`).join('')}</select><span id="stkHint" class="font-black block mb-2 px-2"></span><select name="product" onchange="checkStk(this.value)" class="input-field" required><option value="">Select Product</option><option>ZINC INGOT</option><option>OCC</option><option>ALUMINIUM INGOT</option></select><div class="flex gap-2"><input type="number" step="0.01" name="qty" id="qty" placeholder="KG" oninput="math()" class="input-field"><input type="number" step="0.01" name="rate" id="rate" placeholder="Rate" oninput="math()" class="input-field"></div><input type="number" step="0.01" name="paid" id="paid" placeholder="Amount Paid" oninput="math()" class="input-field"><input type="hidden" name="total" id="hT">`;
+    } else if(t === 'PAYMENT') {
+      fields.innerHTML = `<select onchange="pop(this.value)" class="input-field" required><option value="">Category</option><option>Customer</option><option>Supplier</option></select><select name="entity" id="dL" onchange="getBal(this.value)" class="input-field" required></select><input type="number" step="0.01" name="amountPaid" id="paid" placeholder="Payment Amount" oninput="math()" class="input-field" required>`;
+    } else if(t === 'REPORT') {
+      btn.classList.add('hidden'); reps.classList.remove('hidden');
+      fields.innerHTML = `<select onchange="pop(this.value, 'rL')" class="input-field"><option>Choose Type</option><option>Customer</option><option>Supplier</option></select><select id="rL" onchange="loadLedger(this.value)" class="input-field"></select>`;
+    }
+    document.getElementById('modal').classList.remove('hidden');
+  }
+
+  async function checkStk(p) {
+    const s = await api('getProductStock', { product: p });
+    const lbl = document.getElementById('stkHint'), t = document.getElementById('fType').value;
+    if(t === 'SALE') { 
+      lbl.innerText = s <= 0 ? "⚠️ NO STOCK" : "✅ IN STOCK: "+s+" KG"; 
+      lbl.style.color = s <= 0 ? "red" : "green"; 
+    } else { 
+      lbl.innerText = "📦 CURRENT STOCK: "+s+" KG"; lbl.style.color = "blue"; 
+    }
+  }
+
+  function pop(v, id='dL') {
+    const list = v === 'Customer' ? db.customers : db.suppliers;
+    document.getElementById(id).innerHTML = '<option value="">Select Name</option>' + list.map(n => `<option>${n[0]}</option>`).join('');
+  }
+
+  async function getBal(n) {
+    const res = await api('getEntityData', { entity: n });
+    document.getElementById('oB').innerText = res.balance.toFixed(2); 
+    document.getElementById('calcBox').classList.remove('hidden'); 
+    math();
+  }
+
+  function math() {
+    const q = parseFloat(document.getElementById('qty')?.value) || 0, r = parseFloat(document.getElementById('rate')?.value) || 0, p = parseFloat(document.getElementById('paid')?.value) || 0, ob = parseFloat(document.getElementById('oB').innerText) || 0, t = q * r;
+    if(document.getElementById('hT')) document.getElementById('hT').value = t;
+    document.getElementById('nB').innerText = (ob + (t - p)).toFixed(2);
+  }
+
+  async function loadLedger(n) {
+    const res = await api('getEntityData', { entity: n });
+    document.getElementById('repHeader').innerHTML = `<div class="p-6 bg-black text-yellow-400 rounded-2xl text-center font-black text-2xl border-4 border-yellow-500">BAL: ₹${res.balance.toFixed(2)}</div>`;
+    document.getElementById('repList').innerHTML = res.ledger.map(i => `<div class="report-card ${i.type==='SALE'?'side-sale':'side-pur'}"><div class="flex justify-between text-xs font-black text-gray-500"><span>${i.date}</span><span>${i.type}</span></div><div class="text-lg font-black mt-2">${i.prod} | ${i.qty}KG @ ₹${i.rate}</div><div class="flex justify-between mt-3 font-black border-t-2 pt-2"><span>Balance: ₹${i.running.toFixed(2)}</span><span class="text-green-700 italic font-bold text-sm">Paid: ₹${i.paid}</span></div></div>`).join('');
+  }
+
+  async function loadInventory() {
+    const stats = await api('getInventoryQtyReport');
+    document.getElementById('mTitle').innerText = "STOCK QTY ANALYSIS";
+    document.getElementById('modal').classList.remove('hidden'); document.getElementById('reportArea').classList.remove('hidden');
+    document.getElementById('saveBtn').classList.add('hidden'); document.getElementById('dynamicFields').innerHTML = '';
+    document.getElementById('repHeader').innerHTML = '';
+    let h = ''; for (let p in stats) {
+      h += `<div class="report-card side-stock">
+        <div class="text-2xl font-black border-b-4 border-black mb-4 uppercase">${p}</div>
+        <div class="p-3 bg-gray-100 rounded-xl mb-4">
+           <p class="text-xs font-black text-blue-700 uppercase">Current Month View</p>
+           <div class="grid grid-cols-2 mt-1 font-bold">
+              <span>Pur: ${stats[p].pMonth} KG</span><span>Sale: ${stats[p].sMonth} KG</span>
+           </div>
+           <p class="mt-2 text-sm font-black border-t pt-1">MONTHLY BAL: <span class="text-green-700">${(stats[p].pMonth - stats[p].sMonth).toFixed(2)} KG</span></p>
+        </div>
+        <div class="p-3 bg-gray-900 text-white rounded-xl">
+           <p class="text-xs font-black text-yellow-400 uppercase">Lifetime View</p>
+           <div class="grid grid-cols-2 mt-1 font-bold">
+              <span>Pur: ${stats[p].pLife} KG</span><span>Sale: ${stats[p].sLife} KG</span>
+           </div>
+           <p class="mt-2 text-sm font-black border-t pt-1">TOTAL STOCK: <span class="text-yellow-400">${(stats[p].pLife - stats[p].sLife).toFixed(2)} KG</span></p>
+        </div>
+      </div>`;
+    }
+    document.getElementById('repList').innerHTML = h || '<p class="text-center font-black">NO STOCK DATA</p>';
+  }
+
+  async function loadConsolidated() {
+    const res = await api('getConsolidatedData');
+    document.getElementById('mTitle').innerText = "CONSOLIDATED REPORT";
+    document.getElementById('modal').classList.remove('hidden'); document.getElementById('reportArea').classList.remove('hidden');
+    document.getElementById('saveBtn').classList.add('hidden'); document.getElementById('dynamicFields').innerHTML = '';
+    const color = res.net >= 0 ? 'text-green-400' : 'text-red-400';
+    document.getElementById('repHeader').innerHTML = `<div class="p-6 bg-black text-white rounded-2xl text-center font-black border-4 border-white">NET POSITION: <span class="${color}">₹${res.net.toFixed(2)}</span></div>`;
+    document.getElementById('repList').innerHTML = res.rows.map(r => `<div class="report-card ${r.type==='SALE'?'side-sale':'side-pur'}"><div class="flex justify-between font-black text-lg"><span>${r.entity}</span><span>₹${r.amount}</span></div><div class="text-sm font-bold text-gray-400 italic">${r.prod} | ${r.qty}KG x ₹${r.rate} | ${r.date}</div></div>`).join('');
+  }
+
+  function toggle(s) { document.getElementById('loader').classList.toggle('hidden', !s); }
+  function showToast(msg = "Success") { 
+    const t = document.getElementById('toast'); 
+    t.innerText = msg;
+    t.style.display='block'; 
+    setTimeout(()=>t.style.display='none',3000); 
+  }
+
+  async function handleSub(e) { 
+    e.preventDefault(); 
+    const formData = Object.fromEntries(new FormData(e.target).entries());
+    const result = await api('processSubmission', formData);
+    if(result) db = result;
+    closeModal(); 
+    showToast("Data Saved to Drive"); 
+  }
+
+  function closeModal() { 
+    document.getElementById('modal').classList.add('hidden'); 
+    document.getElementById('appForm').reset(); 
+  }
+</script>
+</body>
+</html>
