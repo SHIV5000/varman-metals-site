@@ -1,0 +1,60 @@
+[
+ {
+  "date": "2026-01-05T10:00:00Z",
+  "content": "🔎 Step‑Wise Procedure to Verify an Indian Company:\n\n1️⃣ Refer to Verified Profile on LinkedIn 💼\nCheck if the company has an official LinkedIn page, preferably with a verification badge, and ensure details match its website and other registrations.\n\n2️⃣ Verify Owner’s Aadhaar Card 🆔\nAadhaar is India’s primary identity proof. Use the UIDAI official portal to confirm authenticity.\n\n3️⃣ Verify GST Number 💰\nEvery registered business in India must have a GSTIN. Verify GST details on the official GST portal.\n\n4️⃣ Search on Google & B2B Portals 🌐\nEnsure the company appears on Google Maps 📍 with a physical location and is listed on B2B portals like IndiaMART, TradeIndia, Alibaba, or JustDial.\n\n5️⃣ Check IEC Code 📦\nFor companies engaged in international trade, IEC is mandatory. Verify IEC details on the DGFT portal.\n\n6️⃣ Search Internet for Adverse News 📰\nConduct a Google News search for the company name. Look for reports of fraud, disputes, or regulatory issues. ⚠️ Important: Do not jump to conclusions instantly. In today’s competitive world, negative news may sometimes be spread by rivals. Always allow the company to provide clarification before making a judgment.\n\n7️⃣ Verify Mobile/Phone Number 📞\nCall the company’s listed phone number. A direct conversation often reveals professionalism, responsiveness, and authenticity.\n\n✨ Key Takeaway:\nBy following these seven steps, you can systematically verify the authenticity of any Indian company. Combining digital checks (LinkedIn, Aadhaar, GST, IEC) with practical verification (Google Maps, B2B listings, phone calls) ensures a balanced approach to due diligence.",
+  "language": "English",
+  "mood": "instructional",
+  "buttons": [
+    {
+      "label": "Verify Aadhaar",
+      "url": "https://myaadhaar.uidai.gov.in/verifyAadhaar"
+    },
+    {
+      "label": "Verify GSTIN",
+      "url": "https://services.gst.gov.in/services/searchtp"
+    },
+    {
+      "label": "Verify IEC",
+      "url": "https://www.dgft.gov.in/IEC_Online/"
+    },
+    {
+      "label": "Google Business Profile",
+      "url": "https://www.google.com/business/"
+    },
+    {
+      "label": "IndiaMART",
+      "url": "https://www.indiamart.com/"
+    },
+    {
+      "label": "TradeIndia",
+      "url": "https://www.tradeindia.com/"
+    },
+    {
+      "label": "JustDial",
+      "url": "https://www.justdial.com/"
+    }
+  ]
+}
+
+
+,  
+  
+  {
+    "date": "2025-12-12T10:00:00Z",
+    "content": "Zinc Ingot(Kaskut) prices are stable today despite minor fluctuations in LME. Demand remains steady in the automotive die-casting sector. ADC12 is showing a slight upward trend due to holiday season logistics pressure.\n\nKey Takeaway: Buy now to lock in prices before next week's anticipated jump.",
+    "language": "English",
+    "mood": "forecast"
+  },
+  {
+    "date": "2025-12-10T15:30:00Z",
+    "content": "Important update for all buyers: The government has announced new regulations regarding secondary metal scrap import. This may affect our raw material costs starting next month. We advise clients to place larger orders this week to utilize current stock pricing.\n\nWarning: Expect short-term price volatility.",
+    "language": "English",
+    "mood": "forecast"
+  },
+  {
+    "date": "2025-12-08T09:00:00Z",
+    "content": "सभी खरीदारों के लिए आज का बाजार अपडेट: एल्युमीनियम ADC12 सिल्लियों की आपूर्ति श्रृंखला अब सामान्य है। त्यौहारी मांग के कारण कीमतें उच्च बनी हुई हैं, लेकिन हम नए ऑर्डर के लिए 7 दिन की डिलीवरी का समय दे रहे हैं।",
+    "language": "Hindi",
+    "mood": "festive"
+  }
+]
