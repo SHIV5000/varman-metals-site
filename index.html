@@ -246,6 +246,77 @@
         .dl-label { flex-grow: 1; letter-spacing: 0.5px; }
         .dl-arrow { font-size: 0.8rem; opacity: 0.7; }
 
+        /* --- VIDEO FACADE STYLES --- */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9; /* Standard video ratio */
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 20px 20px 0 rgba(0,0,0,0.1);
+            border: 4px solid var(--white);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .video-wrapper:hover {
+            transform: scale(1.02);
+            border-color: var(--red);
+        }
+        .video-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        .video-wrapper:hover .video-thumb { opacity: 0.6; }
+        
+        .promo-badge {
+            position: absolute;
+            top: 20px;
+            left: -10px;
+            background: var(--red);
+            color: white;
+            padding: 8px 25px;
+            font-family: 'Teko';
+            font-size: 1.5rem;
+            font-weight: 700;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+            z-index: 2;
+            letter-spacing: 1px;
+        }
+        
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 55px;
+            background: rgba(255,0,0,0.9);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+        .play-btn::after {
+            content: '';
+            width: 0; 
+            height: 0; 
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 18px solid white;
+            margin-left: 5px;
+        }
+        .video-wrapper:hover .play-btn {
+            background: #ff0000;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
 
         /* --- FALLING INGOT ANIMATION --- */
         .falling-ingot {
@@ -647,6 +718,13 @@
                     </div>
                     <a href="contact.html" class="btn-trap" style="margin-top:20px;">GET QUOTE</a>
                 </div>
+
+                <!-- VIDEO FACADE (LITE EMBED) -->
+                <div class="video-wrapper" onclick="loadVideo(this)" data-id="xQqor8EKs-o">
+                    <div class="promo-badge">SEE OUR PROMO</div>
+                    <img src="https://img.youtube.com/vi/xQqor8EKs-o/maxresdefault.jpg" alt="Varman Metals Factory Tour" class="video-thumb">
+                    <div class="play-btn"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -793,27 +871,26 @@
             menu.classList.toggle('open');
         }
 
+        // JS for Lite YouTube Embed
+        function loadVideo(wrapper) {
+            const videoId = wrapper.getAttribute('data-id');
+            wrapper.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+        }
+
         // GA4 Smart Event Tracking
         document.addEventListener('click', function(e) {
             const target = e.target.closest('a, button');
             if (!target) return;
 
-            // WhatsApp Click
             if (target.href && target.href.includes('wa.me')) {
                 gtag('event', 'generate_lead', { 'event_category': 'WhatsApp', 'event_label': 'WhatsApp Quote' });
             }
-
-            // Phone Call Click
             if (target.href && target.href.includes('tel:')) {
                 gtag('event', 'generate_lead', { 'event_category': 'Phone', 'event_label': 'Call Now' });
             }
-
-            // PDF Download
             if (target.href && target.href.endsWith('.pdf')) {
                 gtag('event', 'file_download', { 'file_name': target.href.split('/').pop(), 'file_extension': 'pdf' });
             }
-
-            // Email Click
             if (target.href && target.href.includes('mailto:')) {
                 gtag('event', 'generate_lead', { 'event_category': 'Email', 'event_label': 'Send Email' });
             }
