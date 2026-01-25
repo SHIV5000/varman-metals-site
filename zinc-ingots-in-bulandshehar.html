@@ -617,7 +617,25 @@
                 icon.innerText = '-';
             }
         }
-    </script>
 
+        // GA4 Smart Event Tracking
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('a, button');
+            if (!target) return;
+
+            if (target.href && target.href.includes('wa.me')) {
+                gtag('event', 'generate_lead', { 'event_category': 'WhatsApp', 'event_label': 'WhatsApp Quote' });
+            }
+            if (target.href && target.href.includes('tel:')) {
+                gtag('event', 'generate_lead', { 'event_category': 'Phone', 'event_label': 'Call Now' });
+            }
+            if (target.href && target.href.endsWith('.pdf')) {
+                gtag('event', 'file_download', { 'file_name': target.href.split('/').pop(), 'file_extension': 'pdf' });
+            }
+            if (target.href && target.href.includes('mailto:')) {
+                gtag('event', 'generate_lead', { 'event_category': 'Email', 'event_label': 'Send Email' });
+            }
+        });
+    </script>
 </body>
 </html>
