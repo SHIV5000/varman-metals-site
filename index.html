@@ -331,12 +331,57 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: transform 0.2s;
             text-transform: uppercase;
+            cursor: pointer;
         }
         .gallery-btn:hover {
             transform: translateY(-3px);
             background: var(--mustard);
             color: var(--dark);
             box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* --- SECURE GALLERY STYLES --- */
+        .gallery-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 3000;
+            display: none; justify-content: center; align-items: center;
+            flex-direction: column;
+        }
+        .gallery-overlay.active { display: flex; }
+        .gallery-content {
+            width: 90%; max-width: 1000px; height: 80%;
+            overflow-y: auto; background: #111; padding: 20px;
+            border: 2px solid var(--mustard); border-radius: 10px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px; position: relative;
+        }
+        .gallery-item {
+            position: relative; overflow: hidden; border-radius: 5px;
+            user-select: none; /* Disable text selection */
+        }
+        .gallery-item img {
+            width: 100%; height: 200px; object-fit: cover;
+            transition: transform 0.3s;
+        }
+        /* PROTECTION LAYERS */
+        .protection-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent; z-index: 10;
+        }
+        .watermark-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+            opacity: 0.3; pointer-events: none; overflow: hidden;
+            transform: rotate(-15deg);
+        }
+        .watermark-text {
+            color: white; font-size: 1.2rem; font-weight: 900;
+            margin: 20px; white-space: nowrap; font-family: 'Teko';
+            text-shadow: 0 0 5px black;
+        }
+        .close-gallery {
+            position: absolute; top: 20px; right: 30px;
+            color: white; font-size: 3rem; cursor: pointer; z-index: 3001;
         }
 
 
@@ -644,6 +689,7 @@
             .city-block { padding: 30px; clip-path: none; }
             .city { font-size: 1.1rem; padding: 5px 12px; }
             .section { padding: 80px 20px; }
+            .gallery-btn { font-size: 1.2rem; padding: 10px; }
         }
     </style>
 </head>
@@ -734,11 +780,11 @@
 
                 <!-- Right Column Wrapper -->
                 <div style="display: flex; flex-direction: column; gap: 15px;">
-                    <!-- NEW BUTTON -->
-                    <a href="https://photos.app.goo.gl/MiDMg1FksD1tw2QS8" target="_blank" class="gallery-btn">
+                    <!-- GALLERY BUTTON (Triggers Secure Modal) -->
+                    <div class="gallery-btn" onclick="openGallery()">
                         <span style="font-size: 1.5rem; margin-right: 10px;">📸</span>
                         SEE ZINC INGOTS IMAGES - REAL
-                    </a>
+                    </div>
 
                     <!-- VIDEO FACADE (LITE EMBED) -->
                     <div class="video-wrapper" onclick="loadVideo(this)" data-id="xQqor8EKs-o">
@@ -751,6 +797,45 @@
         </div>
     </section>
 
+    <!-- SECURE GALLERY MODAL -->
+    <div class="gallery-overlay" id="galleryOverlay">
+        <div class="close-gallery" onclick="closeGallery()">×</div>
+        <div class="gallery-content">
+            <!-- IMPORTANT: User needs to replace 'shz.webp' with real image names -->
+            <div class="gallery-item">
+                <img src="shz.webp" alt="Real Zinc Ingot">
+                <div class="watermark-container">
+                    <div class="watermark-text">VARMAN METALS</div>
+                    <div class="watermark-text">VARMAN METALS</div>
+                    <div class="watermark-text">VARMAN METALS</div>
+                    <div class="watermark-text">VARMAN METALS</div>
+                </div>
+                <div class="protection-layer" oncontextmenu="return false;"></div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="high.webp" alt="High Grade Zinc Ingot">
+                <div class="watermark-container">
+                    <div class="watermark-text">VARMAN METALS</div>
+                    <div class="watermark-text">VARMAN METALS</div>
+                    <div class="watermark-text">VARMAN METALS</div>
+                </div>
+                <div class="protection-layer" oncontextmenu="return false;"></div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="remelted.webp" alt="Zinc Alloy Ingot">
+                <div class="watermark-container">
+                    <div class="watermark-text">VARMAN METALS</div>
+                    <div class="watermark-text">VARMAN METALS</div>
+                    <div class="watermark-text">VARMAN METALS</div>
+                </div>
+                <div class="protection-layer" oncontextmenu="return false;"></div>
+            </div>
+             <!-- Add more images following this structure -->
+        </div>
+    </div>
+
     <section id="sec2" class="section">
         <div class="bg-watermark"></div> <div class="content">
             <h2>PRODUCT SPECTRUM</h2>
@@ -759,7 +844,7 @@
                 <div class="prod-card">
                     <img src="shz.webp" alt="SHG Zinc 99.995%" class="prod-img">
                     <div class="prod-info">
-                        <h3 style="color:var(--red);">SHG Zinc (99.995%)</h3>
+                        <h3 class="zinc-accent">SHG Zinc (99.995%)</h3>
                         <p>Special High Grade. Ultra-pure for precision die-casting. Lab Verified.</p>
                         <div style="font-size:0.9rem; font-weight:700; color:#777;">HSN: 790111</div>
                     </div>
@@ -768,7 +853,7 @@
                 <div class="prod-card">
                     <img src="high.webp" alt="High Grade Zinc" class="prod-img">
                     <div class="prod-info">
-                        <h3 style="color:var(--red);">High Grade (HG)</h3>
+                        <h3 class="zinc-accent">High Grade (HG)</h3>
                         <p>Optimized for Galvanizing industry. Excellent coating consistency.</p>
                         <div style="font-size:0.9rem; font-weight:700; color:#777;">HSN: 790112</div>
                     </div>
@@ -777,7 +862,7 @@
                 <div class="prod-card">
                     <img src="remelted.webp" alt="Zamak Alloys" class="prod-img">
                     <div class="prod-info">
-                        <h3 style="color:var(--red);">Zamak & Alloys</h3>
+                        <h3 class="zinc-accent">Zamak & Alloys</h3>
                         <p><strong>Zamak 3 & 5</strong>. Zinc Alloy Ingots for high strength applications.</p>
                         <div style="font-size:0.9rem; font-weight:700; color:#777;">READY STOCK</div>
                     </div>
@@ -898,6 +983,18 @@
             wrapper.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
         }
 
+        // JS for Secure Gallery
+        function openGallery() {
+            document.getElementById('galleryOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Stop scrolling
+            gtag('event', 'view_gallery', { 'event_category': 'Engagement' });
+        }
+
+        function closeGallery() {
+            document.getElementById('galleryOverlay').classList.remove('active');
+            document.body.style.overflow = ''; 
+        }
+
         // GA4 Smart Event Tracking
         document.addEventListener('click', function(e) {
             const target = e.target.closest('a, button');
@@ -915,9 +1012,7 @@
             if (target.href && target.href.includes('mailto:')) {
                 gtag('event', 'generate_lead', { 'event_category': 'Email', 'event_label': 'Send Email' });
             }
-            if (target.href && target.href.includes('photos.app.goo.gl')) {
-                gtag('event', 'view_item_list', { 'item_list_name': 'Real Photos Gallery' });
-            }
+            // Real Photos Gallery Tracking handled by openGallery()
         });
     </script>
 
