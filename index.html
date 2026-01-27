@@ -246,7 +246,7 @@
         .dl-label { flex-grow: 1; letter-spacing: 0.5px; }
         .dl-arrow { font-size: 0.8rem; opacity: 0.7; }
 
-        /* --- VIDEO FACADE STYLES --- */
+        /* --- VIDEO & GALLERY BUTTON STYLES --- */
         .video-wrapper {
             position: relative;
             width: 100%;
@@ -315,6 +315,28 @@
         .video-wrapper:hover .play-btn {
             background: #ff0000;
             transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .gallery-btn {
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(45deg, #000, #333);
+            color: var(--mustard);
+            padding: 12px;
+            font-family: 'Teko';
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: 2px solid var(--mustard);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+            text-transform: uppercase;
+        }
+        .gallery-btn:hover {
+            transform: translateY(-3px);
+            background: var(--mustard);
+            color: var(--dark);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
         }
 
 
@@ -622,15 +644,6 @@
             .city-block { padding: 30px; clip-path: none; }
             .city { font-size: 1.1rem; padding: 5px 12px; }
             .section { padding: 80px 20px; }
-            
-            .pan-india-badge {
-                display: block;
-                margin: 15px 0 0 0;
-                transform: skewX(0); /* Remove skew on mobile for simpler stacking */
-                font-size: 1.8rem;
-                text-align: center;
-            }
-            .pan-india-badge span { transform: skewX(0); }
         }
     </style>
 </head>
@@ -719,11 +732,20 @@
                     <a href="contact.html" class="btn-trap" style="margin-top:20px;">GET QUOTE</a>
                 </div>
 
-                <!-- VIDEO FACADE (LITE EMBED) -->
-                <div class="video-wrapper" onclick="loadVideo(this)" data-id="xQqor8EKs-o">
-                    <div class="promo-badge">SEE OUR PROMO</div>
-                    <img src="https://img.youtube.com/vi/xQqor8EKs-o/maxresdefault.jpg" alt="Varman Metals Factory Tour" class="video-thumb">
-                    <div class="play-btn"></div>
+                <!-- Right Column Wrapper -->
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <!-- NEW BUTTON -->
+                    <a href="https://photos.app.goo.gl/MiDMg1FksD1tw2QS8" target="_blank" class="gallery-btn">
+                        <span style="font-size: 1.5rem; margin-right: 10px;">📸</span>
+                        SEE ZINC INGOTS IMAGES - REAL
+                    </a>
+
+                    <!-- VIDEO FACADE (LITE EMBED) -->
+                    <div class="video-wrapper" onclick="loadVideo(this)" data-id="xQqor8EKs-o">
+                        <div class="promo-badge">SEE OUR PROMO</div>
+                        <img src="https://img.youtube.com/vi/xQqor8EKs-o/maxresdefault.jpg" alt="Varman Metals Factory Tour" class="video-thumb">
+                        <div class="play-btn"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -737,7 +759,7 @@
                 <div class="prod-card">
                     <img src="shz.webp" alt="SHG Zinc 99.995%" class="prod-img">
                     <div class="prod-info">
-                        <h3 class="zinc-accent">SHG 99.995% Zinc Ingots</h3>
+                        <h3 style="color:var(--red);">SHG Zinc (99.995%)</h3>
                         <p>Special High Grade. Ultra-pure for precision die-casting. Lab Verified.</p>
                         <div style="font-size:0.9rem; font-weight:700; color:#777;">HSN: 790111</div>
                     </div>
@@ -746,8 +768,8 @@
                 <div class="prod-card">
                     <img src="high.webp" alt="High Grade Zinc" class="prod-img">
                     <div class="prod-info">
-                        <h3 class="zinc-accent">PMI Zinc Ingots</h3>
-                        <p>Optimized for Galvanizing industry. Excellent coating consistency. High Grade (PMI).</p>
+                        <h3 style="color:var(--red);">High Grade (HG)</h3>
+                        <p>Optimized for Galvanizing industry. Excellent coating consistency.</p>
                         <div style="font-size:0.9rem; font-weight:700; color:#777;">HSN: 790112</div>
                     </div>
                 </div>
@@ -755,14 +777,13 @@
                 <div class="prod-card">
                     <img src="remelted.webp" alt="Zamak Alloys" class="prod-img">
                     <div class="prod-info">
-                        <h3 class="zinc-accent">Zamak & Alloys</h3>
+                        <h3 style="color:var(--red);">Zamak & Alloys</h3>
                         <p><strong>Zamak 3 & 5</strong>. Zinc Alloy Ingots for high strength applications.</p>
                         <div style="font-size:0.9rem; font-weight:700; color:#777;">READY STOCK</div>
                     </div>
                 </div>
             </div>
 
-            <!-- INDUSTRIAL HUB HIGHLIGHT -->
             <div class="city-block" id="hubs">
                 <h3 style="color:white; margin:0; font-size:2.5rem; display:inline-block; vertical-align:middle;">
                     INDUSTRIAL HUBS COVERED 
@@ -893,6 +914,9 @@
             }
             if (target.href && target.href.includes('mailto:')) {
                 gtag('event', 'generate_lead', { 'event_category': 'Email', 'event_label': 'Send Email' });
+            }
+            if (target.href && target.href.includes('photos.app.goo.gl')) {
+                gtag('event', 'view_item_list', { 'item_list_name': 'Real Photos Gallery' });
             }
         });
     </script>
