@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Talk & Task – Board Edition | Project Book</title>
+    <style>
+        :root {
+            --primary: #4F46E5; --primary-dark: #4338CA;
+            --surface: #F8F7F4; --card: #FFFFFF; --text: #1E1B4B; --text-light: #6B7280;
+            --border: #E5E7EB; --sidebar-width: 280px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--surface); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        aside {
+            width: var(--sidebar-width); background: var(--primary); color: #fff; display: flex; flex-direction: column;
+            position: fixed; left: 0; top: 0; bottom: 0; z-index: 100; transition: transform .3s; overflow-y: auto;
+        }
+        aside.hidden { transform: translateX(-100%); }
+        aside h2 { padding: 1.5rem 1.5rem .5rem; font-size: 1.4rem; }
+        aside nav a {
+            display: block; padding: .75rem 1.5rem; color: rgba(255,255,255,.85); text-decoration: none;
+            font-size: .95rem; border-bottom: 1px solid rgba(255,255,255,.1); cursor: pointer; transition: background .2s;
+        }
+        aside nav a:hover, aside nav a.active { background: rgba(255,255,255,.15); color: #fff; }
+        .menu-toggle {
+            position: fixed; top: 1rem; left: 1rem; z-index: 110; background: var(--primary); color: #fff; border: none;
+            width: 40px; height: 40px; border-radius: 12px; display: none; font-size: 1.25rem; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,.2);
+        }
+        @media (max-width: 768px) {
+            aside { transform: translateX(-100%); } aside.open { transform: translateX(0); }
+            .menu-toggle { display: flex; } main { margin-left: 0 !important; padding-top: 60px; }
+        }
+        main { flex: 1; margin-left: var(--sidebar-width); padding: 2rem; overflow-y: auto; transition: margin-left .3s; }
+        .search-container {
+            display: flex; align-items: center; gap: .5rem; background: var(--card); border: 1px solid var(--border);
+            border-radius: 16px; padding: .75rem 1.25rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+        .search-container input { flex:1; border: none; outline: none; font-size: 1rem; background: transparent; }
+        .search-container i { color: var(--primary); font-size: 1.2rem; }
+        section { margin-bottom: 2.5rem; }
+        .section-title {
+            font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;
+            border-bottom: 3px solid #e0e7ff; padding-bottom: .5rem; display: flex; align-items: center; gap: .5rem;
+        }
+        .card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,.02);
+        }
+        .card h3 { font-size: 1.2rem; margin-bottom: .75rem; color: var(--primary-dark); }
+        .card ul, .card ol { padding-left: 1.5rem; margin-bottom: .5rem; }
+        .card li { margin-bottom: .25rem; }
+        .badge {
+            display: inline-block; padding: .1em .6em; border-radius: 20px; font-size: .75rem; font-weight: 700;
+            margin-left: .5rem; background: #e0e7ff; color: var(--primary);
+        }
+        .inline-code { background: #f1f5f9; padding: .2em .4em; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: .9rem; }
+        details { margin: .5rem 0; }
+        details summary { font-weight: 600; cursor: pointer; color: var(--primary); outline: none; }
+        details summary:hover { text-decoration: underline; }
+        .prop-table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
+        .prop-table th, .prop-table td { padding: .5rem; border: 1px solid var(--border); text-align: left; font-size: .9rem; }
+        .prop-table th { background: #f8fafc; }
+        .hidden { display: none; }
+        .highlight { background: #FCD34D; color: #000; padding: 0 2px; border-radius: 2px; }
+        iframe {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')"><i class="fa-solid fa-bars"></i></button>
+    <aside id="sidebar">
+        <h2>📘 Project Book</h2>
+        <nav>
+            <a onclick="scrollToSection('overview')">🧭 Overview</a>
+            <a onclick="scrollToSection('ui-theme')">🎨 UI & Theme</a>
+            <a onclick="scrollToSection('naming')">📝 Naming Conventions</a>
+            <a onclick="scrollToSection('data-model')">🗄️ Data Model</a>
+            <a onclick="scrollToSection('saas-scalability')">🏢 SaaS & Scalability</a>
+            <a onclick="scrollToSection('components')">🧩 Component Tree</a>
+            <a onclick="scrollToSection('features')">⚙️ Feature List</a>
+            <a onclick="scrollToSection('flows')">🔀 Key User Flows</a>
+            <a onclick="scrollToSection('roadmap')">🗺️ Roadmap</a>
+            <a onclick="scrollToSection('checklist')">✅ Development Checklist</a>
+            <a onclick="scrollToSection('preview')">🖥️ Live Preview</a>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search the entire project book..." oninput="filterAndHighlight()">
+        </div>
+
+        <!-- OVERVIEW -->
+        <section id="overview">
+            <div class="section-title"><i class="fa-solid fa-compass"></i> Overview</div>
+            <div class="card">
+                <p><strong>Product Name:</strong> Talk & Task – Board Edition</p>
+                <p><strong>Tagline:</strong> Team communication with built‑in task management.</p>
+                <p><strong>Technology Stack:</strong> React 18, Vite 5, Tailwind CSS 3.4, Firebase (Auth, Firestore, Storage), Vercel, PWA, Font Awesome 6, Inter font, jsPDF.</p>
+                <p><strong>Core Identity:</strong> A unique blend of Slack (channels), Jira (task tracking), and WhatsApp (ease of messaging), delivered with an original Indigo/Teal design system that avoids any single brand association.</p>
+                <p><strong>SaaS Ready:</strong> Multi‑tenant architecture via organizations. Each customer gets an isolated workspace, with plans to monetize via Stripe subscriptions.</p>
+            </div>
+        </section>
+
+        <!-- UI & THEME -->
+        <section id="ui-theme">
+            <div class="section-title"><i class="fa-solid fa-palette"></i> UI & Theme</div>
+            <div class="card">
+                <h3>Colour Palette</h3>
+                <table class="prop-table">
+                    <tr><th>Role</th><th>Color</th><th>Hex</th></tr>
+                    <tr><td>Primary (buttons, links, active)</td><td>Indigo</td><td>#4F46E5</td></tr>
+                    <tr><td>Primary hover</td><td>Darker Indigo</td><td>#4338CA</td></tr>
+                    <tr><td>Success / Completed</td><td>Teal</td><td>#0D9488</td></tr>
+                    <tr><td>Warning / Deadlines / Reminders</td><td>Amber</td><td>#D97706</td></tr>
+                    <tr><td>Error / Overdue</td><td>Red</td><td>#DC2626</td></tr>
+                    <tr><td>Surface background</td><td>Warm Gray</td><td>#F8F7F4</td></tr>
+                    <tr><td>Card / message background</td><td>White</td><td>#FFFFFF</td></tr>
+                    <tr><td>Sidebar background</td><td>Dark Indigo</td><td>#312E81</td></tr>
+                    <tr><td>Text primary</td><td>Almost Black</td><td>#1E1B4B</td></tr>
+                    <tr><td>Text secondary</td><td>Cool Gray</td><td>#6B7280</td></tr>
+                </table>
+                <h3>Typography</h3>
+                <ul>
+                    <li><strong>Font:</strong> Inter (Google Fonts) – weight 400, 500, 600, 700</li>
+                    <li><strong>Base size:</strong> 14px for body, 13px for timestamps, 11px for secondary info</li>
+                </ul>
+                <h3>Component Styling</h3>
+                <ul>
+                    <li><strong>Messages:</strong> Flat white cards with a 4px coloured left border (Indigo = normal, Purple = private, Orange = task). Rounded corners, subtle shadow.</li>
+                    <li><strong>Task Cards:</strong> Inline compact card with priority flag (🔴🟡🟢), assignee avatar, status badge, deadline.</li>
+                    <li><strong>Input Area:</strong> White rounded container, indigo focus ring, formatting toolbar.</li>
+                    <li><strong>Sidebar:</strong> Dark indigo background, white text, rounded team icons, compact profile avatar.</li>
+                    <li><strong>Modals:</strong> Centered white cards with backdrop blur, slide‑in animations for drawers.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- NAMING CONVENTIONS -->
+        <section id="naming">
+            <div class="section-title"><i class="fa-solid fa-tag"></i> Naming Conventions</div>
+            <div class="card">
+                <table class="prop-table">
+                    <tr><th>Old Term</th><th>New Term</th></tr>
+                    <tr><td>Groups / Departments</td><td><strong>Teams</strong></td></tr>
+                    <tr><td>Messages</td><td><strong>Messages</strong></td></tr>
+                    <tr><td>Tasks</td><td><strong>Tasks</strong></td></tr>
+                    <tr><td>Task trail</td><td><strong>Task Timeline</strong></td></tr>
+                    <tr><td>Private messages</td><td><strong>Direct Mentions</strong></td></tr>
+                    <tr><td>Right sidebar</td><td><strong>Task Board</strong></td></tr>
+                    <tr><td>Admin panel</td><td><strong>Admin Workspace</strong></td></tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- DATA MODEL -->
+        <section id="data-model">
+            <div class="section-title"><i class="fa-solid fa-database"></i> Data Model (Firestore)</div>
+            <div class="card">
+                <details open>
+                    <summary>Collection: <strong>organizations</strong> (new – multi‑tenancy)</summary>
+                    <table class="prop-table">
+                        <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+                        <tr><td>name</td><td>string</td><td>Company or team name</td></tr>
+                        <tr><td>plan</td><td>string</td><td>Subscription plan (free, pro, team)</td></tr>
+                        <tr><td>createdBy</td><td>string</td><td>UID of creator</td></tr>
+                        <tr><td>settings</td><td>map</td><td>White‑label options, logo, primary color override</td></tr>
+                        <tr><td>memberCount</td><td>number</td><td>Total users in this org</td></tr>
+                    </table>
+                </details>
+                <details>
+                    <summary>Collection: <strong>users</strong> (now with orgId)</summary>
+                    <table class="prop-table">
+                        <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+                        <tr><td>orgId</td><td>string</td><td>Organization document ID (new)</td></tr>
+                        <tr><td>uid</td><td>string</td><td>Firebase Auth UID (doc name)</td></tr>
+                        <tr><td>email</td><td>string</td><td>User email</td></tr>
+                        <tr><td>name</td><td>string</td><td>Display name</td></tr>
+                        <tr><td>isApproved</td><td>boolean</td><td>Approved to join the org</td></tr>
+                        <tr><td>isAdmin</td><td>boolean</td><td>Global admin rights</td></tr>
+                        <tr><td>canCreateGroups</td><td>boolean</td><td>Allowed to create teams</td></tr>
+                        <tr><td>profilePicUrl</td><td>string</td><td>Avatar URL</td></tr>
+                        <tr><td>fontSize / fontFamily</td><td>string</td><td>User UI preferences</td></tr>
+                        <tr><td>toolPreferences</td><td>map</td><td>{ reply, react, edit, delete, pin, bookmark, showWatermark, soundProfile }</td></tr>
+                        <tr><td>lastActive</td><td>timestamp</td><td>Online presence heartbeat</td></tr>
+                    </table>
+                </details>
+                <details>
+                    <summary>Collection: <strong>messages</strong> (with orgId)</summary>
+                    <table class="prop-table">
+                        <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+                        <tr><td>orgId</td><td>string</td><td>Organization ID (new)</td></tr>
+                        <tr><td>text</td><td>string</td><td>Message body</td></tr>
+                        <tr><td>senderUid / senderEmail</td><td>string</td><td>Sender info</td></tr>
+                        <tr><td>timestamp</td><td>timestamp</td><td>Server time</td></tr>
+                        <tr><td>isTask</td><td>boolean</td><td>Whether this is an official task</td></tr>
+                        <tr><td>isPrivateMention / isPrivateForward / isMentionNotification</td><td>boolean</td><td>Privacy flags</td></tr>
+                        <tr><td>allowedUsers</td><td>array</td><td>Emails who can view (private mentions)</td></tr>
+                        <tr><td>seenBy / deliveredTo</td><td>array</td><td>Read/delivery status</td></tr>
+                        <tr><td>isPinned / bookmarkedBy</td><td>boolean/array</td><td>Pinned & saved markers</td></tr>
+                        <tr><td>fileUrl / fileName / fileType</td><td>string</td><td>Attachment data</td></tr>
+                        <tr><td>groupId</td><td>string</td><td>Team or DM ID</td></tr>
+                        <tr><td>reactions</td><td>map</td><td>{ emoji: [emails] }</td></tr>
+                        <tr><td>replyToId / originalText / originalSender</td><td>string</td><td>Reply chain data</td></tr>
+                        <tr><td>taskData</td><td>map</td><td>{ deadline, assignees, status, isArchived, dismissedBy, trail, priority? }</td></tr>
+                        <tr><td>forwardedFromGroup / originalMessageId / mentionedInGroup</td><td>string</td><td>Mention notification context</td></tr>
+                    </table>
+                </details>
+                <details>
+                    <summary>Collection: <strong>teams</strong> (formerly groups, with orgId)</summary>
+                    <table class="prop-table">
+                        <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+                        <tr><td>orgId</td><td>string</td><td>Organization ID (new)</td></tr>
+                        <tr><td>name</td><td>string</td><td>Team name</td></tr>
+                        <tr><td>members</td><td>array</td><td>Member emails</td></tr>
+                        <tr><td>admins</td><td>array</td><td>Team admin emails</td></tr>
+                        <tr><td>profilePicUrl</td><td>string</td><td>Team avatar</td></tr>
+                        <tr><td>createdBy</td><td>string</td><td>Creator email</td></tr>
+                        <tr><td>createdAt</td><td>timestamp</td><td>Creation time</td></tr>
+                        <tr><td>isArchived</td><td>boolean</td><td>Archived flag</td></tr>
+                    </table>
+                </details>
+                <details>
+                    <summary>Other collections (all get orgId field)</summary>
+                    <ul>
+                        <li><strong>reminders</strong> – orgId, messageId, userId, remindAt, isTriggered</li>
+                        <li><strong>notifications</strong> – orgId, userId, type, text, messageId, groupId, isRead</li>
+                        <li><strong>audit_logs</strong> – orgId, type, user, content, target, groupId, timestamp</li>
+                        <li><strong>typing</strong> – orgId, groupId, name, timestamp (ephemeral)</li>
+                        <li><strong>scheduled_messages</strong> – orgId, text, senderEmail, groupId, scheduledFor, status, isTask, taskDeadline, taskAssignees</li>
+                        <li><strong>task_templates</strong> – orgId, title, assignees, deadlineDays, groupId, recurring, category, createdBy</li>
+                    </ul>
+                </details>
+            </div>
+        </section>
+
+        <!-- SAAS & SCALABILITY -->
+        <section id="saas-scalability">
+            <div class="section-title"><i class="fa-solid fa-building"></i> SaaS Architecture & Scalability</div>
+            <div class="card">
+                <h3>Multi‑Tenancy with Organizations</h3>
+                <p>Every user belongs to an <strong>organization</strong> (company, team, or workspace). The <code>organizations</code> collection stores subscription plans and settings. All other data (users, messages, teams, tasks, notifications) includes an <code>orgId</code> field, enabling complete data isolation per customer.</p>
+                <ul>
+                    <li>On sign up, users are automatically added to their company’s org based on email domain (or they create a new one).</li>
+                    <li>Admins can manage users, teams, and billing within their org only.</li>
+                    <li>Firestore security rules enforce <code>orgId</code> checks – users can never see data from another organization.</li>
+                    <li>White‑labeling: each org can have its own logo and primary colour override (stored in <code>organizations.settings</code>).</li>
+                </ul>
+                <h3>Subscription Plans (Future)</h3>
+                <table class="prop-table">
+                    <tr><th>Plan</th><th>Price</th><th>Features</th></tr>
+                    <tr><td>Free</td><td>€0/month</td><td>Up to 5 users, 2 teams, 10 MB file limit, basic task board</td></tr>
+                    <tr><td>Pro</td><td>€8/user/month</td><td>Unlimited users, teams, 100 MB file limit, email integration, priority tasks, kanban board, reminders</td></tr>
+                    <tr><td>Team</td><td>€12/user/month</td><td>Everything in Pro + advanced analytics, audit log PDF, white‑labeling, dedicated support</td></tr>
+                </table>
+                <h3>Scalability – Will it handle thousands of users?</h3>
+                <p><strong>Yes.</strong> The architecture is designed to scale horizontally with Firebase’s serverless infrastructure. Key measures:</p>
+                <ul>
+                    <li><strong>Firestore pagination</strong> – limit(50) queries + infinite scroll (Phase 6)</li>
+                    <li><strong>Composite indexes</strong> – for tasks by assignee/status, messages by org/team</li>
+                    <li><strong>Lazy loading & code splitting</strong> – admin panel, task board, modals loaded on demand</li>
+                    <li><strong>Realtime Database for presence</strong> – typing/heartbeat offloaded from Firestore to reduce write pressure</li>
+                    <li><strong>Cloud Functions</strong> – scheduled tasks, reminder dispatch, email sending moved to backend</li>
+                    <li><strong>Firebase App Check</strong> – prevents abuse by verifying requests come from your app</li>
+                </ul>
+                <p>With these patterns, the system comfortably supports <strong>10,000+ concurrent users</strong> on the Spark (free) plan, and can be seamlessly upgraded to Blaze (pay‑as‑you‑go) for enterprise workloads.</p>
+            </div>
+        </section>
+
+        <!-- COMPONENT TREE -->
+        <section id="components">
+            <div class="section-title"><i class="fa-solid fa-puzzle-piece"></i> Component Tree</div>
+            <div class="card">
+                <pre style="background:#1e293b;color:#e2e8f0;padding:1rem;border-radius:12px;white-space:pre-wrap;font-size:0.9rem;">
+App.jsx
+├── ErrorBoundary.jsx
+├── ChatApp.jsx (orchestrator)
+│   ├── LeftSidebar.jsx (teams & DMs)
+│   ├── ChatHeader (inline in ChatApp)
+│   ├── ChatView.jsx
+│   │   ├── MessageBubble.jsx (flat card)
+│   │   ├── TypingIndicator (inline)
+│   │   └── Watermark / Encryption banner
+│   ├── InputArea.jsx
+│   │   ├── EmojiPicker (inline)
+│   │   ├── FileRenameCard (inline)
+│   │   └── FormattingToolbar (inline)
+│   ├── TaskBoard.jsx (kanban columns)
+│   │   └── TaskCard.jsx (Jira-style)
+│   ├── Modals/
+│   │   ├── ContextMenuModal.jsx (three-dot menu)
+│   │   ├── TaskConvertModal.jsx (priority + assignees)
+│   │   ├── TaskTimelinePanel.jsx (slide-out drawer)
+│   │   ├── ProfileSettingsModal.jsx
+│   │   ├── TeamFormModal.jsx
+│   │   ├── TeamSettingsModal.jsx
+│   │   ├── ReminderModal.jsx
+│   │   ├── ScheduleSendModal.jsx
+│   │   ├── AdminEditUserModal.jsx
+│   │   └── TaskAnalyticsModal.jsx
+│   └── UploadOverlay.jsx
+├── firebase.js
+├── utils/
+│   ├── helpers.js
+│   └── imageUtils.js
+└── index.css / tailwind.config.js
+</pre>
+            </div>
+        </section>
+
+        <!-- FEATURE LIST -->
+        <section id="features">
+            <div class="section-title"><i class="fa-solid fa-list-check"></i> Feature List</div>
+            <div class="card">
+                <h3>Core Messaging</h3>
+                <ul>
+                    <li>Real‑time Firestore chat in teams and DMs</li>
+                    <li>@mentions with private message forwarding and notification cards</li>
+                    <li>Message actions: reply, edit, delete, pin, bookmark</li>
+                    <li>Emoji reactions (quick picker + full picker)</li>
+                    <li>Typing indicators</li>
+                    <li>File upload (paste / attach) with rename, compression, size limit, multi‑file</li>
+                    <li>Rich text formatting (bold, italic, strikethrough)</li>
+                </ul>
+                <h3>Task Management</h3>
+                <ul>
+                    <li>Convert message to task (priority, assignees, deadline)</li>
+                    <li>Task timeline with full trail (comments, file uploads, status changes)</li>
+                    <li>Delegate / reassign tasks</li>
+                    <li>Complete / archive tasks</li>
+                    <li>Kanban board (To Do, In Progress, Completed, Overdue)</li>
+                    <li>Task templates (reusable, recurring)</li>
+                </ul>
+                <h3>Notifications & Reminders</h3>
+                <ul>
+                    <li>In‑app notification dropdown (bell icon)</li>
+                    <li>Push notifications via service worker</li>
+                    <li>Reminders on messages and tasks</li>
+                    <li>Toast notifications for real‑time alerts (planned)</li>
+                </ul>
+                <h3>Admin & Analytics</h3>
+                <ul>
+                    <li>User approval & role management</li>
+                    <li>Immutable audit log with PDF export</li>
+                    <li>Task analytics dashboard</li>
+                    <li>Archive / recover teams</li>
+                </ul>
+                <h3>Other</h3>
+                <ul>
+                    <li>Schedule messages for future delivery</li>
+                    <li>Offline draft queue (IndexedDB)</li>
+                    <li>PWA with install prompt and offline caching</li>
+                    <li>Profile settings (avatar, name, sound, toggles)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- KEY USER FLOWS -->
+        <section id="flows">
+            <div class="section-title"><i class="fa-solid fa-arrows-turn-to"></i> Key User Flows</div>
+            <div class="card">
+                <details open>
+                    <summary>📬 Send a message (normal / private)</summary>
+                    <ol>
+                        <li>User types text and presses Enter.</li>
+                        <li><code>handleSendMessage</code> extracts @mentions, determines if private.</li>
+                        <li>Writes to <code>messages</code> with <code>allowedUsers</code> if private.</li>
+                        <li>If DM, sends notification to other user.</li>
+                        <li>If private mentions, forwards notification card to each mentioned user's DM.</li>
+                        <li>Clears typing indicator, logs audit.</li>
+                    </ol>
+                </details>
+                <details>
+                    <summary>📎 Upload a file (with caption)</summary>
+                    <ol>
+                        <li>User clicks "+" or pastes an image.</li>
+                        <li>Rename card appears; first file inherits chat input text as caption.</li>
+                        <li>User can edit name (extension locked) and add a caption.</li>
+                        <li>On upload, file is compressed (images), uploaded to Storage, then a message written to Firestore with caption + file info.</li>
+                    </ol>
+                </details>
+                <details>
+                    <summary>✅ Convert message to task</summary>
+                    <ol>
+                        <li>User clicks three‑dot menu → "Convert to Task".</li>
+                        <li><code>TaskConvertModal</code> opens; user selects assignees, deadline, priority.</li>
+                        <li><code>convertToTask</code> updates the message doc with <code>isTask: true</code> and <code>taskData</code>.</li>
+                        <li>Task appears as an inline card in chat and in the Kanban board.</li>
+                    </ol>
+                </details>
+                <details>
+                    <summary>📋 Manage a task (timeline panel)</summary>
+                    <ol>
+                        <li>Click on a task card → <code>TaskTimelinePanel</code> slides out on the right.</li>
+                        <li>Shows full trail, comments, attachments.</li>
+                        <li>User can add a comment, upload a file, transfer task, mark complete, or archive.</li>
+                    </ol>
+                </details>
+                <details>
+                    <summary>⏰ Set a reminder</summary>
+                    <ol>
+                        <li>Three‑dot menu → "Set Reminder".</li>
+                        <li><code>ReminderModal</code> asks for date/time.</li>
+                        <li>Writes to <code>reminders</code> collection; sets <code>hasReminder: true</code> on message.</li>
+                    </ol>
+                </details>
+            </div>
+        </section>
+
+        <!-- ROADMAP -->
+        <section id="roadmap">
+            <div class="section-title"><i class="fa-solid fa-road"></i> Roadmap</div>
+            <div class="card">
+                <table class="prop-table">
+                    <tr><th>Phase</th><th>Focus</th><th>Status</th></tr>
+                    <tr><td>Phase 1</td><td>Global Re‑theme (indigo palette, flat cards, dark sidebar)</td><td>🟡 Ready to start</td></tr>
+                    <tr><td>Phase 2</td><td>Task priority & Jira‑style inline cards</td><td>⚪ Planned</td></tr>
+                    <tr><td>Phase 3</td><td>Task Board (kanban columns) + slide‑out timeline</td><td>⚪ Planned</td></tr>
+                    <tr><td>Phase 4</td><td>Polish, mobile, toast notifications, global search bar</td><td>⚪ Planned</td></tr>
+                    <tr><td>Phase 5</td><td>Email integration (send/receive emails in app)</td><td>⚪ Planned</td></tr>
+                    <tr><td>Phase 6</td><td>Performance (pagination, lazy loading, Firestore indexes)</td><td>⚪ Planned</td></tr>
+                    <tr><td>Phase 7</td><td>Android app (Capacitor), subscriptions (Stripe), SaaS multi‑tenancy</td><td>⚪ Planned</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- DEVELOPMENT CHECKLIST -->
+        <section id="checklist">
+            <div class="section-title"><i class="fa-solid fa-check-double"></i> Development Checklist</div>
+            <div class="card">
+                <h3>Pre‑Development</h3>
+                <ul>
+                    <li>[ ] Define final colour palette & typography</li>
+                    <li>[ ] Update naming conventions across codebase (groups → teams, etc.)</li>
+                    <li>[ ] Create new Firestore indexes for task queries (if needed)</li>
+                </ul>
+                <h3>Phase 1 – Re‑theme</h3>
+                <ul>
+                    <li>[ ] Replace Tailwind config with indigo palette</li>
+                    <li>[ ] Update <code>index.css</code> with new backgrounds, scrollbars, safe‑areas</li>
+                    <li>[ ] Replace <code>MessageBubble.jsx</code> with flat card design (coloured left border, avatar + name)</li>
+                    <li>[ ] Update <code>LeftSidebar.jsx</code> to dark indigo background, smaller avatar</li>
+                    <li>[ ] Update input area focus ring to indigo</li>
+                </ul>
+                <h3>Phase 2 – Task Priority & Cards</h3>
+                <ul>
+                    <li>[ ] Add <code>priority</code> field to task data</li>
+                    <li>[ ] Update <code>TaskConvertModal</code> to include priority dropdown</li>
+                    <li>[ ] Create <code>TaskCard.jsx</code> (Jira‑style inline card)</li>
+                    <li>[ ] Update <code>MessageBubble</code> to render <code>TaskCard</code> for tasks</li>
+                </ul>
+                <h3>Phase 3 – Task Board</h3>
+                <ul>
+                    <li>[ ] Build <code>TaskBoard.jsx</code> with kanban columns</li>
+                    <li>[ ] Replace <code>RightSidebar</code> with <code>TaskBoard</code></li>
+                    <li>[ ] Create <code>TaskTimelinePanel.jsx</code> (slide‑out drawer)</li>
+                    <li>[ ] Migrate existing task modal logic into the panel</li>
+                </ul>
+                <h3>Phase 4 – Polish & Global Search</h3>
+                <ul>
+                    <li>[ ] Add toast notification component</li>
+                    <li>[ ] Build global search bar (teams, messages, tasks)</li>
+                    <li>[ ] Mobile responsiveness pass</li>
+                </ul>
+                <h3>Phase 5 – Email Integration</h3>
+                <ul>
+                    <li>[ ] Set up SendGrid / Postmark account</li>
+                    <li>[ ] Create Firebase Function for outbound email</li>
+                    <li>[ ] Add <code>#</code> email trigger in chat</li>
+                    <li>[ ] Create inbound email webhook & Function</li>
+                </ul>
+                <h3>Phase 7 – SaaS Multi‑tenancy</h3>
+                <ul>
+                    <li>[ ] Add <code>orgId</code> field to all collections</li>
+                    <li>[ ] Create <code>organizations</code> collection & sign‑up flow</li>
+                    <li>[ ] Write Firestore security rules enforcing org isolation</li>
+                    <li>[ ] Integrate Stripe subscriptions</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- LIVE PREVIEW -->
+        <section id="preview">
+            <div class="section-title"><i class="fa-solid fa-window-maximize"></i> Live App Preview</div>
+            <div class="card">
+                <iframe
+                    src="https://talk-and-task-git-main-shiv5000s-projects.vercel.app"
+                    width="100%"
+                    height="700"
+                    style="border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
+                    allow="camera; microphone"
+                ></iframe>
+                <p style="margin-top: 0.75rem; font-size: 0.85rem; color: #6B7280;">
+                    ↑ This is your live app (preview deployment). Login with Google to see the full interface.
+                </p>
+                <p style="font-size: 0.85rem; color: #6B7280;">
+                    Replace the <code>src</code> attribute with your production URL when ready: <code>https://talk-and-task.vercel.app</code>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior:'smooth' });
+            document.getElementById('sidebar').classList.remove('open');
+        }
+        function filterAndHighlight() {
+            const q = document.getElementById('searchInput').value.trim();
+            document.querySelectorAll('.search-highlight').forEach(el => {
+                const parent = el.parentNode;
+                parent.replaceChild(document.createTextNode(el.textContent), parent);
+                parent.normalize();
+            });
+            document.querySelectorAll('section').forEach(s => s.classList.remove('hidden'));
+            if (!q) { document.querySelectorAll('details').forEach(d => d.open = false); return; }
+            const lowerQ = q.toLowerCase();
+            document.querySelectorAll('section').forEach(sec => {
+                if (!sec.innerText.toLowerCase().includes(lowerQ)) sec.classList.add('hidden');
+            });
+            highlightInElement(document.querySelector('main'), lowerQ);
+            document.querySelectorAll('details').forEach(d => {
+                if (d.closest('section:not(.hidden)') && d.innerText.toLowerCase().includes(lowerQ)) d.open = true;
+            });
+        }
+        function highlightInElement(root, query) {
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            while(walker.nextNode()) {
+                if (walker.currentNode.nodeValue.toLowerCase().includes(query)) nodes.push(walker.currentNode);
+            }
+            nodes.forEach(node => {
+                const fragment = document.createDocumentFragment();
+                const text = node.nodeValue;
+                let lastIdx = 0;
+                const regex = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+                let match;
+                while ((match = regex.exec(text)) !== null) {
+                    if (match.index > lastIdx) fragment.appendChild(document.createTextNode(text.substring(lastIdx, match.index)));
+                    const mark = document.createElement('span');
+                    mark.className = 'search-highlight';
+                    mark.style.backgroundColor = '#FCD34D';
+                    mark.style.color = '#000';
+                    mark.textContent = match[0];
+                    fragment.appendChild(mark);
+                    lastIdx = regex.lastIndex;
+                }
+                if (lastIdx < text.length) fragment.appendChild(document.createTextNode(text.substring(lastIdx)));
+                node.parentNode.replaceChild(fragment, node);
+            });
+        }
+    </script>
+</body>
+</html>
