@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   ].join("\n");
   if(typeof gtag==="function")gtag("event","generate_lead",{event_category:"WhatsApp",event_label:"90-95 remelted zinc RFQ",language:hindi?"hi":"en"});
   const url="https://wa.me/916396811315?text="+encodeURIComponent(msg);
-  const opened=window.open(url,"_blank","noopener,noreferrer");
-  if(!opened){const link=document.createElement("a");link.href=url;link.target="_blank";link.rel="noopener noreferrer";link.textContent=hindi?"WhatsApp खोलें":"Open WhatsApp enquiry";form.appendChild(link);}
+  const opened=window.open(url,"_blank");
+  if(opened){opened.opener=null;}else{let link=form.querySelector("#whatsapp-fallback");if(!link){link=document.createElement("a");link.id="whatsapp-fallback";link.target="_blank";link.rel="noopener noreferrer";form.appendChild(link);}link.href=url;link.textContent=hindi?"WhatsApp खोलें":"Open WhatsApp enquiry";}
  });
 });
