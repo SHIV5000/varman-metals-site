@@ -620,3 +620,35 @@ textarea{min-height:110px;resize:vertical}
 .mobile-controls{display:none}
 @media(max-width:900px){.top-bar{height:65px}.top-bar .brand{font-size:1.65rem}.brand-sub{font-size:.65rem}.top-bar .nav-links{display:none}.mobile-controls{display:flex}.hanging-sign-container{top:54px;right:8px;transform:scale(.6)}.hero{padding:65px 0;min-height:auto}.hero .hero-grid,.split{grid-template-columns:1fr}.hero .hero-grid>div:first-child{padding:30px}.grid-3,.grid-2{grid-template-columns:1fr}.section{padding:65px 0}.hero-image img{height:285px;min-height:250px}.mini-hero{padding:55px 0}.fields{grid-template-columns:1fr}}
 @media(max-width:550px){.top-bar .brand{font-size:1.25rem}.brand-sub{font-size:.54rem}.hero{padding-top:80px}.hero .hero-grid>div:first-child{padding:24px}.hero h1{font-size:3.4rem}.hero-image img{height:245px}.section{padding:45px 0}.grid-3{gap:15px}h2{font-size:2.6rem}.band{padding:22px}.form-card{padding:22px}.hanging-sign-container{transform:scale(.46)}.button{width:100%;padding:13px 26px}.foot-grid{display:block}.foot-grid>*{margin-bottom:15px}}
+
+
+/* ---- Hindi accessibility and bilingual controls ---- */
+html[lang="hi"] body{font-family:"Noto Sans Devanagari",system-ui,sans-serif;font-size:17px;line-height:1.85}
+html[lang="hi"] h1,html[lang="hi"] h2,html[lang="hi"] h3,html[lang="hi"] .eyebrow,html[lang="hi"] .button,html[lang="hi"] .nav-links a:not(.lang-switch),html[lang="hi"] .pill,html[lang="hi"] .brand-sub,html[lang="hi"] .price-label,html[lang="hi"] .price-val{font-family:"Noto Sans Devanagari",system-ui,sans-serif;text-transform:none;letter-spacing:0}
+html[lang="hi"] h1{font-size:clamp(2.3rem,4.8vw,4.2rem);line-height:1.28;font-weight:800;letter-spacing:0}
+html[lang="hi"] h2{font-size:clamp(1.7rem,3vw,2.35rem);line-height:1.4;font-weight:800;letter-spacing:0}
+html[lang="hi"] h3{font-size:1.45rem;line-height:1.4;font-weight:800}
+html[lang="hi"] .lead{font-size:1.12rem;line-height:1.85}
+html[lang="hi"] .eyebrow{font-weight:700;font-size:.9rem;padding:5px 10px}
+html[lang="hi"] .button{font-size:1.02rem;line-height:1.6;padding:12px 28px;font-weight:800}
+html[lang="hi"] .top-bar .nav-links{gap:0}
+html[lang="hi"] .top-bar .nav-links a:not(.lang-switch){font-size:.95rem;margin-left:15px;white-space:nowrap}
+html[lang="hi"] .brand-sub{font-size:.64rem;line-height:1.7}
+html[lang="hi"] .mobile-nav-link{font-family:"Noto Sans Devanagari",sans-serif;font-size:1.1rem}
+html[lang="hi"] .pill{font-size:.85rem;line-height:1.65}
+html[lang="hi"] .price-label{font-size:.65rem;line-height:1.4}
+html[lang="hi"] .price-val{font-size:.9rem;line-height:1.4}
+html[lang="hi"] .usp strong{font-size:1rem}
+html[lang="hi"] .stat{font-family:"Noto Sans Devanagari",sans-serif;font-size:1.6rem}
+html[lang="hi"] .top-bar .brand{font-family:"Teko",sans-serif}
+html[lang="hi"] input,html[lang="hi"] textarea,html[lang="hi"] select{font-family:"Noto Sans Devanagari",sans-serif}
+html[lang="hi"] .card a{font-weight:800}
+.lang-switch{white-space:nowrap;text-decoration:none}
+.top-bar .nav-links .lang-switch{background:var(--mustard);color:#121212!important;padding:6px 15px;clip-path:none;border-radius:3px;line-height:1.35;margin-left:17px;font-size:1.15rem;font-family:"Noto Sans Devanagari",sans-serif}
+.top-bar .nav-links .lang-switch:hover{background:#fff}
+.mobile-controls .btn-call-mobile{font-family:"Noto Sans Devanagari",sans-serif;font-size:.94rem;font-weight:800}
+.footer-profiles{padding-top:14px;margin-top:14px;border-top:1px solid #454545;font-size:.92rem;color:#d8d8d8}
+.footer-profiles a{font-weight:700;text-decoration:underline}
+html[lang="hi"] .hero .hero-grid>div:first-child{padding:34px}
+@media(max-width:900px){html[lang="hi"] .hero{padding-top:72px}html[lang="hi"] .hero .hero-grid>div:first-child{padding:27px}html[lang="hi"] .top-bar .brand{font-size:1.45rem}}
+@media(max-width:550px){html[lang="hi"] body{font-size:16px}html[lang="hi"] h1{font-size:2.45rem}html[lang="hi"] h2{font-size:1.75rem}html[lang="hi"] .hero{padding-top:95px}html[lang="hi"] .hero .hero-grid>div:first-child{padding:20px}html[lang="hi"] .button{font-size:.95rem}html[lang="hi"] .hanging-sign-container{display:none}html[lang="hi"] .brand-sub{font-size:.55rem}}
