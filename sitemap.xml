@@ -1,77 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
-
-<url>
-  <loc>https://www.varmanmetals.in/</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/index.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/zinc-ingots.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/zinc-ingots-in-meerut.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/zinc-ingots-in-bulandshehar.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/zinc-ingots-in-moradabad.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/zinc-ingots-in-sikandrabad.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/export-import-zinc-ingots.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/about.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/contact.html</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/zinc-ingots-catalog.pdf</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/zinc-ingots-specifications.pdf</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.varmanmetals.in/zinc-ingots-lab-report.pdf</loc>
-  <lastmod>2026-01-25T07:40:43+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
-
-</urlset>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url><loc>https://www.varmanmetals.in/</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/index.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/" /></url>
+<url><loc>https://www.varmanmetals.in/hi/index.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/index.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/" /></url>
+<url><loc>https://www.varmanmetals.in/zinc-ingots.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/zinc-ingots.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/zinc-ingots.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/zinc-ingots.html" /></url>
+<url><loc>https://www.varmanmetals.in/hi/zinc-ingots.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/zinc-ingots.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/zinc-ingots.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/zinc-ingots.html" /></url>
+<url><loc>https://www.varmanmetals.in/brass-alloying.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/brass-alloying.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/brass-alloying.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/brass-alloying.html" /></url>
+<url><loc>https://www.varmanmetals.in/hi/brass-alloying.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/brass-alloying.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/brass-alloying.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/brass-alloying.html" /></url>
+<url><loc>https://www.varmanmetals.in/about.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/about.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/about.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/about.html" /></url>
+<url><loc>https://www.varmanmetals.in/hi/about.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/about.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/about.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/about.html" /></url>
+<url><loc>https://www.varmanmetals.in/contact.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/contact.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/contact.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/contact.html" /></url>
+<url><loc>https://www.varmanmetals.in/hi/contact.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/contact.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/contact.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/contact.html" /></url>
+<url><loc>https://www.varmanmetals.in/stock-gallery.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/stock-gallery.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/stock-gallery.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/stock-gallery.html" /></url><url><loc>https://www.varmanmetals.in/hi/stock-gallery.html</loc><xhtml:link rel="alternate" hreflang="en-IN" href="https://www.varmanmetals.in/stock-gallery.html" /><xhtml:link rel="alternate" hreflang="hi-IN" href="https://www.varmanmetals.in/hi/stock-gallery.html" /><xhtml:link rel="alternate" hreflang="x-default" href="https://www.varmanmetals.in/stock-gallery.html" /></url></urlset>
