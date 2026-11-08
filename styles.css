@@ -677,3 +677,17 @@ html[lang="hi"] .hero .hero-grid>div:first-child{padding:34px}
  .hanging-sign-container{display:none}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+
+/* Stock gallery added while retaining original industrial theme */
+.gallery-cover-link{display:block;text-decoration:none;color:inherit}
+.gallery-cover-link img{border-bottom:4px solid var(--mustard)}
+.gallery-cover-link span{display:block;margin-top:9px}
+.gallery-cover-link:hover img{filter:brightness(.95)}
+@media(min-width:901px) and (max-width:1280px){
+ .top-bar{padding-left:2%;padding-right:2%}
+ .top-bar .nav-links a{font-size:1.08rem;margin-left:14px}
+ .top-bar .nav-links .nav-cta{font-size:1.16rem;padding:6px 12px}
+ .top-bar .nav-links .lang-switch{font-size:1rem}
+ html[lang="hi"] .top-bar .nav-links a:not(.lang-switch){font-size:.83rem;margin-left:10px}
+ html[lang="hi"] .top-bar .nav-links .lang-switch{font-size:.94rem}
+}
