@@ -652,3 +652,28 @@ html[lang="hi"] .card a{font-weight:800}
 html[lang="hi"] .hero .hero-grid>div:first-child{padding:34px}
 @media(max-width:900px){html[lang="hi"] .hero{padding-top:72px}html[lang="hi"] .hero .hero-grid>div:first-child{padding:27px}html[lang="hi"] .top-bar .brand{font-size:1.45rem}}
 @media(max-width:550px){html[lang="hi"] body{font-size:16px}html[lang="hi"] h1{font-size:2.45rem}html[lang="hi"] h2{font-size:1.75rem}html[lang="hi"] .hero{padding-top:95px}html[lang="hi"] .hero .hero-grid>div:first-child{padding:20px}html[lang="hi"] .button{font-size:.95rem}html[lang="hi"] .hanging-sign-container{display:none}html[lang="hi"] .brand-sub{font-size:.55rem}}
+
+/* Mobile-first contact controls: shown only for phones/tablets */
+.mobile-quick-bar{display:none}
+@media(max-width:900px){
+ body{padding-bottom:77px}
+ .mobile-quick-bar{position:fixed;bottom:0;left:0;right:0;z-index:1800;display:grid;grid-template-columns:1fr 1.65fr;align-items:stretch;gap:7px;background:#171717;padding:9px max(12px,env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));box-shadow:0 -4px 22px rgba(0,0,0,.2)}
+ .mobile-quick-bar a{min-height:48px;display:flex;align-items:center;justify-content:center;text-decoration:none;font:bold 1.05rem/1.4 'Rajdhani',sans-serif;text-align:center;border-radius:4px}
+ .mobile-quick-bar .mobile-call{background:#f2c029;color:#121212}
+ .mobile-quick-bar .mobile-wa{background:#23805e;color:#fff}
+ html[lang="hi"] .mobile-quick-bar a{font-family:"Noto Sans Devanagari",system-ui,sans-serif;font-size:.94rem;font-weight:800}
+ .top-bar .mobile-controls{display:flex}
+ .mobile-nav-overlay{overflow-y:auto}
+ .mobile-nav-links a{min-height:46px;display:flex;align-items:center}
+ .button,.btn-call-mobile,.mobile-nav-link{touch-action:manipulation}
+ .field-full{grid-column:1/-1}
+}
+@media(max-width:380px){
+ .top-bar{padding:0 9px}
+ .mobile-controls{gap:8px}
+ .mobile-controls .btn-call-mobile{font-size:.78rem}
+ .top-bar .brand{font-size:1.15rem}
+ html[lang="hi"] .top-bar .brand{font-size:1.18rem}
+ .hanging-sign-container{display:none}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
