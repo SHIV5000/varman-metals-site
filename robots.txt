@@ -2,19 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.varmanmetals.in/sitemap.xml
-
-# Extra lines to help all major crawlers
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Disallow: /
-
-User-agent: Yandex
-Allow: /
